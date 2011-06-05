@@ -1,0 +1,8 @@
+= Summary
+
+Summary::  ISC BIND named server and configuration
+Requires:: n/a
+Author::   Matthias Saou <thias@marmotte.net>
+License::  Apache License 2.0
+Tested::   puppet-2.6.8
+
