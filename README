@@ -1,8 +1,52 @@
 = Summary
 
 Summary::  ISC BIND named server and configuration
-Requires:: n/a
 Author::   Matthias Saou <matthias@saou.eu>
 License::  Apache License 2.0
-Tested::   puppet-2.6.8
+Updated::  November 2011
+
+= Sample Usage
+
+Basic DNS server :
+
+    include bind::server
+
+The same, but with RHEL5 updated packages and no chroot :
+
+    class { 'bind::server':
+        chroot        => false,
+        bindpkgprefix => "bind97",
+    }
+
+In addition to the main server class, the main configuration can be generated.
+Here is a typical LAN recursive caching DNS server configuration :
+
+    bind::server::conf { '/etc/named.conf':
+        forwarders => [ '8.8.8.8', '8.8.4.4' ],
+        # This gives the default of 53 for all addresses
+        listen_on_port => false,
+        listen_on_v6_port => false,
+        allow_query => [ 'any' ],
+        zones => {
+            'myzone.lan' => [
+                'type master',
+                'file "vallvi.lan"',
+            ],
+            '1.168.192.in-addr.arpa' => [
+                'type master',
+                'file "1.168.192.in-addr.arpa"',
+            ],
+        }
+    }
+
+The zone files for the above could then be managed like this :
+
+    bind::server::file { 'myzone.lan':
+        zonedir => '/var/named/chroot/var/named',
+        source  => 'puppet:///files/dns/myzone.lan',
+    }
+    bind::server::file { '1.168.192.in-addr.arpa':
+        zonedir => '/var/named/chroot/var/named',
+        source  => 'puppet:///files/dns/1.168.192.in-addr.arpa',
+    }
 

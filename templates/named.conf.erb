@@ -30,6 +30,9 @@ options {
 <% if listen_on_v6_port -%>
     listen-on-v6 port <%= listen_on_v6_port %> { <%= listen_on_v6_addr.join("; ") %>; };
 <% end -%>
+<% if !forwarders.empty? -%>
+    forwarders { <%= forwarders.join("; ") %>; };
+<% end -%>
     directory "<%= directory %>";
 <% if version -%>
     version "<%= version %>";
