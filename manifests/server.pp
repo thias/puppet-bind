@@ -1,12 +1,20 @@
-# ISC BIND server module.
+# Class: bind::server
+#
+# Install and enable an ISC BIND server.
+#
+# Parameters:
+#  $chroot:
+#   Enable chroot for the server. Default: true
+#  $bindpkgprefix:
+#   Package prefix name. Default: 'bind'
 #
 # Sample Usage :
-#    include bind::server
-# or
-#    class { 'bind::server':
-#        chroot        => false,
-#        bindpkgprefix => 'bind97',
-#    }
+#  include bind::server
+#
+#  class { 'bind::server':
+#      chroot        => false,
+#      bindpkgprefix => 'bind97',
+#  }
 #
 class bind::server (
     $chroot = true,

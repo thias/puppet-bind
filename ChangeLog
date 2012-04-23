@@ -1,0 +1,4 @@
+2012-04-23 - 0.2.1
+* Clean up the module to match current puppetlabs guidelines.
+* Force hash sorting in the template for puppet 2.7+ compatibility.
+

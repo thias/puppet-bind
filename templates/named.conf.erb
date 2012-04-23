@@ -3,8 +3,8 @@
 // WARNING: Puppet managed, do not edit!
 //
 
-<% if acls -%>
-<% acls.each do |key,value| -%>
+<% if !acls.empty? -%>
+<% acls.sort_by {|key, value| key}.each do |key,value| -%>
 acl <%= key %> {
 <% value.each do |line| -%>
     <%= line %>;
@@ -13,8 +13,8 @@ acl <%= key %> {
 
 <% end -%>
 <% end -%>
-<% if masters -%>
-<% masters.each do |key,value| -%>
+<% if !masters.empty? -%>
+<% masters.sort_by {|key, value| key}.each do |key,value| -%>
 masters <%= key %> {
 <% value.each do |line| -%>
     <%= line %>;
@@ -80,8 +80,8 @@ zone "." IN {
     file "named.ca";
 };
 
-<% if zones -%>
-<% zones.each do |key,value| -%>
+<% if !zones.empty? -%>
+<% zones.sort_by {|key, value| key}.each do |key,value| -%>
 zone "<%= key %>" IN {
 <% value.each do |line| -%>
     <%= line %>;
