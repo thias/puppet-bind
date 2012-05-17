@@ -49,7 +49,13 @@ options {
 <% if !allow_query.empty? -%>
     allow-query { <%= allow_query.join("; ") %>; };
 <% end -%>
+<% if !allow_query_cache.empty? -%>
+    allow-query-cache { <%= allow_query_cache.join("; ") %>; };
+<% end -%>
     recursion <%= recursion %>;
+<% if !allow_recursion.empty? -%>
+    allow-recursion { <%= allow_recursion.join("; ") %>; };
+<% end -%>
 
     dnssec-enable <%= dnssec_enable %>;
     dnssec-validation <%= dnssec_validation %>;
