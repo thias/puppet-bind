@@ -1,5 +1,7 @@
-2012-05-17 - 
+2012-06-22 - 0.2.2
 * Add support for a few new configuration values in the main template.
+* Require package for files, for the usual parent directory to exist.
+* Minot updates to the README.
 
 2012-04-23 - 0.2.1
 * Clean up the module to match current puppetlabs guidelines.

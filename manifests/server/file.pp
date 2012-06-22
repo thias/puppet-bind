@@ -39,6 +39,8 @@ define bind::server::file (
         source  => $source,
         content => $content,
         notify  => Service['named'],
+        # For the parent directory
+        require => Package[$bind::server::bindserverpkgname],
     }
 
 }
