@@ -41,6 +41,8 @@
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
+#  $includes:
+#   Array of absolute paths to named.conf include files. Default: empty
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -83,7 +85,8 @@ define bind::server::conf (
     $dnssec_enable      = 'yes',
     $dnssec_validation  = 'yes',
     $dnssec_lookaside   = 'auto',
-    $zones              = {}
+    $zones              = {},
+    $includes           = []
 ) {
 
     # Everything is inside a single template

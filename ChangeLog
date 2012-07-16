@@ -1,3 +1,6 @@
+2012-
+* Add support for "include" lines in named.conf.
+
 2012-06-22 - 0.2.2
 * Add support for a few new configuration values in the main template.
 * Require package for files, for the usual parent directory to exist.

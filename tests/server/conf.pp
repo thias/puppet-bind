@@ -17,6 +17,9 @@ bind::server::conf { '/etc/named.conf':
             'file "slaves/example.org"',
             'masters { mymasters; }',
         ],
-    }
+    },
+    includes => [
+        '/etc/myzones.conf',
+    ],
 }
 
