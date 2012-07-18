@@ -10,9 +10,11 @@ Here is a typical LAN recursive caching DNS server configuration :
 
     include bind::server
     bind::server::conf { '/etc/named.conf':
-        forwarders => [ '8.8.8.8', '8.8.4.4' ],
-        allow_query => [ 'localnets' ],
-        zones => {
+        listen_on_addr    => [ 'any' ],
+        listen_on_v6_addr => [ 'any' ],
+        forwarders        => [ '8.8.8.8', '8.8.4.4' ],
+        allow_query       => [ 'localnets' ],
+        zones             => {
             'myzone.lan' => [
                 'type master',
                 'file "myzone.lan"',
