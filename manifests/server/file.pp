@@ -14,6 +14,9 @@
 #    Zone file mode: Default: '0640'
 #  $source:
 #    Zone file content source. Default: none
+#  $source_base:
+#    Zone file content source base, where to look for a file named the same as
+#    the zone itselt. Default: none
 #  $content:
 #    Zone file content (usually template-based). Default: none
 #
@@ -24,19 +27,23 @@
 #  }
 #
 define bind::server::file (
-    $zonedir = '/var/named',
-    $owner   = 'root',
-    $group   = 'named',
-    $mode    = '0640',
-    $source  = undef,
-    $content = undef
+    $zonedir     = '/var/named',
+    $owner       = 'root',
+    $group       = 'named',
+    $mode        = '0640',
+    $source      = undef,
+    $source_base = undef,
+    $content     = undef
 ) {
+
+    if $source      { $zone_source = $source }
+    if $source_base { $zone_source = "${source_base}${title}" }
 
     file { "${zonedir}/${title}":
         owner   => $owner,
         group   => $group,
         mode    => $mode,
-        source  => $source,
+        source  => $zone_source,
         content => $content,
         notify  => Service['named'],
         # For the parent directory

@@ -41,6 +41,12 @@ To avoid repeating the 'zonedir' parameter each time, you can also use :
 
     Bind::Server::File { zonedir => '/var/named/chroot/var/named' }
 
+Then if all source files are in the same location and named after the zone :
+
+    bind::server::file { [ 'myzone.lan', '1.168.192.in-addr.arpa' ]:
+        source_base => 'puppet:///files/dns/',
+    }
+
 Since SELinux offers a very high level of protection, chrooting is quite
 redundant, so here is how to configure bind without chroot :
 

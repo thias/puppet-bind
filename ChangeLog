@@ -1,4 +1,5 @@
 * Update README to make the main example more useful.
+* Support $source_base for easy inclusion of multiple zone files as-is.
 
 2012-07-17 - 0.2.3
 * Add support for "include" lines in named.conf.
