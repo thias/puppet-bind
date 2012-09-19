@@ -1,3 +1,4 @@
+2012-09-19 - 0.2.4
 * Update README to make the main example more useful.
 * Support $source_base for easy inclusion of multiple zone files as-is.
 
