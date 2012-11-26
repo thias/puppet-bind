@@ -47,7 +47,7 @@ class bind::server (
         owner   => 'root',
         group   => 'named',
         mode    => '0770',
-        seltype => 'named_log_t',
+        seltype => 'var_log_t',
     }
 
 }
