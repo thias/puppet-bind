@@ -1,10 +1,14 @@
-bind
+# puppet-bind
+
+## Overview
 
 Install and enable a BIND DNS server, create and manage DNS zone files.
 
 * `bind::server` : Main class to install and enable the server.
 * `bind::server::conf` : Main definition to configure the server.
 * `bind::server::file` : Definition to manage zone files.
+
+## Examples
 
 Here is a typical LAN recursive caching DNS server configuration :
 
@@ -37,7 +41,7 @@ The zone files for the above could then be managed like this :
         source  => 'puppet:///files/dns/1.168.192.in-addr.arpa',
     }
 
-To avoid repeating the 'zonedir' parameter each time, you can also use :
+To avoid repeating the `zonedir` parameter each time, you can also use :
 
     Bind::Server::File { zonedir => '/var/named/chroot/var/named' }
 
