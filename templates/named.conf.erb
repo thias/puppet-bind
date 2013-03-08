@@ -34,7 +34,7 @@ options {
     forwarders { <%= forwarders.join("; ") %>; };
 <% end -%>
     directory "<%= directory %>";
-<% if version -%>
+<% if @version -%>
     version "<%= version %>";
 <% end -%>
 <% if dump_file -%>

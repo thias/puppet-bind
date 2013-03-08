@@ -22,33 +22,33 @@
 #
 # Sample Usage :
 #  bind::server::file { 'example.com':
-#      zonedir => '/var/named/chroot/var/named',
-#      source  => 'puppet:///files/dns/example.com',
+#    zonedir => '/var/named/chroot/var/named',
+#    source  => 'puppet:///files/dns/example.com',
 #  }
 #
 define bind::server::file (
-    $zonedir     = '/var/named',
-    $owner       = 'root',
-    $group       = 'named',
-    $mode        = '0640',
-    $source      = undef,
-    $source_base = undef,
-    $content     = undef
+  $zonedir     = '/var/named',
+  $owner       = 'root',
+  $group       = 'named',
+  $mode        = '0640',
+  $source      = undef,
+  $source_base = undef,
+  $content     = undef
 ) {
 
-    if $source      { $zone_source = $source }
-    if $source_base { $zone_source = "${source_base}${title}" }
+  if $source      { $zone_source = $source }
+  if $source_base { $zone_source = "${source_base}${title}" }
 
-    file { "${zonedir}/${title}":
-        owner   => $owner,
-        group   => $group,
-        mode    => $mode,
-        source  => $zone_source,
-        content => $content,
-        notify  => Service['named'],
-        # For the parent directory
-        require => Package[$bind::server::bindserverpkgname],
-    }
+  file { "${zonedir}/${title}":
+    owner   => $owner,
+    group   => $group,
+    mode    => $mode,
+    source  => $zone_source,
+    content => $content,
+    notify  => Service['named'],
+    # For the parent directory
+    require => Package[$bind::server::bindserverpkgname],
+  }
 
 }
 

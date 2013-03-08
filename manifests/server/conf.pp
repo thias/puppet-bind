@@ -46,54 +46,54 @@
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
-#      acls => {
-#          'rfc1918' => [ '10/8', '172.16/12', '192.168/16' ],
-#      },
-#      masters => {
-#          'mymasters' => [ '192.0.2.1', '198.51.100.1' ],
-#      },
-#      zones => {
-#          'example.com' => [
-#              'type master',
-#              'file "example.com"',
-#          ],
-#          'example.org' => [
-#              'type slave',
-#              'file "slaves/example.org"',
-#              'masters { mymasters; }',
-#          ],
-#      }
+#    acls => {
+#      'rfc1918' => [ '10/8', '172.16/12', '192.168/16' ],
+#    },
+#    masters => {
+#      'mymasters' => [ '192.0.2.1', '198.51.100.1' ],
+#    },
+#    zones => {
+#      'example.com' => [
+#        'type master',
+#        'file "example.com"',
+#      ],
+#      'example.org' => [
+#        'type slave',
+#        'file "slaves/example.org"',
+#        'masters { mymasters; }',
+#      ],
+#    }
 #  }
 #
 define bind::server::conf (
-    $acls               = {},
-    $masters            = {},
-    $listen_on_port     = '53',
-    $listen_on_addr     = [ '127.0.0.1' ],
-    $listen_on_v6_port  = '53',
-    $listen_on_v6_addr  = [ '::1' ],
-    $forwarders         = [],
-    $directory          = '/var/named',
-    $version            = false,
-    $dump_file          = '/var/named/data/cache_dump.db',
-    $statistics_file    = '/var/named/data/named_stats.txt',
-    $memstatistics_file = '/var/named/data/named_mem_stats.txt',
-    $allow_query        = [ 'localhost' ],
-    $allow_query_cache  = [],
-    $recursion          = 'yes',
-    $allow_recursion    = [],
-    $dnssec_enable      = 'yes',
-    $dnssec_validation  = 'yes',
-    $dnssec_lookaside   = 'auto',
-    $zones              = {},
-    $includes           = []
+  $acls               = {},
+  $masters            = {},
+  $listen_on_port     = '53',
+  $listen_on_addr     = [ '127.0.0.1' ],
+  $listen_on_v6_port  = '53',
+  $listen_on_v6_addr  = [ '::1' ],
+  $forwarders         = [],
+  $directory          = '/var/named',
+  $version            = undef,
+  $dump_file          = '/var/named/data/cache_dump.db',
+  $statistics_file    = '/var/named/data/named_stats.txt',
+  $memstatistics_file = '/var/named/data/named_mem_stats.txt',
+  $allow_query        = [ 'localhost' ],
+  $allow_query_cache  = [],
+  $recursion          = 'yes',
+  $allow_recursion    = [],
+  $dnssec_enable      = 'yes',
+  $dnssec_validation  = 'yes',
+  $dnssec_lookaside   = 'auto',
+  $zones              = {},
+  $includes           = []
 ) {
 
-    # Everything is inside a single template
-    file { $title:
-        notify => Service['named'],
-        content => template('bind/named.conf.erb'),
-    }
+  # Everything is inside a single template
+  file { $title:
+    notify  => Service['named'],
+    content => template('bind/named.conf.erb'),
+  }
 
 }
 
