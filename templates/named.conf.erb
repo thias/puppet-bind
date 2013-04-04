@@ -56,6 +56,9 @@ options {
 <% if !allow_recursion.empty? -%>
     allow-recursion { <%= allow_recursion.join("; ") %>; };
 <% end -%>
+<% if !allow_transfer.empty? -%>
+    allow-transfer { <%= allow_transfer.join("; ") %>; };
+<% end -%>
 
     dnssec-enable <%= dnssec_enable %>;
     dnssec-validation <%= dnssec_validation %>;

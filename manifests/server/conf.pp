@@ -32,6 +32,10 @@
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
 #   Allow recursive queries. Default: 'yes'
+#  $allow_recursion:
+#   Array of IP addrs or ACLs to allow recursion from. Default: empty
+#  $allow_transfer:
+#   Array of IP addrs or ACLs to allow transfer to. Default: empty
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
@@ -82,6 +86,7 @@ define bind::server::conf (
   $allow_query_cache  = [],
   $recursion          = 'yes',
   $allow_recursion    = [],
+  $allow_transfer     = [],
   $dnssec_enable      = 'yes',
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',

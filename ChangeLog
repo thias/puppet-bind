@@ -1,3 +1,5 @@
+* Add support for $allow_transfer.
+
 2013-03-08 - 0.3.0
 * Change to 2 space indent.
 * Major update to the README and use markdown.
