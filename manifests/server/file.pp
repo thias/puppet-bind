@@ -19,6 +19,8 @@
 #    the zone itselt. Default: none
 #  $content:
 #    Zone file content (usually template-based). Default: none
+#  $ensure:
+#    Whether the zone file should be 'present' or 'absent'. Default: present.
 #
 # Sample Usage :
 #  bind::server::file { 'example.com':
@@ -33,7 +35,8 @@ define bind::server::file (
   $mode        = '0640',
   $source      = undef,
   $source_base = undef,
-  $content     = undef
+  $content     = undef,
+  $ensure      = undef
 ) {
 
   if $source      { $zone_source = $source }
@@ -45,6 +48,7 @@ define bind::server::file (
     mode    => $mode,
     source  => $zone_source,
     content => $content,
+    ensure  => $ensure,
     notify  => Service['named'],
     # For the parent directory
     require => Package[$bind::server::bindserverpkgname],
