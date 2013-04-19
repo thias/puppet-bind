@@ -1,3 +1,6 @@
+2013-04-19 - 0.3.2
+* Use @varname syntax in templates to silence puppet 3.2 warnings.
+
 2013-04-10 - 0.3.1
 * Add support for $allow_transfer.
 * Add support for $ensure on server::file, enabling clean zone file removal.
