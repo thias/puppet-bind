@@ -23,13 +23,13 @@ class bind (
 ) {
 
   $packagenameprefix = $::operatingsystem ? {
-    'Red Hat', 'Centos', 'Amazon' => 'bind',
-    'Ubuntu', 'Debian' => 'bind9'
+    /(Red Hat|Centos|Amazon)/ => 'bind',
+    /(Ubuntu|Debian)/ => 'bind9'
   }
 
   $servicename = $::operatingsystem ? {
-    'Red Hat', 'Centos', 'Amazon' => 'named',
-    'Ubuntu', 'Debian' => 'bind9'
+    /(Red Hat|Centos|Amazon)/ => 'named',
+    /(Ubuntu|Debian)/ => 'bind9'
   }
 
   # Main package and service it provides
