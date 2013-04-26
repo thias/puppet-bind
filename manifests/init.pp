@@ -16,25 +16,30 @@
 #    bindpkgprefix => 'bind97',
 #  }
 #
-class bind::server (
+class bind (
   $chroot = false,
   # For RHEL5 you might want to use 'bind97'
   $bindpkgprefix = 'bind'
 ) {
 
+  $packagenameprefix = $::operatingsystem ? {
+    'Red Hat', 'Centos', 'Amazon' => 'bind',
+    'Ubuntu', 'Debian' => 'bind9'
+  }
+
+  $servicename = $::operatingsystem ? {
+    'Red Hat', 'Centos', 'Amazon' => 'named',
+    'Ubuntu', 'Debian' => 'bind9'
+  }
+
   # Main package and service it provides
-  $bindserverpkgname = $chroot ? {
-    true  => "${bindpkgprefix}-chroot",
-    false => "${bindpkgprefix}",
+  # Assuming the structure bind9-chroot for package name
+  $packagenamesuffix = $chroot ? {
+    true  => "-chroot",
+    false => "",
   }
-  package { $bindserverpkgname: ensure => installed }
-  service { 'named':
-    require   => Package[$bindserverpkgname],
-    hasstatus => true,
-    enable    => true,
-    ensure    => running,
-    restart   => '/sbin/service named reload',
-  }
+
+  $packagename = "${packagenameprefix}${packagenamesuffix}"
 
   # We want a nice log file which the package doesn't provide a location for
   $bindlogdir = $chroot ? {
@@ -42,7 +47,7 @@ class bind::server (
     false => '/var/log/named',
   }
   file { $bindlogdir:
-    require => Package[$bindserverpkgname],
+    require => Package[$packagename],
     ensure  => directory,
     owner   => 'root',
     group   => 'named',
