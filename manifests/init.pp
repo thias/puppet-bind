@@ -47,7 +47,7 @@ class bind (
     false => '/var/log/named',
   }
   file { $bindlogdir:
-    require => Package[$packagename],
+    require => Class['bind::package'],
     ensure  => directory,
     owner   => 'root',
     group   => 'named',
@@ -55,5 +55,6 @@ class bind (
     seltype => 'var_log_t',
   }
 
+  include bind::package, bind::service
 }
 

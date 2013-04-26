@@ -4,6 +4,7 @@ class bind::service {
     hasstatus => true,
     enable    => true,
     ensure    => running,
-    restart   => "/sbin/service ${bind::servicename} reload",
+    path      => $::path
+    restart   => "service ${bind::servicename} reload",
   }
 }
