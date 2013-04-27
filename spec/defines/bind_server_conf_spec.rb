@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe 'bind::server::conf' do
+	let (:title)  { '/etc/named.conf' }
 	let (:params) { {
-		:title => '/etc/named.conf', 
 		:acls => { 
 			'rfc1918' => [ '10/8', '172.16/12', '192.168/16' ] 
 		},
@@ -24,5 +24,16 @@ describe 'bind::server::conf' do
 			'/etc/myzones.conf',
 		],
 	} }
+
+	it 'should generate the bind configuration' do
+		expect { should contain_file ('/etc/named.conf')}
+		content = catalogue.resource('file', '/etc/named.conf').send(:parameters)[:content]
+        content.should_not be_empty
+        content.should match('acl rfc1918')
+        content.should match('masters mymasters')
+        content.should match('zone "example.com"')
+        content.should match('zone "example.org"')
+        content.should match('include "/etc/myzones.conf"')
+	end
 
 end
