@@ -7,7 +7,6 @@ describe 'bind::server' do
 
   it { should contain_package('bind').with_ensure('installed') }
   it { should contain_service('named').with({
-  	'require' => 'Package[bind]',
   	'hasstatus' => true,
   	'enable' => true,
   	'ensure' => 'running',
@@ -15,7 +14,6 @@ describe 'bind::server' do
   	})}
   it 'should create the logging directory' do
   	expect { should contain_file('/var/log/named').with({
-  		'require' => 'Package[bind]',
   		'ensure' => 'directory',
   		'owner' => 'root',
   		'group' => 'named',
