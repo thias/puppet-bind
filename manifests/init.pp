@@ -43,6 +43,17 @@ class bind (
 
   $packagename = "${packagenameprefix}${packagenamesuffix}"
 
+  $binduser = $::operatingsystem ? {
+    /(Red Hat|Centos|Amazon)/ => 'root',
+    /(Ubuntu|Debian)/ => 'bind',
+    default => 'root'
+  }
+  $bindgroup = $::operatingsystem ? {
+    /(Red Hat|Centos|Amazon)/ => 'named',
+    /(Ubuntu|Debian)/ => 'bind',
+    default => 'named'
+  }
+
   # We want a nice log file which the package doesn't provide a location for
   $bindlogdir = $chroot ? {
     true  => '/var/named/chroot/var/log/named',
@@ -51,8 +62,8 @@ class bind (
   file { $bindlogdir:
     require => Class['bind::package'],
     ensure  => directory,
-    owner   => 'root',
-    group   => 'named',
+    owner   => $binduser,
+    group   => $bindgroup,
     mode    => '0770',
     seltype => 'var_log_t',
   }
