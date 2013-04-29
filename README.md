@@ -5,20 +5,25 @@
 Install and enable a BIND DNS server, manage its main configuration and install
 and manage its DNS zone files.
 
-* `bind::server` : Main class to install and enable the server.
+* `bind` : Main class to install and enable the server.
 * `bind::server::conf` : Main definition to configure the server.
 * `bind::server::file` : Definition to manage zone files.
+* `bind::package` : Class to install the server package (included from `bind`)
+* `bind::service` : Class to manage the server service (included from `bind`)
 
-The split between `server` and `server::conf` allows to use a static file or
-a different template-based file for the main `named.conf` file if needed,
+The split between `bind` and `bind::server::conf` allows to use a static file
+or a different template-based file for the main `named.conf` file if needed,
 while still using this module for the main package, service and managing zone
 files. This is useful if you have a large and/or complex named.conf file.
+Note that you may also use the `bind::package` and `bind::service` classes on
+their own, though you won't need to if you use the main class, which includes
+them both.
 
 ## Examples
 
 Here is a typical LAN recursive caching DNS server configuration :
 
-    include bind::server
+    include bind
     bind::server::conf { '/etc/named.conf':
       listen_on_addr    => [ 'any' ],
       listen_on_v6_addr => [ 'any' ],
@@ -51,11 +56,15 @@ Then if all source files are in the same location and named after the zone :
       source_base => 'puppet:///modules/mymodule/dns/',
     }
 
+For RHEL5, you might want to use the newest possible bind packages :
+
+    class { 'bind': packagenameprefix => 'bind97' }
+
 Since SELinux offers a very high level of protection, chrooting is quite
 redundant, so it's disabled by default. You can nevertheless enable it if
 you want :
 
-    class { 'bind::server': chroot => true }
+    class { 'bind': chroot => true }
     bind::server::conf { '/etc/named.conf':
       # [... same as before ...]
     },

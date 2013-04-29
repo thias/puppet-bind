@@ -1,58 +1,35 @@
-# Class: bind::server
+# Class: bind
 #
 # Install and enable an ISC BIND server.
 #
 # Parameters:
 #  $chroot:
 #   Enable chroot for the server. Default: false
-#  $bindpkgprefix:
-#   Package prefix name. Default: 'bind'
+#  $packagenameprefix:
+#   Package prefix name. Default: 'bind' or 'bind9' depending on the OS
 #
 # Sample Usage :
-#  include bind::server
-#
-#  class { 'bind::server':
-#    chroot        => false,
-#    bindpkgprefix => 'bind97',
+#  include bind
+#  class { 'bind':
+#    chroot            => true,
+#    packagenameprefix => 'bind97',
 #  }
 #
 class bind (
-  $chroot = false,
-  # For RHEL5 you might want to use 'bind97'
-  $bindpkgprefix = 'bind'
-) {
+  $chroot            = false,
+  $packagenameprefix = $bind::params::packagenameprefix
+) inherits bind::params {
 
-  $packagenameprefix = $::operatingsystem ? {
-    /(Red Hat|Centos|Amazon)/ => 'bind',
-    /(Ubuntu|Debian)/ => 'bind9',
-    default => 'bind'
-  }
-
-  $servicename = $::operatingsystem ? {
-    /(Red Hat|Centos|Amazon)/ => 'named',
-    /(Ubuntu|Debian)/ => 'bind9',
-    default => 'named'
-  }
-
-  # Main package and service it provides
-  # Assuming the structure bind9-chroot for package name
+  # Main package and service
   $packagenamesuffix = $chroot ? {
-    true  => "-chroot",
-    false => "",
+    true  => '-chroot',
+    false => '',
   }
-
-  $packagename = "${packagenameprefix}${packagenamesuffix}"
-
-  $binduser = $::operatingsystem ? {
-    /(Red Hat|Centos|Amazon)/ => 'root',
-    /(Ubuntu|Debian)/ => 'bind',
-    default => 'root'
+  class { 'bind::package':
+    packagenameprefix => $packagenameprefix,
+    packagenamesuffix => $packagenamesuffix,
   }
-  $bindgroup = $::operatingsystem ? {
-    /(Red Hat|Centos|Amazon)/ => 'named',
-    /(Ubuntu|Debian)/ => 'bind',
-    default => 'named'
-  }
+  include bind::service
 
   # We want a nice log file which the package doesn't provide a location for
   $bindlogdir = $chroot ? {
@@ -62,12 +39,11 @@ class bind (
   file { $bindlogdir:
     require => Class['bind::package'],
     ensure  => directory,
-    owner   => $binduser,
-    group   => $bindgroup,
+    owner   => $bind::params::binduser,
+    group   => $bind::params::bindgroup,
     mode    => '0770',
     seltype => 'var_log_t',
   }
 
-  include bind::package, bind::service
 }
 
