@@ -49,9 +49,9 @@ define bind::server::file (
     source  => $zone_source,
     content => $content,
     ensure  => $ensure,
-    notify  => Service['named'],
+    notify  => Class['bind::service'],
     # For the parent directory
-    require => Package[$bind::server::bindserverpkgname],
+    require => Class['bind::package'],
   }
 
 }
