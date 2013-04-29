@@ -1,12 +1,14 @@
-#for backwards compatibility.
+# Class: bind::server
+#
+# For backwards compatibility. Use the main bind class instead.
+#
 class bind::server (
-  $chroot = false,
-  # For RHEL5 you might want to use 'bind97'
+  $chroot        = false,
   $bindpkgprefix = 'bind'
 ){
-	class { 'bind':
-		chroot => $chroot,
-		bindpkgprefix => $bindpkgprefix
-	}
-	
+  class { 'bind':
+    chroot        => $chroot,
+    bindpkgprefix => $bindpkgprefix,
+  }
 }
+
