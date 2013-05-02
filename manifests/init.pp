@@ -17,7 +17,9 @@
 #
 class bind (
   $chroot            = false,
-  $packagenameprefix = $bind::params::packagenameprefix
+  $packagenameprefix = $bind::params::packagenameprefix,
+  $owner             = $bind::params::binduser,
+  $group             = $bind::params::bindgroup,
 ) inherits bind::params {
 
   # Main package and service
@@ -39,8 +41,8 @@ class bind (
   file { $bindlogdir:
     require => Class['bind::package'],
     ensure  => directory,
-    owner   => $bind::params::binduser,
-    group   => $bind::params::bindgroup,
+    owner   => $owner,
+    group   => $group,
     mode    => '0770',
     seltype => 'var_log_t',
   }

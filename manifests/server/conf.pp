@@ -46,7 +46,8 @@
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
 #  $includes:
-#   Array of absolute paths to named.conf include files. Default: empty
+#   Hash of named.conf include files. The key is the absolute paths to file
+#   and the value is an array of config lines. Default: empty
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -99,6 +100,9 @@ define bind::server::conf (
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
+
+  # Declare include file resources.
+  create_resources('bind::server::file',$includes)
 
 }
 

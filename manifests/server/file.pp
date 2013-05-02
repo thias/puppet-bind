@@ -30,14 +30,14 @@
 #
 define bind::server::file (
   $zonedir     = '/var/named',
-  $owner       = 'root',
-  $group       = 'named',
+  $owner       = $bind::params::binduser,
+  $group       = $bind::params::bindgroup,
   $mode        = '0640',
   $source      = undef,
   $source_base = undef,
   $content     = undef,
   $ensure      = undef
-) {
+) inherits bind::params {
 
   if $source      { $zone_source = $source }
   if $source_base { $zone_source = "${source_base}${title}" }
