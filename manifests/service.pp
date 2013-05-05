@@ -9,7 +9,6 @@ class bind::service (
     hasstatus => true,
     enable    => true,
     ensure    => running,
-    path      => $::path,
     restart   => "service ${servicename} reload"
   }
 
