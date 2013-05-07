@@ -20,6 +20,8 @@ class bind (
   $packagenameprefix = $bind::params::packagenameprefix,
   $owner             = $bind::params::binduser,
   $group             = $bind::params::bindgroup,
+  $named_conf        = [],
+  $zone_files        = [],
 ) inherits bind::params {
 
   # Main package and service
@@ -46,6 +48,10 @@ class bind (
     mode    => '0770',
     seltype => 'var_log_t',
   }
+
+  # Import conf file and zone file data from hiera
+  create_resources(bind::server::conf,$named_conf)
+  create_resources(bind::server::file,$zone_files)
 
 }
 

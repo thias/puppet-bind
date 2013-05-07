@@ -92,17 +92,21 @@ define bind::server::conf (
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',
   $zones              = {},
-  $includes           = []
+  $includes           = [],
 ) {
 
-  # Everything is inside a single template
+  file { $directory:
+    ensure => directory,
+  }
+
+  # Configuration options, at least, are inside a template
   file { $title:
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
 
-  # Declare include file resources.
-  create_resources('bind::server::file',$includes)
+  # Declare includes as file resources; for zone definitions from hiera
+  create_resources(bind::server::file,$includes)
 
 }
 
