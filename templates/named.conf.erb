@@ -84,10 +84,17 @@ logging {
     };
 };
 
-zone "." IN {
-    type hint;
-    file "named.ca";
+<% if @enable_views %>
+view "any" {
+    match-clients { any; };
+<% end -%>
+    zone "." IN {
+        type hint;
+        file "db.root";
+    };
+<% if @enable_views %>
 };
+<% end -%>
 
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
@@ -99,7 +106,6 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-include "named.rfc1912.zones";
 <% if !@includes.empty? -%>
 <% @includes.each do |filename,source| -%>
 include "<%= filename %>";

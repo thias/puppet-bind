@@ -97,6 +97,9 @@
 #        source:    'puppet:///modules/bind/named_extra.conf'
 #
 define bind::server::conf (
+  $owner              = undef,
+  $group              = undef,
+  $mode               = '0644',
   $acls               = {},
   $masters            = {},
   $listen_on_port     = '53',
@@ -120,21 +123,19 @@ define bind::server::conf (
   $zones              = {},
   $includes           = [],
 ) {
+  include bind::params
 
-  file { $directory:
-    ensure => directory,
-  }
+  # Honor defaults for the bind class
+  if $owner { $fowner = $owner } else { $fowner = $bind::params::binduser }
+  if $group { $fgroup = $group } else { $fgroup = $bind::params::bindgroup }
 
   # Configuration options, at least, are inside a template
   file { $title:
+    owner   => $fowner,
+    group   => $fgroup,
+    mode    => $mode,
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
-  }
-
-  # Included by default in every conf file.
-  bind::server::file { 'named.rfc1918.zones':
-    directory => $directory,
-    source    => 'puppet:///modules/bind/named.rfc1918.zones',
   }
 
   # Declare additional includes as file resources

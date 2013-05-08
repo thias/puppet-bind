@@ -47,14 +47,13 @@ define bind::server::file (
 ) {
   include bind::params
 
-  # Honor defaults for this resource
+  # Honor defaults for the bind class
   if $owner { $fowner = $owner } else { $fowner = $bind::params::binduser }
   if $group { $fgroup = $group } else { $fgroup = $bind::params::bindgroup }
 
   # Maintain compatibility with $zonedir
   if    $zonedir   { $destdir = $zonedir }
   elsif $directory { $destdir = $directory }
-  else             { $destdir = $bind::params::zone_directory }
 
   if $source      { $zone_source = $source }
   if $source_base { $zone_source = "${source_base}/${title}" }
