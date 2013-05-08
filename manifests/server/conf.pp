@@ -70,6 +70,34 @@
 #    }
 #  }
 #
+# Sample Usage with Hiera (resource created in main bind class)
+# ---
+# bind::named_conf
+#   /etc/named.conf:
+#     acls:
+#       rfc1918:
+#         - '10/8'
+#         - '172.16/12'
+#         - '192.168/16'
+#     masters:
+#       mymasters:
+#         - '192.0.2.1'
+#         - '198.51.100.1'
+#     zones:
+#       example.com:
+#         - 'type master'
+#         - 'file "example.com"'
+#       example.org:
+#         - 'type slave',
+#         - 'file "slaves/example.org"'
+#         - 'masters { mymasters; }'
+#     includes:
+#      named_extra.conf:
+#        zonedir: '/etc/named'
+#        source: 'puppet:///modules/bind/named_extra.conf'
+#
+
+
 define bind::server::conf (
   $acls               = {},
   $masters            = {},

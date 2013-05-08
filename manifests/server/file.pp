@@ -28,23 +28,34 @@
 #    source  => 'puppet:///files/dns/example.com',
 #  }
 #
+# Sample Usage for Hiera (resources created in main bind class):
+# bind::zone_files:
+#   example.com:
+#    zonedir: '/var/named/chroot/var/named'
+#    source:  'puppet:///files/dns/example.com'
+#
 define bind::server::file (
   $zonedir     = '/var/named',
-  $owner       = $bind::params::binduser,
-  $group       = $bind::params::bindgroup,
+  $owner       = undef,
+  $group       = undef,
   $mode        = '0640',
   $source      = undef,
   $source_base = undef,
   $content     = undef,
   $ensure      = undef,
-) inherits bind::params {
+) {
+  include bind::params
+
+  # Honor defaults for this resource
+  if $owner { $fowner = $owner } else { $fowner = $bind::params::binduser }
+  if $group { $fgroup = $group } else { $fgroup = $bind::params::bindgroup }
 
   if $source      { $zone_source = $source }
   if $source_base { $zone_source = "${source_base}${title}" }
 
   file { "${zonedir}/${title}":
-    owner   => $owner,
-    group   => $group,
+    owner   => $fowner,
+    group   => $fgroup,
     mode    => $mode,
     source  => $zone_source,
     content => $content,

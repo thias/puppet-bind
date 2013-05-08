@@ -15,6 +15,14 @@
 #    packagenameprefix => 'bind97',
 #  }
 #
+# Sample Usage for Hiera:
+# ---
+# classes:
+#   - 'bind'
+# bind:
+#   chroot: true
+#   packagenameprefix: 'bind97'
+#
 class bind (
   $chroot            = false,
   $packagenameprefix = $bind::params::packagenameprefix,
