@@ -7,12 +7,15 @@
 #   Enable chroot for the server. Default: false
 #  $packagenameprefix:
 #   Package prefix name. Default: 'bind' or 'bind9' depending on the OS
+#  $zone_directory:
+#   Sets default location for zone files. Default depends on the OS.
 #
 # Sample Usage :
 #  include bind
 #  class { 'bind':
 #    chroot            => true,
 #    packagenameprefix => 'bind97',
+#    zone_directory    => '/var/named/zones',
 #  }
 #
 # Sample Usage for Hiera:
@@ -22,6 +25,7 @@
 # bind:
 #   chroot: true
 #   packagenameprefix: 'bind97'
+#   zone_directory: '/var/named/zones'
 #
 class bind (
   $chroot            = false,
@@ -29,6 +33,7 @@ class bind (
   $owner             = $bind::params::binduser,
   $group             = $bind::params::bindgroup,
   $named_conf        = [],
+  $zone_directory    = $bind::params::zone_directory,
   $zone_files        = [],
 ) inherits bind::params {
 
@@ -54,6 +59,15 @@ class bind (
     owner   => $owner,
     group   => $group,
     mode    => '0770',
+    seltype => 'var_log_t',
+  }
+
+  # Directory for zone files
+  file { $zone_directory:
+    ensure  => directory,
+    owner   => $owner,
+    group   => $group,
+    mode    => '0775',
     seltype => 'var_log_t',
   }
 

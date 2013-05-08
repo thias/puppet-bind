@@ -56,9 +56,40 @@ Then if all source files are in the same location and named after the zone :
       source_base => 'puppet:///modules/mymodule/dns/',
     }
 
+Data can also be put in Hiera, like so:
+
+    classes:
+      - 'bind'
+    bind::named_conf:
+      /etc/named.conf:
+        listen_on_addr:    - 'any'
+        listen_on_v6_addr: - 'any'
+        forwarders:
+          - '8.8.8.8'
+          - '8.8.4.4'
+        allow_query: - 'localnets'
+        zones:
+          myzone.lan:
+            - 'type master'
+            - 'file "myzone.lan"'
+          1.168.192.in-addr.arpa:
+            - 'type master'
+            - 'file "1.168.192.in-addr.arpa"'
+    bind::zone_files:
+      myzone.lan:
+        source: 'puppet:///modules/mymodule/dns/myzone.lan'
+      1.168.192.in-addr.arpa:
+        source: 'puppet:///modules/mymodule/dns/1.168.192.in-addr.arpa'
+
 For RHEL5, you might want to use the newest possible bind packages :
 
     class { 'bind': packagenameprefix => 'bind97' }
+
+Or in Hiera:
+    classes:
+      - 'bind'
+    bind:
+      packagenameprefix: 'bind97'
 
 Since SELinux offers a very high level of protection, chrooting is quite
 redundant, so it's disabled by default. You can nevertheless enable it if
@@ -69,11 +100,11 @@ you want :
       # [... same as before ...]
     },
     bind::server::file { 'myzone.lan':
-      zonedir => '/var/named/chroot/var/named',
+      directory => '/var/named/chroot/var/named',
       source  => 'puppet:///files/dns/myzone.lan',
     }
 
-To avoid repeating the `zonedir` parameter each time, you can also use :
+To avoid repeating the `directory` parameter each time, you can also use :
 
-    Bind::Server::File { zonedir => '/var/named/chroot/var/named' }
+    Bind::Server::File { directory => '/var/named/chroot/var/named' }
 

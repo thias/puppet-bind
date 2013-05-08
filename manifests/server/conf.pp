@@ -93,11 +93,9 @@
 #         - 'masters { mymasters; }'
 #     includes:
 #      named_extra.conf:
-#        zonedir: '/etc/named'
-#        source: 'puppet:///modules/bind/named_extra.conf'
+#        directory: '/etc/named'
+#        source:    'puppet:///modules/bind/named_extra.conf'
 #
-
-
 define bind::server::conf (
   $acls               = {},
   $masters            = {},
@@ -133,7 +131,13 @@ define bind::server::conf (
     content => template('bind/named.conf.erb'),
   }
 
-  # Declare includes as file resources; for zone definitions from hiera
+  # Included by default in every conf file.
+  bind::server::file { 'named.rfc1918.zones':
+    directory => $directory,
+    source    => 'puppet:///modules/bind/named.rfc1918.zones',
+  }
+
+  # Declare additional includes as file resources
   create_resources(bind::server::file,$includes)
 
 }
