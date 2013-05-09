@@ -42,6 +42,8 @@
 #   Enable DNSSEC validation. Default: 'yes'
 #  $dnssec_lookaside:
 #   DNSSEC lookaside type. Default: 'auto'
+#  $enable_views:
+#   Whether or not to put the hint zone in a view, required if any zones are in views.
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
@@ -120,6 +122,7 @@ define bind::server::conf (
   $dnssec_enable      = 'yes',
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',
+  $enable_views       = false,
   $zones              = {},
   $includes           = [],
 ) {
@@ -136,6 +139,21 @@ define bind::server::conf (
     mode    => $mode,
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
+  }
+
+  # The db.root hints file, included automatically in the named.conf
+  file { "$directory/root.hints":
+    owner   => $owner,
+    group   => $group,
+    mode    => '0444',
+    source  => 'puppet:///modules/bind/root.hints',
+  }
+
+  #DNSsec dynamic keys directory
+  file { "$directory/dynamic":
+    owner   => $owner,
+    group   => $group,
+    mode    => '0775',
   }
 
   # Declare additional includes as file resources

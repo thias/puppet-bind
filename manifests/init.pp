@@ -7,8 +7,6 @@
 #   Enable chroot for the server. Default: false
 #  $packagenameprefix:
 #   Package prefix name. Default: 'bind' or 'bind9' depending on the OS
-#  $enable_views:
-#   Whether or not to put the hint zone in a view, required if any zones are in views.
 #
 # Sample Usage :
 #  include bind
@@ -35,7 +33,6 @@ class bind (
   $group             = $bind::params::bindgroup,
   $named_conf        = [],
   $zone_files        = [],
-  $enable_vies       = false,
 ) inherits bind::params {
 
   # Main package and service
@@ -61,14 +58,6 @@ class bind (
     group   => $group,
     mode    => '0770',
     seltype => 'var_log_t',
-  }
-
-  # The db.root hints file, included automatically in the named.conf
-  file { 'db.root':
-    owner   => $owner,
-    group   => $group,
-    mode    => '0444',
-    source  => 'puppet:///modules/files/db.root',
   }
 
   # Import conf file and zone file data from hiera

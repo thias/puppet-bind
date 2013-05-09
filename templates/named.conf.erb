@@ -63,9 +63,10 @@ options {
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
+    managed-keys-directory "<%= @directory %>/dynamic/";
 
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file "<%= @directory %>/named.iscdlv.key";
 };
 
 logging {
@@ -90,7 +91,7 @@ view "any" {
 <% end -%>
     zone "." IN {
         type hint;
-        file "db.root";
+        file "root.hints";
     };
 <% if @enable_views %>
 };
