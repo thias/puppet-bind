@@ -10,6 +10,7 @@ class bind::params {
       $servicename       = 'named'
       $binduser          = 'root'
       $bindgroup         = 'named'
+      $restartcmd        = '/sbin/service named checkconfig && /sbin/service named reload'
     }
     'Debian',
     'Ubuntu': {
@@ -17,6 +18,7 @@ class bind::params {
       $servicename       = 'bind9'
       $binduser          = 'bind'
       $bindgroup         = 'bind'
+      $restartcmd        = '/usr/sbin/service bind9 reload'
     }
     default: {
       $packagenameprefix = 'bind'

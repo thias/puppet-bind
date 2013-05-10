@@ -48,8 +48,9 @@
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
 #  $includes:
-#   Hash of named.conf include files. The key is the absolute paths to file
-#   and the value is an array of config lines. Default: empty
+#   Array of absolute paths to named.conf include files. Default: empty
+#   Use this to reference files that are managed by other modules or
+#   as bind::server::file resources.
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -74,7 +75,7 @@
 #
 # Sample Usage with Hiera (resource created in main bind class)
 # ---
-# bind::named_conf
+# bind::server_conf:
 #   /etc/named.conf:
 #     acls:
 #       rfc1918:
@@ -94,9 +95,12 @@
 #         - 'file "slaves/example.org"'
 #         - 'masters { mymasters; }'
 #     includes:
-#      named_extra.conf:
-#        directory: '/etc/named'
-#        source:    'puppet:///modules/bind/named_extra.conf'
+#       - '/etc/named/named_extra.conf'
+#
+# bind::server_files:
+#   named_extra.conf:
+#     directory: '/etc/named'
+#     source:    'puppet:///modules/bind/named_extra.conf'
 #
 define bind::server::conf (
   $owner              = undef,
@@ -111,9 +115,10 @@ define bind::server::conf (
   $forwarders         = [],
   $directory          = '/var/named',
   $version            = undef,
-  $dump_file          = '/var/named/data/cache_dump.db',
-  $statistics_file    = '/var/named/data/named_stats.txt',
-  $memstatistics_file = '/var/named/data/named_mem_stats.txt',
+  $stats_directory    = '/var/namd/data',
+  $dump_file          = 'cache_dump.db',
+  $statistics_file    = 'named_stats.txt',
+  $memstatistics_file = 'named_mem_stats.txt',
   $allow_query        = [ 'localhost' ],
   $allow_query_cache  = [],
   $recursion          = 'yes',
@@ -122,9 +127,8 @@ define bind::server::conf (
   $dnssec_enable      = 'yes',
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',
-  $enable_views       = false,
   $zones              = {},
-  $includes           = [],
+  $includes           = []
 ) {
   include bind::params
 
@@ -140,24 +144,6 @@ define bind::server::conf (
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
-
-  # The db.root hints file, included automatically in the named.conf
-  file { "$directory/root.hints":
-    owner   => $owner,
-    group   => $group,
-    mode    => '0444',
-    source  => 'puppet:///modules/bind/root.hints',
-  }
-
-  #DNSsec dynamic keys directory
-  file { "$directory/dynamic":
-    owner   => $owner,
-    group   => $group,
-    mode    => '0775',
-  }
-
-  # Declare additional includes as file resources
-  create_resources(bind::server::file,$includes)
 
 }
 

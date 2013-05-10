@@ -38,13 +38,13 @@ options {
     version "<%= @version %>";
 <% end -%>
 <% if @dump_file -%>
-    dump-file "<%= @dump_file %>";
+    dump-file "<%= @stats_directory %>/<%= @dump_file %>";
 <% end -%>
 <% if @statistics_file -%>
-    statistics-file "<%= @statistics_file %>";
+    statistics-file "<%= @stats_directory %>/<%= @statistics_file %>";
 <% end -%>
 <% if @memstatistics_file -%>
-    memstatistics-file "<%= @memstatistics_file %>";
+    memstatistics-file "<%= @stats_directory %>/<%= @memstatistics_file %>";
 <% end -%>
 <% if !@allow_query.empty? -%>
     allow-query { <%= @allow_query.join("; ") %>; };
@@ -63,7 +63,6 @@ options {
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
-    managed-keys-directory "<%= @directory %>/dynamic/";
 
     /* Path to ISC DLV key */
     bindkeys-file "<%= @directory %>/named.iscdlv.key";
@@ -85,18 +84,6 @@ logging {
     };
 };
 
-<% if @enable_views %>
-view "any" {
-    match-clients { any; };
-<% end -%>
-    zone "." IN {
-        type hint;
-        file "root.hints";
-    };
-<% if @enable_views %>
-};
-<% end -%>
-
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
 zone "<%= key %>" IN {
@@ -108,7 +95,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if !@includes.empty? -%>
-<% @includes.each do |filename,source| -%>
+<% @includes.each do |filename| -%>
 include "<%= filename %>";
 <% end -%>
 <% end -%>

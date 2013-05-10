@@ -26,13 +26,14 @@
 # NOTE: if zone files are to be in a different directory from the named.conf
 #      then that directory needs to be declared as a bind::server::file resource
 #      bind::server::file {'/etc/zones': ensure=>directory }
+#
 class bind (
   $chroot            = false,
   $packagenameprefix = $bind::params::packagenameprefix,
   $owner             = $bind::params::binduser,
   $group             = $bind::params::bindgroup,
-  $named_conf        = [],
-  $zone_files        = [],
+  $server_conf       = [],
+  $server_files      = []
 ) inherits bind::params {
 
   # Main package and service
@@ -60,9 +61,9 @@ class bind (
     seltype => 'var_log_t',
   }
 
-  # Import conf file and zone file data from hiera
-  create_resources(bind::server::conf,$named_conf)
-  create_resources(bind::server::file,$zone_files)
+  # Import conf file and zone files from hiera
+  create_resources(bind::server::conf,$server_conf)
+  create_resources(bind::server::file,$server_files)
 
 }
 

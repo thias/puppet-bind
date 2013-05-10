@@ -29,7 +29,7 @@
 #  }
 #
 # Sample Usage for Hiera (resources created in main bind class):
-# bind::zone_files:
+# bind::server_files:
 #   example.com:
 #    directory: '/var/named/chroot/var/named'
 #    source:    'puppet:///files/dns/example.com'
@@ -43,11 +43,11 @@ define bind::server::file (
   $source      = undef,
   $source_base = undef,
   $content     = undef,
-  $ensure      = undef,
+  $ensure      = undef
 ) {
   include bind::params
 
-  # Honor defaults for the bind class
+  # If owner is declared with the resource use that, otherwise the defaults.
   if $owner { $fowner = $owner } else { $fowner = $bind::params::binduser }
   if $group { $fgroup = $group } else { $fgroup = $bind::params::bindgroup }
 
