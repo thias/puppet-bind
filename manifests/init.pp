@@ -43,6 +43,7 @@ class bind (
     group   => $bind::params::bindgroup,
     mode    => '0770',
     seltype => 'var_log_t',
+    before  => Class['bind::service'],
   }
 
 }
