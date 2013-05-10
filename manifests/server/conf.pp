@@ -42,8 +42,6 @@
 #   Enable DNSSEC validation. Default: 'yes'
 #  $dnssec_lookaside:
 #   DNSSEC lookaside type. Default: 'auto'
-#  $enable_views:
-#   Whether or not to put the hint zone in a view, required if any zones are in views.
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty

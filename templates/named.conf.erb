@@ -61,11 +61,14 @@ options {
 <% end -%>
 
     dnssec-enable <%= @dnssec_enable %>;
+
+/*  Bind 9.7+ only
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
 
-    /* Path to ISC DLV key */
+    // Path to ISC DLV key
     bindkeys-file "<%= @directory %>/named.iscdlv.key";
+*/
 };
 
 logging {
