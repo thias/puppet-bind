@@ -39,9 +39,9 @@
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
-#   Enable DNSSEC validation. Default: 'yes'
+#   Enable DNSSEC validation. Default: 'yes' (Bind 9.7+ only)
 #  $dnssec_lookaside:
-#   DNSSEC lookaside type. Default: 'auto'
+#   DNSSEC lookaside type. Default: 'auto' (Bind 9.7+ only)
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
