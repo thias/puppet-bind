@@ -4,7 +4,7 @@
 # Either of $source or $content must be specificed when using it.
 #
 # Parameters:
-#  $zonedir:
+#  $directory:
 #    Directory where to store the zone file. Default: '/var/named'
 #  $owner:
 #    Zone file user owner. Default: 'root'
@@ -24,27 +24,43 @@
 #
 # Sample Usage :
 #  bind::server::file { 'example.com':
-#    zonedir => '/var/named/chroot/var/named',
-#    source  => 'puppet:///files/dns/example.com',
+#    directory => '/var/named/chroot/var/named',
+#    source    => 'puppet:///files/dns/example.com',
 #  }
 #
+# Sample Usage for Hiera (resources created in main bind class):
+# bind::server_files:
+#   example.com:
+#    directory: '/var/named/chroot/var/named'
+#    source:    'puppet:///files/dns/example.com'
+#
 define bind::server::file (
-  $zonedir     = '/var/named',
-  $owner       = 'root',
-  $group       = 'named',
+  $zonedir     = undef,
+  $directory   = undef,
+  $owner       = undef,
+  $group       = undef,
   $mode        = '0640',
   $source      = undef,
   $source_base = undef,
   $content     = undef,
   $ensure      = undef
 ) {
+  include bind::params
+
+  # If owner is declared with the resource use that, otherwise the defaults.
+  if $owner { $fowner = $owner } else { $fowner = $bind::params::binduser }
+  if $group { $fgroup = $group } else { $fgroup = $bind::params::bindgroup }
+
+  # Maintain compatibility with $zonedir
+  if    $zonedir   { $destdir = $zonedir }
+  elsif $directory { $destdir = $directory }
 
   if $source      { $zone_source = $source }
-  if $source_base { $zone_source = "${source_base}${title}" }
+  if $source_base { $zone_source = "${source_base}/${title}" }
 
-  file { "${zonedir}/${title}":
-    owner   => $owner,
-    group   => $group,
+  file { "${destdir}/${title}":
+    owner   => $fowner,
+    group   => $fgroup,
     mode    => $mode,
     source  => $zone_source,
     content => $content,

@@ -39,14 +39,16 @@
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
-#   Enable DNSSEC validation. Default: 'yes'
+#   Enable DNSSEC validation. Default: 'yes' (Bind 9.7+ only)
 #  $dnssec_lookaside:
-#   DNSSEC lookaside type. Default: 'auto'
+#   DNSSEC lookaside type. Default: 'auto' (Bind 9.7+ only)
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#   Use this to reference files that are managed by other modules or
+#   as bind::server::file resources.
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -69,7 +71,39 @@
 #    }
 #  }
 #
+# Sample Usage with Hiera (resource created in main bind class)
+# ---
+# bind::server_conf:
+#   /etc/named.conf:
+#     acls:
+#       rfc1918:
+#         - '10/8'
+#         - '172.16/12'
+#         - '192.168/16'
+#     masters:
+#       mymasters:
+#         - '192.0.2.1'
+#         - '198.51.100.1'
+#     zones:
+#       example.com:
+#         - 'type master'
+#         - 'file "example.com"'
+#       example.org:
+#         - 'type slave',
+#         - 'file "slaves/example.org"'
+#         - 'masters { mymasters; }'
+#     includes:
+#       - '/etc/named/named_extra.conf'
+#
+# bind::server_files:
+#   named_extra.conf:
+#     directory: '/etc/named'
+#     source:    'puppet:///modules/bind/named_extra.conf'
+#
 define bind::server::conf (
+  $owner              = undef,
+  $group              = undef,
+  $mode               = '0644',
   $acls               = {},
   $masters            = {},
   $listen_on_port     = '53',
@@ -79,9 +113,10 @@ define bind::server::conf (
   $forwarders         = [],
   $directory          = '/var/named',
   $version            = undef,
-  $dump_file          = '/var/named/data/cache_dump.db',
-  $statistics_file    = '/var/named/data/named_stats.txt',
-  $memstatistics_file = '/var/named/data/named_mem_stats.txt',
+  $stats_directory    = '/var/namd/data',
+  $dump_file          = 'cache_dump.db',
+  $statistics_file    = 'named_stats.txt',
+  $memstatistics_file = 'named_mem_stats.txt',
   $allow_query        = [ 'localhost' ],
   $allow_query_cache  = [],
   $recursion          = 'yes',
@@ -93,9 +128,17 @@ define bind::server::conf (
   $zones              = {},
   $includes           = []
 ) {
+  include bind::params
 
-  # Everything is inside a single template
+  # Honor defaults for the bind class
+  if $owner { $fowner = $owner } else { $fowner = $bind::params::binduser }
+  if $group { $fgroup = $group } else { $fgroup = $bind::params::bindgroup }
+
+  # Configuration options, at least, are inside a template
   file { $title:
+    owner   => $fowner,
+    group   => $fgroup,
+    mode    => $mode,
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }

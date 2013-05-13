@@ -1,7 +1,8 @@
 # Class: bind::service
 #
 class bind::service (
-  $servicename = $bind::params::servicename
+  $servicename = $bind::params::servicename,
+  $restartcmd  = $bind::params::restartcmd
 ) inherits bind::params {
 
   service { $servicename :
@@ -9,7 +10,7 @@ class bind::service (
     hasstatus => true,
     enable    => true,
     ensure    => running,
-    restart   => "service ${servicename} reload"
+    restart   => $restartcmd
   }
 
 }

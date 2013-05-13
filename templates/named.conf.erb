@@ -38,13 +38,13 @@ options {
     version "<%= @version %>";
 <% end -%>
 <% if @dump_file -%>
-    dump-file "<%= @dump_file %>";
+    dump-file "<%= @stats_directory %>/<%= @dump_file %>";
 <% end -%>
 <% if @statistics_file -%>
-    statistics-file "<%= @statistics_file %>";
+    statistics-file "<%= @stats_directory %>/<%= @statistics_file %>";
 <% end -%>
 <% if @memstatistics_file -%>
-    memstatistics-file "<%= @memstatistics_file %>";
+    memstatistics-file "<%= @stats_directory %>/<%= @memstatistics_file %>";
 <% end -%>
 <% if !@allow_query.empty? -%>
     allow-query { <%= @allow_query.join("; ") %>; };
@@ -61,11 +61,14 @@ options {
 <% end -%>
 
     dnssec-enable <%= @dnssec_enable %>;
+
+/*  Bind 9.7+ only
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
 
-    /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    // Path to ISC DLV key
+    bindkeys-file "<%= @directory %>/named.iscdlv.key";
+*/
 };
 
 logging {
@@ -84,11 +87,6 @@ logging {
     };
 };
 
-zone "." IN {
-    type hint;
-    file "named.ca";
-};
-
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
 zone "<%= key %>" IN {
@@ -99,7 +97,6 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-include "/etc/named.rfc1912.zones";
 <% if !@includes.empty? -%>
 <% @includes.each do |filename| -%>
 include "<%= filename %>";
