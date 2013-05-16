@@ -36,6 +36,8 @@
 #   Array of IP addrs or ACLs to allow recursion from. Default: empty
 #  $allow_transfer:
 #   Array of IP addrs or ACLs to allow transfer to. Default: empty
+#  $check_names:
+#   Array of check-names strings. Example: [ 'master ignore' ]. Default: empty
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
@@ -87,6 +89,7 @@ define bind::server::conf (
   $recursion          = 'yes',
   $allow_recursion    = [],
   $allow_transfer     = [],
+  $check_names        = [],
   $dnssec_enable      = 'yes',
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',
