@@ -104,7 +104,9 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-include "/etc/named.rfc1912.zones";
+<% if @rfc1912_file -%>
+include "<%= @rfc1912_file %>";
+<% end -%>
 <% if !@includes.empty? -%>
 <% @includes.each do |filename| -%>
 include "<%= filename %>";

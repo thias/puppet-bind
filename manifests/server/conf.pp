@@ -81,6 +81,7 @@ define bind::server::conf (
   $forwarders         = [],
   $directory          = '/var/named',
   $version            = undef,
+  $rfc1912_file       = $bind::params::rfc1912_file,
   $dump_file          = '/var/named/data/cache_dump.db',
   $statistics_file    = '/var/named/data/named_stats.txt',
   $memstatistics_file = '/var/named/data/named_mem_stats.txt',
