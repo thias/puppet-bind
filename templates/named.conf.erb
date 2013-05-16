@@ -59,6 +59,11 @@ options {
 <% if !@allow_transfer.empty? -%>
     allow-transfer { <%= @allow_transfer.join("; ") %>; };
 <% end -%>
+<% if !@check_names.empty? -%>
+<% @check_names.each do |line| -%>
+    check-names "<%= line %>";
+<% end -%>
+<% end -%>
 
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
