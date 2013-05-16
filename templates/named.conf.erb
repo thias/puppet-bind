@@ -61,7 +61,7 @@ options {
 <% end -%>
 <% if !@check_names.empty? -%>
 <% @check_names.each do |line| -%>
-    check-names "<%= line %>";
+    check-names <%= line %>;
 <% end -%>
 <% end -%>
 
