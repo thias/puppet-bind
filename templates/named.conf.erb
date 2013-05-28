@@ -59,16 +59,22 @@ options {
 <% if !@allow_transfer.empty? -%>
     allow-transfer { <%= @allow_transfer.join("; ") %>; };
 <% end -%>
+<% if !@transfers_in.empty? -%>
+    transfers-in <%= @transfers_in %>;
+<% end -%>
+<% if !@transfers_out.empty? -%>
+    transfers-out <%= @transfers_out %>;
+<% end -%>
 
     dnssec-enable <%= @dnssec_enable %>;
 
-/*  Bind 9.7+ only
+    //  Bind 9.7+ only
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
 
     // Path to ISC DLV key
     bindkeys-file "<%= @directory %>/named.iscdlv.key";
-*/
+
 };
 
 logging {

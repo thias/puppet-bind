@@ -122,6 +122,8 @@ define bind::server::conf (
   $recursion          = 'yes',
   $allow_recursion    = [],
   $allow_transfer     = [],
+  $transfers_in       = '10',
+  $transfers_out      = '10',
   $dnssec_enable      = 'yes',
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',
