@@ -22,12 +22,12 @@
 #  $version:
 #   Version string override text. Default: none
 #  $dump_file:
-#   Dump file for the server. Default: '/var/named/data/cache_dump.db'
+#   Dump file for the server. Default: '/var/named/data/cache_dump'
 #  $statistics_file:
-#   Statistics file for the server. Default: '/var/named/data/named_stats.txt'
+#   Statistics file for the server. Default: '/var/named/data/named_stats'
 #  $memstatistics_file:
 #   Memory statistics file for the server.
-#   Default: '/var/named/data/named_mem_stats.txt'
+#   Default: '/var/named/data/named_mem_stats'
 #  $allow_query:
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
@@ -39,9 +39,11 @@
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
-#   Enable DNSSEC validation. Default: 'yes' (Bind 9.7+ only)
+#   Enable DNSSEC validation. Default: 'auto' (Bind 9.7+ only)
 #  $dnssec_lookaside:
 #   DNSSEC lookaside type. Default: 'auto' (Bind 9.7+ only)
+#   Manually specify a DLV key file to silence warnings.
+#   [ https://www.isc.org/downloads/bind/dlv/ ]
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
@@ -113,10 +115,12 @@ define bind::server::conf (
   $forwarders         = [],
   $directory          = '/var/named',
   $version            = undef,
-  $stats_directory    = '/var/namd/data',
-  $dump_file          = 'cache_dump.db',
-  $statistics_file    = 'named_stats.txt',
-  $memstatistics_file = 'named_mem_stats.txt',
+  $empty_zones_enable = undef,
+  $zone_statistics    = 'no',
+  $stats_directory    = '/var/named/data',
+  $dump_file          = 'cache_dump',
+  $statistics_file    = 'named_stats',
+  $memstatistics_file = 'named_mem_stats',
   $allow_query        = [ 'localhost' ],
   $allow_query_cache  = [],
   $recursion          = 'yes',
@@ -125,8 +129,8 @@ define bind::server::conf (
   $transfers_in       = '10',
   $transfers_out      = '10',
   $dnssec_enable      = 'yes',
-  $dnssec_validation  = 'yes',
-  $dnssec_lookaside   = 'auto',
+  $dnssec_validation  = undef,
+  $dnssec_lookaside   = undef,
   $zones              = {},
   $includes           = []
 ) {
