@@ -116,6 +116,7 @@ view "<%= key %>" {
 <% end -%>
 <% end -%>
 <% if value['zones'] and !value['zones'].empty? -%>
+    /* View specific zones */
 <% value['zones'].sort_by {|key, value| key}.each do |key,value| -%>
     zone "<%= key %>" IN {
 <% value.each do |line| -%>
@@ -123,6 +124,17 @@ view "<%= key %>" {
 <% end -%>
     };
 
+<% end -%>
+<% if !@zones.empty? -%>
+    /* Global zones */
+<% @zones.sort_by {|key, value| key}.each do |key,value| -%>
+    zone "<%= key %>" IN {
+<% value.each do |line| -%>
+        <%= line %>;
+<% end -%>
+    };
+
+<% end -%>
 <% end -%>
 <% end -%>
 };
