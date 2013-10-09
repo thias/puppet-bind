@@ -91,24 +91,24 @@ logging {
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
-view "<%=key%>" {
+view "<%= key %>" {
 <% if value['forwarders'] and !value['forwarders'].empty? -%>
-  forwarders { <%=value['forwarders'].join('; ')%>; };
+  forwarders { <%= value['forwarders'].join('; ') %>; };
 <% end -%>
 <% if value['match-clients'] and !value['match-clients'].empty? -%>
-  match-clients { <%=value['match-clients'].join('; ')%>; };
+  match-clients { <%= value['match-clients'].join('; ') %>; };
 <% end -%>
 <% if value['match-destinations'] and !value['match-destinations'].empty? -%>
-  match-destinations { <%=value['match-destinations'].join('; ')%>; };
+  match-destinations { <%= value['match-destinations'].join('; ') %>; };
 <% end -%>
 <% if value['allow-query'] and !value['allow-query'].empty? -%>
-  allow-query { <%=value['allow-query'].join('; ')%>; };
+  allow-query { <%= value['allow-query'].join('; ') %>; };
 <% end -%>
 <% if value['allow-recursion'] and !value['allow-recursion'].empty? -%>
-  allow-recursion { <%=value['allow-recursion'].join('; ')%>; };
+  allow-recursion { <%= value['allow-recursion'].join('; ') %>; };
 <% end -%>
 <% if value['allow-transfer'] and !value['allow-transfer'].empty? -%>
-  allow-transfer { <%=value['allow-transfer'].join('; ')%>; };
+  allow-transfer { <%= value['allow-transfer'].join('; ') %>; };
 <% end -%>
 <% if value['includes'] and !value['includes'].empty? -%>
 <% value['includes'].each do |filename| -%>
