@@ -1,3 +1,5 @@
+* Add support for zones (thanks to Sean Edge).
+
 2013-07-17 - 0.4.0
 * Merge changes by Sebastian Cole.
 * Move parameters into a new bind::params class.
