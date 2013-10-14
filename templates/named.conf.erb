@@ -95,7 +95,7 @@ logging {
 view "<%= key %>" {
 <% valid_keys.sort.each do |valid_key| -%>
 <% if value[valid_key] and !value[valid_key].empty? -%>
-    <%=valid_key%> { <%= value[valid_key].join('; ') %>; };
+    <%= valid_key %> { <%= value[valid_key].join('; ') %>; };
 <% end -%>
 <% end -%>
 <% if value['includes'] and !value['includes'].empty? -%>
