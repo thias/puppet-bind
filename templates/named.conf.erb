@@ -88,6 +88,46 @@ logging {
         null;
     };
 };
+<% if !@views.empty? -%>
+
+<% @views.sort_by {|key,value| key}.each do |key,value| -%>
+<% valid_keys = %w(allow-notify allow-query allow-recursion allow-transfer allow-update-forwarding forwarders match-clients match-destinations match-recursive-only) -%>
+view "<%= key %>" {
+<% valid_keys.sort.each do |valid_key| -%>
+<% if value[valid_key] and !value[valid_key].empty? -%>
+    <%=valid_key%> { <%= value[valid_key].join('; ') %>; };
+<% end -%>
+<% end -%>
+<% if value['includes'] and !value['includes'].empty? -%>
+<% value['includes'].each do |filename| -%>
+    include "<%= filename %>";
+<% end -%>
+<% end -%>
+<% if value['zones'] and !value['zones'].empty? -%>
+    /* View specific zones */
+<% value['zones'].sort_by {|key, value| key}.each do |key,value| -%>
+    zone "<%= key %>" IN {
+<% value.each do |line| -%>
+        <%= line %>;
+<% end -%>
+    };
+
+<% end -%>
+<% if !@zones.empty? -%>
+    /* Global zones */
+<% @zones.sort_by {|key, value| key}.each do |key,value| -%>
+    zone "<%= key %>" IN {
+<% value.each do |line| -%>
+        <%= line %>;
+<% end -%>
+    };
+
+<% end -%>
+<% end -%>
+<% end -%>
+};
+<% end -%>
+<% else -%><%# end views, start no views -%>
 
 zone "." IN {
     type hint;
@@ -105,6 +145,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 include "/etc/named.rfc1912.zones";
+<% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
 <% @includes.each do |filename| -%>
 include "<%= filename %>";

@@ -94,7 +94,8 @@ define bind::server::conf (
   $dnssec_validation  = 'yes',
   $dnssec_lookaside   = 'auto',
   $zones              = {},
-  $includes           = []
+  $includes           = [],
+  $views              = {},
 ) {
 
   # Everything is inside a single template
