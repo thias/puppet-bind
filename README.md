@@ -60,6 +60,7 @@ Then if all source files are in the same location and named after the zone :
 bind::server::file { [ 'myzone.lan', '1.168.192.in-addr.arpa' ]:
   source_base => 'puppet:///modules/mymodule/dns/',
 }
+```
 
 For RHEL5, you might want to use the newest possible bind packages :
 
@@ -75,7 +76,7 @@ you want :
 class { '::bind': chroot => true }
 bind::server::conf { '/etc/named.conf':
   # [... same as before ...]
-},
+}
 bind::server::file { 'myzone.lan':
   zonedir => '/var/named/chroot/var/named',
   source  => 'puppet:///files/dns/myzone.lan',
