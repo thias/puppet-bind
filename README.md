@@ -65,9 +65,9 @@ bind::server::file { [ 'myzone.lan', '1.168.192.in-addr.arpa' ]:
 For RHEL5, you might want to use the newest possible bind packages 
 (otherwise if you're using `bind-chroot`, you'll need to check
 whether the zone files need to be placed inside the chroot, e.g.
-`/var/named/chroot/var/named`. Doing so unconditionally will break
-the newest versions of bind if zones are deployed before `named`
-is started for the first time):
+`/var/named/chroot/var/named`. Doing this unconditionally will break
+the newest versions of BIND if zone files are deployed before `named`
+is started for the first time, so be careful):
 
 ```puppet
 class { '::bind': packagenameprefix => 'bind97' }
