@@ -78,7 +78,7 @@ bind::server::conf { '/etc/named.conf':
   # [... same as before ...]
 }
 bind::server::file { 'myzone.lan':
-  zonedir => '/var/named/chroot/var/named',
+  zonedir => '/var/named',
   source  => 'puppet:///files/dns/myzone.lan',
 }
 ```
@@ -86,7 +86,7 @@ bind::server::file { 'myzone.lan':
 To avoid repeating the `zonedir` parameter each time, you can also use :
 
 ```puppet
-Bind::Server::File { zonedir => '/var/named/chroot/var/named' }
+Bind::Server::File { zonedir => '/nfs/zones' }
 ```
 
 The module also supports views, where the main `zones` will be included in all
