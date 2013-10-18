@@ -62,7 +62,12 @@ bind::server::file { [ 'myzone.lan', '1.168.192.in-addr.arpa' ]:
 }
 ```
 
-For RHEL5, you might want to use the newest possible bind packages :
+For RHEL5, you might want to use the newest possible bind packages 
+(otherwise if you're using `bind-chroot`, you'll need to check
+whether the zone files need to be placed inside the chroot, e.g.
+`/var/named/chroot/var/named`. Doing this unconditionally will break
+the newest versions of BIND if zone files are deployed before `named`
+is started for the first time, so be careful):
 
 ```puppet
 class { '::bind': packagenameprefix => 'bind97' }
@@ -78,7 +83,7 @@ bind::server::conf { '/etc/named.conf':
   # [... same as before ...]
 }
 bind::server::file { 'myzone.lan':
-  zonedir => '/var/named/chroot/var/named',
+  zonedir => '/var/named',
   source  => 'puppet:///files/dns/myzone.lan',
 }
 ```
@@ -86,7 +91,7 @@ bind::server::file { 'myzone.lan':
 To avoid repeating the `zonedir` parameter each time, you can also use :
 
 ```puppet
-Bind::Server::File { zonedir => '/var/named/chroot/var/named' }
+Bind::Server::File { zonedir => '/nfs/zones' }
 ```
 
 The module also supports views, where the main `zones` will be included in all

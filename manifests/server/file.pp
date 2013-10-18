@@ -24,7 +24,7 @@
 #
 # Sample Usage :
 #  bind::server::file { 'example.com':
-#    zonedir => '/var/named/chroot/var/named',
+#    zonedir => '/var/named',
 #    source  => 'puppet:///files/dns/example.com',
 #  }
 #
