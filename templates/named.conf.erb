@@ -34,6 +34,7 @@ options {
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
     directory "<%= @directory %>";
+    managed-keys-directory "<%= @managed_keys_directory %>";
 <% if @version -%>
     version "<%= @version %>";
 <% end -%>
