@@ -1,3 +1,4 @@
+2013-11-26 - 0.4.2
 * Add support for managed-keys-directory (#19, Sean Edge).
 * Add support for full service restart instead of reload (#19, Sean Edge).
 
