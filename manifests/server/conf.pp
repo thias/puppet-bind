@@ -79,6 +79,7 @@
 #  }
 #
 define bind::server::conf (
+  $config_template        = 'bind/named.conf.erb',
   $acls                   = {},
   $masters                = {},
   $listen_on_port         = '53',
@@ -112,7 +113,7 @@ define bind::server::conf (
   # Everything is inside a single template
   file { $title:
     notify  => Class['bind::service'],
-    content => template('bind/named.conf.erb'),
+    content => template($config_template),
   }
 
 }
