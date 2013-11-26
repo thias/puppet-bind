@@ -1,9 +1,15 @@
 # Class: bind::service
 #
 class bind::service (
-  $servicename = $bind::params::servicename,
+  $servicename    = $::bind::params::servicename,
   $service_reload = true,
-) inherits bind::params {
+) inherits ::bind::params {
+
+  if $service_reload {
+    Service[$servicename] {
+      restart => "service ${servicename} reload",
+    }
+  }
 
   service { $servicename :
     require   => Class['bind::package'],
@@ -12,7 +18,4 @@ class bind::service (
     ensure    => running,
   }
   
-  if($service_reload) {
-    Service[$servicename] { restart   => "service ${servicename} reload" }
-  }
 }

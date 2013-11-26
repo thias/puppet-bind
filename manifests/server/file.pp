@@ -36,7 +36,7 @@ define bind::server::file (
   $source      = undef,
   $source_base = undef,
   $content     = undef,
-  $ensure      = undef
+  $ensure      = undef,
 ) {
 
   if $source      { $zone_source = $source }

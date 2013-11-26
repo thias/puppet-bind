@@ -18,8 +18,8 @@
 class bind (
   $chroot            = false,
   $service_reload    = true,
-  $packagenameprefix = $bind::params::packagenameprefix
-) inherits bind::params {
+  $packagenameprefix = $::bind::params::packagenameprefix,
+) inherits ::bind::params {
 
   # Main package and service
   $packagenamesuffix = $chroot ? {
@@ -31,8 +31,8 @@ class bind (
     packagenamesuffix => $packagenamesuffix,
   }
   class { 'bind::service':
-    servicename     => $servicename,
-    service_reload  => $service_reload,
+    servicename    => $servicename,
+    service_reload => $service_reload,
   }
 
   # We want a nice log file which the package doesn't provide a location for
@@ -43,8 +43,8 @@ class bind (
   file { $bindlogdir:
     require => Class['bind::package'],
     ensure  => directory,
-    owner   => $bind::params::binduser,
-    group   => $bind::params::bindgroup,
+    owner   => $::bind::params::binduser,
+    group   => $::bind::params::bindgroup,
     mode    => '0770',
     seltype => 'var_log_t',
     before  => Class['bind::service'],

@@ -1,3 +1,6 @@
+* Add support for managed-keys-directory (#19, Sean Edge).
+* Add support for full service restart instead of reload (#19, Sean Edge).
+
 2013-10-15 - 0.4.1
 * Add support for views (thanks to Sean Edge).
 
