@@ -2,17 +2,14 @@
 #
 class bind::params {
 
-  case $::operatingsystem {
-    'RedHat',
-    'CentOS',
-    'Amazon': {
+  case $::osfamily {
+    'RedHat': {
       $packagenameprefix = 'bind'
       $servicename       = 'named'
       $binduser          = 'root'
       $bindgroup         = 'named'
     }
-    'Debian',
-    'Ubuntu': {
+    'Debian': {
       $packagenameprefix = 'bind9'
       $servicename       = 'bind9'
       $binduser          = 'bind'
