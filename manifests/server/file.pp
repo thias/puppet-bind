@@ -29,15 +29,16 @@
 #  }
 #
 define bind::server::file (
-  $zonedir     = '/var/named',
-  $owner       = 'root',
-  $group       = undef,
-  $mode        = '0640',
-  $dirmode     = '0750',
-  $source      = undef,
-  $source_base = undef,
-  $content     = undef,
-  $ensure      = undef,
+  $zonedir      = '/var/named',
+  $owner        = 'root',
+  $group        = undef,
+  $mode         = '0640',
+  $dirmode      = '0750',
+  $source       = undef,
+  $source_base  = undef,
+  $content      = undef,
+  $content_base = undef,
+  $ensure       = undef,
 ) {
 
   include '::bind::params'
@@ -60,13 +61,16 @@ define bind::server::file (
     }
   }
 
+  if $content_base { $zone_content = template("${content_base}${title}") }
+  elsif $content   { $zone_content = $content }
+
   file { "${zonedir}/${title}":
     ensure  => $ensure,
     owner   => $owner,
     group   => $bindgroup,
     mode    => $mode,
     source  => $zone_source,
-    content => $content,
+    content => $zone_content,
     notify  => Class['::bind::service'],
     # For the parent directory
     require => [
