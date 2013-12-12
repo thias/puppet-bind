@@ -82,7 +82,7 @@ options {
 
 logging {
     channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
+        file "/var/log/named/named.log" versions 5 size 100M;
         severity info;
         print-time yes;
         print-severity yes;

@@ -39,11 +39,12 @@ class bind (
     true  => '-chroot',
     false => '',
   }
+
   class { 'bind::package':
     packagenameprefix => $packagenameprefix,
     packagenamesuffix => $packagenamesuffix,
-  }
-  include bind::service
+  } ~>
+  class { '::bind::service': }
 
   # We want a nice log file which the package doesn't provide a location for
   $bindlogdir = $chroot ? {
