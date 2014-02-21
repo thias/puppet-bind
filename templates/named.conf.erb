@@ -67,7 +67,10 @@ options {
     check-names <%= line %>;
 <% end -%>
 <% end -%>
-
+<% if @server_id -%>
+    server-id "<% @server_id.each_byte do |byte| -%><%= byte.to_s(base=16) %><% end -%>";
+<% end -%>
+    hostname <%= @hostname %>;
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
@@ -131,11 +134,13 @@ view "<%= key %>" {
 };
 <% end -%>
 <% else -%><%# end views, start no views -%>
-
+<%- if recursion == 'yes' -%>
 zone "." IN {
     type hint;
     file "named.ca";
 };
+<%- end -%>
+
 
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
@@ -147,7 +152,9 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
+<%- if recursion == 'yes' -%>
 include "/etc/named.rfc1912.zones";
+<%- end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
 <% @includes.each do |filename| -%>
