@@ -68,6 +68,12 @@ options {
 <% end -%>
 <% end -%>
 
+<% if !@extra_options.empty? -%>
+<% @extra_options.sort.each do |key,value| -%>
+    <%= key %> <%= value %>;
+<% end -%>
+<% end -%>
+
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
