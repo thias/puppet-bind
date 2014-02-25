@@ -69,7 +69,7 @@ options {
 <% end -%>
 
 <% if !@extra_options.empty? -%>
-<% @extra_options.sort.each do |key,value| -%>
+<% @extra_options.sort_by {|key, value| key}.each do |key,value| -%>
     <%= key %> <%= value %>;
 <% end -%>
 <% end -%>
