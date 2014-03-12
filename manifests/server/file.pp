@@ -42,6 +42,14 @@ define bind::server::file (
   if $source      { $zone_source = $source }
   if $source_base { $zone_source = "${source_base}${title}" }
 
+  if ! defined(File[$zonedir]) {
+    file { $zonedir:
+      ensure => directory,
+      owner  => $owner,
+      group  => $group,
+    }
+  }
+
   file { "${zonedir}/${title}":
     owner   => $owner,
     group   => $group,
@@ -51,7 +59,11 @@ define bind::server::file (
     ensure  => $ensure,
     notify  => Class['bind::service'],
     # For the parent directory
-    require => Class['bind::package'],
+    require => [
+      Class['bind::package'],
+      File[$zonedir],
+      ]
+
   }
 
 }
