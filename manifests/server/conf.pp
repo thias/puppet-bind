@@ -97,7 +97,7 @@ define bind::server::conf (
   $zones                  = {},
   $includes               = [],
   $views                  = {},
-  $rfc1918                = '',
+  $rfc1918                = undef,
 ) {
 
   # Everything is inside a single template
