@@ -147,8 +147,8 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-<% if @rfc1918? -%>
-include "<%= @directory/@rfc1918 -%>";
+<% if @rfc1918 -%>
+include "<%= @directory -%>/<%= @rfc1918 -%>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
