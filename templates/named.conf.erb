@@ -70,7 +70,7 @@ options {
 <% if @server_id -%>
     server-id "<% @server_id.each_byte do |byte| -%><%= byte.to_s(base=16) %><% end -%>";
 <% end -%>
-    hostname <%= @hostname %>;
+    hostname "<%= @hostname %>";
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
