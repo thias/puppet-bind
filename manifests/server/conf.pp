@@ -44,6 +44,13 @@
 #   Enable DNSSEC validation. Default: 'yes'
 #  $dnssec_lookaside:
 #   DNSSEC lookaside type. Default: 'auto'
+#  $hostname
+#   The host-name (a quotes string) the server should report via a query of the
+#   name hostname.bind with type TXT, class CHAOS.  Specifying none disables.
+#   Defaut: None
+#  $server_id
+#   The ID the server will return via a query for ID.SERVER with type TXT,
+#   under class CH (CHAOS). Default: empty
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
@@ -94,16 +101,20 @@ define bind::server::conf (
   $dnssec_enable          = 'yes',
   $dnssec_validation      = 'yes',
   $dnssec_lookaside       = 'auto',
+  $hostname               = 'none',
+  $server_id              = undef,
   $zones                  = {},
   $includes               = [],
   $views                  = {},
 ) {
 
   # Everything is inside a single template
+  file { $directory:
+      ensure => directory,
+  }
   file { $title:
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
-
 }
 
