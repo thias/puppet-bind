@@ -31,13 +31,21 @@
 define bind::server::file (
   $zonedir     = '/var/named',
   $owner       = 'root',
-  $group       = 'named',
+  $group       = undef,
   $mode        = '0640',
   $source      = undef,
   $source_base = undef,
   $content     = undef,
   $ensure      = undef,
 ) {
+
+  if $group == undef {
+    $bindgroup = $bind::params::bindgroup
+  }
+  else {
+    $bindgroup = $group
+  }
+
 
   if $source      { $zone_source = $source }
   if $source_base { $zone_source = "${source_base}${title}" }
@@ -46,13 +54,13 @@ define bind::server::file (
     file { $zonedir:
       ensure => directory,
       owner  => $owner,
-      group  => $group,
+      group  => $bindgroup,
     }
   }
 
   file { "${zonedir}/${title}":
     owner   => $owner,
-    group   => $group,
+    group   => $bindgroup,
     mode    => $mode,
     source  => $zone_source,
     content => $content,
