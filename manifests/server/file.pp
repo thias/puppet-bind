@@ -31,27 +31,48 @@
 define bind::server::file (
   $zonedir     = '/var/named',
   $owner       = 'root',
-  $group       = 'named',
+  $group       = undef,
   $mode        = '0640',
+  $dirmode     = '0750',
   $source      = undef,
   $source_base = undef,
   $content     = undef,
   $ensure      = undef,
 ) {
 
+  include '::bind::params'
+
+  if $group {
+    $bindgroup = $group
+  } else {
+    $bindgroup = $::bind::params::bindgroup
+  }
+
   if $source      { $zone_source = $source }
   if $source_base { $zone_source = "${source_base}${title}" }
 
+  if ! defined(File[$zonedir]) {
+    file { $zonedir:
+      ensure => directory,
+      owner  => $owner,
+      group  => $bindgroup,
+      mode   => $dirmode,
+    }
+  }
+
   file { "${zonedir}/${title}":
+    ensure  => $ensure,
     owner   => $owner,
-    group   => $group,
+    group   => $bindgroup,
     mode    => $mode,
     source  => $zone_source,
     content => $content,
-    ensure  => $ensure,
-    notify  => Class['bind::service'],
+    notify  => Class['::bind::service'],
     # For the parent directory
-    require => Class['bind::package'],
+    require => [
+      Class['::bind::package'],
+      File[$zonedir],
+    ],
   }
 
 }
