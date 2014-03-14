@@ -72,8 +72,8 @@ options {
 <% @extra_options.sort_by {|key, value| key}.each do |key,value| -%>
     <%= key %> <%= value %>;
 <% end -%>
-<% end -%>
 
+<% end -%>
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;

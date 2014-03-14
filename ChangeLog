@@ -1,4 +1,5 @@
 * Manage zonedir from server::file, for parent directory (#23, Dougal Scott).
+* Add support for extra_options (#22, Joseph Swick).
 
 2013-11-26 - 0.4.2
 * Add support for managed-keys-directory (#19, Sean Edge).
