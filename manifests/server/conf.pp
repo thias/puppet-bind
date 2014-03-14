@@ -19,6 +19,11 @@
 #   Array of forwarders IP addresses. Default: empty
 #  $directory:
 #   Base directory for the BIND server. Default: '/var/named'
+#  $hostname:
+#   Hostname returned for hostname.bind TXT in CHAOS. Set to 'none' to disable.
+#   Default: undef, bind internal default
+#  $server_id:
+#   ID returned for id.server TXT in CHAOS. Default: undef, empty
 #  $version:
 #   Version string override text. Default: none
 #  $dump_file:
@@ -83,6 +88,8 @@ define bind::server::conf (
   $forwarders             = [],
   $directory              = '/var/named',
   $managed_keys_directory = undef,
+  $hostname               = undef,
+  $server_id              = undef,
   $version                = undef,
   $dump_file              = '/var/named/data/cache_dump.db',
   $statistics_file        = '/var/named/data/named_stats.txt',

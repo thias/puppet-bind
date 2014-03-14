@@ -37,6 +37,12 @@ options {
 <% if @managed_keys_directory -%>
     managed-keys-directory "<%= @managed_keys_directory %>";
 <% end -%>
+<% if @hostname -%>
+    hostname "<%= @hostname %>";
+<% end -%>
+<% if @server_id -%>
+    server-id "<% @server_id.each_byte do |byte| -%><%= byte.to_s(base=16) %><% end -%>";
+<% end -%>
 <% if @version -%>
     version "<%= @version %>";
 <% end -%>
@@ -138,11 +144,13 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
+<% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;
     file "named.ca";
 };
 
+<% end -%>
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
 zone "<%= key %>" IN {
@@ -153,7 +161,9 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
+<% if @recursion == 'yes' -%>
 include "/etc/named.rfc1912.zones";
+<% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
 <% @includes.each do |filename| -%>

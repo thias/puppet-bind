@@ -1,5 +1,7 @@
 * Manage zonedir from server::file, for parent directory (#23, Dougal Scott).
 * Add support for extra_options (#22, Joseph Swick).
+* Add support for $hostname, $server_id (#21, @b4ldr).
+* Disable root hint and rfc1912 zones when not recursive (#21, @b4ldr).
 
 2013-11-26 - 0.4.2
 * Add support for managed-keys-directory (#19, Sean Edge).
