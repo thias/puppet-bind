@@ -1,3 +1,4 @@
+2014-03-14 - 0.5.0
 * Manage zonedir from server::file, for parent directory (#23, Dougal Scott).
 * Add support for extra_options (#22, Joseph Swick).
 * Add support for $hostname, $server_id (#21, @b4ldr).

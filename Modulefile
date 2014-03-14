@@ -1,5 +1,5 @@
 name 'thias-bind'
-version '0.4.2'
+version '0.5.0'
 source 'git://github.com/thias/puppet-bind'
 author 'Matthias Saou'
 license 'Apache 2.0'
