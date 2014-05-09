@@ -15,6 +15,12 @@ class bind::params {
       $binduser          = 'bind'
       $bindgroup         = 'bind'
     }
+    'Freebsd': {
+      $packagenameprefix = 'bind910'
+      $servicename       = 'named'
+      $binduser          = 'bind'
+      $bindgroup         = 'bind'
+    }
     default: {
       $packagenameprefix = 'bind'
       $servicename       = 'named'
