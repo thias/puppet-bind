@@ -1,3 +1,6 @@
+2014-05-12 - 0.5.1
+* Add FreeBSD support (#26, @fessoga5).
+
 2014-03-14 - 0.5.0
 * Manage zonedir from server::file, for parent directory (#23, Dougal Scott).
 * Add support for extra_options (#22, Joseph Swick).
