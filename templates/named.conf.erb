@@ -162,7 +162,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "${conf_directory}/named.rfc1912.zones";
+include "<%=@conf_directory %>/named.rfc1912.zones";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
