@@ -89,6 +89,7 @@ define bind::server::conf (
   $directory              = '/var/named',
   $conf_directory         = '/etc',
   $data_directory         = "${directory}",
+  $root_hints_file        = "named.ca",
   $managed_keys_directory = undef,
   $hostname               = undef,
   $server_id              = undef,

@@ -147,7 +147,7 @@ view "<%= key %>" {
 <% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;
-    file "named.ca";
+    file "<%=@root_hints_file %>";
 };
 
 <% end -%>
