@@ -90,6 +90,7 @@ define bind::server::conf (
   $conf_directory         = '/etc',
   $data_directory         = "${directory}",
   $root_hints_file        = "named.ca",
+  $rfc1912_zone_file      = "named.rfc1912.zones",
   $managed_keys_directory = undef,
   $hostname               = undef,
   $server_id              = undef,
