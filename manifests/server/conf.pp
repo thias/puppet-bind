@@ -114,6 +114,21 @@ define bind::server::conf (
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
-
+  #set the Debian system apparmor to inclus the working directory
+  case $::osfamily {
+    'Debian': {
+       file { '/etc/apparmor.d/usr.sbin.named':
+         ensure =>   present,
+         owner   => 'root',
+         group   => 'root',
+         mode    => '0644',
+         content => template('bind/usr.sbin.named.erb'),
+         notify  => Exec['refresh_apparmor'];
+       }
+       exec { 'refresh_apparmor':
+         command => '/usr/sbin/invoke-rc.d apparmor reload',
+         refreshonly => true;
+       }
+     }
+  }
 }
-
