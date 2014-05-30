@@ -103,6 +103,16 @@ logging {
         null;
     };
 };
+<% if !@keys.empty? -%>
+<% @keys.sort_by {|key, value| key}.each do |key,value| -%>
+key "<%= key %>" {
+<% value.each do |line| -%>
+    <%= line %>;
+<% end -%>
+};
+
+<% end -%>
+<% end -%>
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
