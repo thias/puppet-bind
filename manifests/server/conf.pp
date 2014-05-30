@@ -56,6 +56,9 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $keyss:
+#   Hash of managed dns keys for update
+#   and the value is an array of config lines. Default: empty
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -65,6 +68,17 @@
 #    masters => {
 #      'mymasters' => [ '192.0.2.1', '198.51.100.1' ],
 #    },
+#    zones => {
+#      'example' => [
+#        'algorithm HMAC-MD5.SIG-ALG.REG.INT',
+#        'secret "asdasddsaasd/dsa=="',
+#      ],
+#      'example.org' => [
+#        'type slave',
+#        'file "slaves/example.org"',
+#        'masters { mymasters; }',
+#      ],
+#    }
 #    zones => {
 #      'example.com' => [
 #        'type master',
@@ -105,6 +119,7 @@ define bind::server::conf (
   $dnssec_validation      = 'yes',
   $dnssec_lookaside       = 'auto',
   $zones                  = {},
+  $keys                   = {},
   $includes               = [],
   $views                  = {},
 ) {
@@ -117,18 +132,18 @@ define bind::server::conf (
   #set the Debian system apparmor to inclus the working directory
   case $::osfamily {
     'Debian': {
-       file { '/etc/apparmor.d/usr.sbin.named':
-         ensure =>   present,
-         owner   => 'root',
-         group   => 'root',
-         mode    => '0644',
-         content => template('bind/usr.sbin.named.erb'),
-         notify  => Exec['refresh_apparmor'];
-       }
-       exec { 'refresh_apparmor':
-         command => '/usr/sbin/invoke-rc.d apparmor reload',
-         refreshonly => true;
-       }
-     }
+      file { '/etc/apparmor.d/usr.sbin.named':
+        ensure =>   present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
+        content => template('bind/usr.sbin.named.erb'),
+        notify  => Exec['refresh_apparmor'];
+      }
+      exec { 'refresh_apparmor':
+        command => '/usr/sbin/invoke-rc.d apparmor reload',
+        refreshonly => true;
+      }
+    }
   }
 }
