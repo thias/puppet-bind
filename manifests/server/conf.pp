@@ -56,6 +56,8 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#   on Debian systems,  consider adding the 1918 zones here, if they are not used in your
+#   organisation. (/etc/bind/zones.rfc1918)
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -86,14 +88,14 @@ define bind::server::conf (
   $listen_on_v6_port      = '53',
   $listen_on_v6_addr      = [ '::1' ],
   $forwarders             = [],
-  $directory              = '/var/named',
+  $directory              = $::bind::params::directory,
   $managed_keys_directory = undef,
   $hostname               = undef,
   $server_id              = undef,
   $version                = undef,
-  $dump_file              = '/var/named/data/cache_dump.db',
-  $statistics_file        = '/var/named/data/named_stats.txt',
-  $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
+  $dump_file              = $::bind::params::dump_file,
+  $statistics_file        = $::bind::params::statistics_file,
+  $memstatistics_file     = $::bind::params::memstatistics_file,
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
   $recursion              = 'yes',
@@ -108,11 +110,17 @@ define bind::server::conf (
   $includes               = [],
   $views                  = {},
 ) {
+  
+  # set distribution specific variables that are used in the template
+  $hintsfile = $::bind::params::hintsfile
+  $rfc1912zones = $::bind::params::rfc1912zones
+  $bindkeysfile = $::bind::params::bindkeysfile
 
   # Everything is inside a single template
   file { $title:
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
+    require => Class['bind::package'],
   }
 
 }
