@@ -101,6 +101,7 @@ define bind::server::conf (
   $allow_transfer         = [],
   $check_names            = [],
   $extra_options          = {},
+  $notify                 = 'yes',
   $dnssec_enable          = 'yes',
   $dnssec_validation      = 'yes',
   $dnssec_lookaside       = 'auto',

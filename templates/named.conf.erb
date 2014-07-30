@@ -68,6 +68,7 @@ options {
 <% if !@allow_transfer.empty? -%>
     allow-transfer { <%= @allow_transfer.join("; ") %>; };
 <% end -%>
+    notify <%= @notify %>;
 <% if !@check_names.empty? -%>
 <% @check_names.each do |line| -%>
     check-names <%= line %>;
