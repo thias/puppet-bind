@@ -6,7 +6,7 @@ class bind::params {
     'RedHat': {
       $packagenameprefix = 'bind'
       $servicename       = 'named'
-      $binduser          = 'root'
+      $binduser          = 'named'
       $bindgroup         = 'named'
     }
     'Debian': {
