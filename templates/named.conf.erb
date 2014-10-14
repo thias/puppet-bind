@@ -61,7 +61,9 @@ options {
 <% if !@allow_query_cache.empty? -%>
     allow-query-cache { <%= @allow_query_cache.join("; ") %>; };
 <% end -%>
+<% if @recursion -%>
     recursion <%= @recursion %>;
+<% end -%>
 <% if !@allow_recursion.empty? -%>
     allow-recursion { <%= @allow_recursion.join("; ") %>; };
 <% end -%>
@@ -80,9 +82,15 @@ options {
 <% end -%>
 
 <% end -%>
+<% if @dnssec_enable -%>
     dnssec-enable <%= @dnssec_enable %>;
+<% end -%>
+<% if @dnssec_validation -%>
     dnssec-validation <%= @dnssec_validation %>;
+<% end -%>
+<% if @dnssec_lookaside -%>
     dnssec-lookaside <%= @dnssec_lookaside %>;
+<% end -%>
 
     /* Path to ISC DLV key */
     bindkeys-file "/etc/named.iscdlv.key";
