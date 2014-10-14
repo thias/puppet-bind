@@ -18,7 +18,11 @@
 #  $forwarders:
 #   Array of forwarders IP addresses. Default: empty
 #  $directory:
-#   Base directory for the BIND server. Default: '/var/named'
+#   Base directory for the BIND server. Defaults to os-specific path set in bind::params.
+#  $rfc1912_zones:
+#   BIND server zone configuration file for zones recommended by RFC 1912. Defaults to os-specific path set in bind::params.
+#  $bindkeys_file:
+#   Path to ISC DLV key. Defaults to os-specific path set in bind::params.
 #  $hostname:
 #   Hostname returned for hostname.bind TXT in CHAOS. Set to 'none' to disable.
 #   Default: undef, bind internal default
@@ -27,12 +31,12 @@
 #  $version:
 #   Version string override text. Default: none
 #  $dump_file:
-#   Dump file for the server. Default: '/var/named/data/cache_dump.db'
+#   Dump file for the server. Default: "${bind::params::directory}/data/cache_dump.db"
 #  $statistics_file:
-#   Statistics file for the server. Default: '/var/named/data/named_stats.txt'
+#   Statistics file for the server. Default: "${bind::params::directory}/data/named_stats.txt"
 #  $memstatistics_file:
 #   Memory statistics file for the server.
-#   Default: '/var/named/data/named_mem_stats.txt'
+#   Default: "${bind::params::directory}/data/named_mem_stats.txt"
 #  $allow_query:
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
@@ -86,14 +90,16 @@ define bind::server::conf (
   $listen_on_v6_port      = '53',
   $listen_on_v6_addr      = [ '::1' ],
   $forwarders             = [],
-  $directory              = '/var/named',
+  $directory              = $::bind::params::directory,
+  $rfc1912_zones          = $::bind::params::rfc1912_zones,
+  $bindkeys_file          = $::bind::params::bindkeys_file,
   $managed_keys_directory = undef,
   $hostname               = undef,
   $server_id              = undef,
   $version                = undef,
-  $dump_file              = '/var/named/data/cache_dump.db',
-  $statistics_file        = '/var/named/data/named_stats.txt',
-  $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
+  $dump_file              = "${bind::params::directory}/data/cache_dump.db",
+  $statistics_file        = "${bind::params::directory}/data/named_stats.txt",
+  $memstatistics_file     = "${bind::params::directory}/data/named_mem_stats.txt",
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
   $recursion              = 'yes',

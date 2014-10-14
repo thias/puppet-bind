@@ -92,8 +92,10 @@ options {
     dnssec-lookaside <%= @dnssec_lookaside %>;
 <% end -%>
 
+<% if @bindkeys_file -%>
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file "<%= @bindkeys_file %>";
+<% end -%>
 };
 
 logging {
@@ -152,7 +154,7 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes' and @osfamily != 'Debian' -%>
 zone "." IN {
     type hint;
     file "named.ca";
@@ -169,8 +171,8 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-<% if @recursion == 'yes' -%>
-include "/etc/named.rfc1912.zones";
+<% if @recursion == 'yes' and @rfc1912_zones -%>
+include "<%= @rfc1912_zones %>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
