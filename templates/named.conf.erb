@@ -98,9 +98,10 @@ options {
 <% end -%>
 };
 
+<% if @logging == 'yes' and @logfile -%>
 logging {
     channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
+        file "<%= @logfile %>" versions 3 size 5m;
         severity info;
         print-time yes;
         print-severity yes;
@@ -113,6 +114,8 @@ logging {
         null;
     };
 };
+<% end -%>
+
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>

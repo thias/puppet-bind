@@ -30,6 +30,10 @@
 #   ID returned for id.server TXT in CHAOS. Default: undef, empty
 #  $version:
 #   Version string override text. Default: none
+#  $logging:
+#   Enable logging. Default: 'yes'
+#  $logfile:
+#   Logfile path. Default: '/var/log/named/named.log'
 #  $dump_file:
 #   Dump file for the server. Default: "${bind::params::directory}/data/cache_dump.db"
 #  $statistics_file:
@@ -97,6 +101,8 @@ define bind::server::conf (
   $hostname               = undef,
   $server_id              = undef,
   $version                = undef,
+  $logging                = 'yes',
+  $logfile                = '/var/log/named/named.log',
   $dump_file              = "${bind::params::directory}/data/cache_dump.db",
   $statistics_file        = "${bind::params::directory}/data/named_stats.txt",
   $memstatistics_file     = "${bind::params::directory}/data/named_mem_stats.txt",
