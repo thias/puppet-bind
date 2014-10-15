@@ -123,6 +123,7 @@ define bind::server::conf (
 
   # Everything is inside a single template
   file { $title:
+    require => Class['bind::package'],
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
