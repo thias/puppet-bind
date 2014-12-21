@@ -40,6 +40,8 @@ define bind::server::file (
   $ensure      = undef,
 ) {
 
+  include '::bind::package'
+  include '::bind::service'
   include '::bind::params'
 
   if $group {
