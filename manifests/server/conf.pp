@@ -80,7 +80,7 @@
 #        'masters { mymasters; }',
 #      ],
 #    }
-#    keys                 => { 
+#    keys                 => {
 #      'example.org-tsig' => [
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
@@ -118,12 +118,16 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $packagenameprefix      = $::bind::params::packagenameprefix,
 ) {
+  # ::bind::server::conf has a dependency on bind
+  include ::bind
 
   # Everything is inside a single template
   file { $title:
     notify  => Class['::bind::service'],
     content => template('bind/named.conf.erb'),
+    require => Package[$packagenameprefix],
   }
 
 }

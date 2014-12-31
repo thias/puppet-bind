@@ -21,6 +21,8 @@
 #    Zone file content (usually template-based). Default: none
 #  $ensure:
 #    Whether the zone file should be 'present' or 'absent'. Default: present.
+#  $packagenameprefix:
+#    The name of the package providing the bind service. Default: osfamily-dependent
 #
 # Sample Usage :
 #  bind::server::file { 'example.com':
@@ -29,17 +31,18 @@
 #  }
 #
 define bind::server::file (
-  $zonedir     = '/var/named',
-  $owner       = 'root',
-  $group       = undef,
-  $mode        = '0640',
-  $dirmode     = '0750',
-  $source      = undef,
-  $source_base = undef,
-  $content     = undef,
-  $ensure      = undef,
+  $zonedir           = '/var/named',
+  $owner             = 'root',
+  $group             = undef,
+  $mode              = '0640',
+  $dirmode           = '0750',
+  $source            = undef,
+  $source_base       = undef,
+  $content           = undef,
+  $ensure            = undef,
+  $packagenameprefix = $::bind::params::packagenameprefix,
 ) {
-
+  include ::bind
   include '::bind::params'
 
   if $group {
@@ -70,7 +73,7 @@ define bind::server::file (
     notify  => Class['::bind::service'],
     # For the parent directory
     require => [
-      Class['::bind::package'],
+      Package[$packagenameprefix],
       File[$zonedir],
     ],
   }
