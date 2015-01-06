@@ -33,6 +33,10 @@
 #  $memstatistics_file:
 #   Memory statistics file for the server.
 #   Default: '/var/named/data/named_mem_stats.txt'
+#  $statistics_channels:
+#   Hash of hashes; each nested hash contains the listening IP address and listening port
+#   for a statistics channel webpage and an array of ACLs or IP addresses/address blocks
+#   that are allowed to access it. Defaults to empty.
 #  $allow_query:
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
@@ -94,6 +98,7 @@ define bind::server::conf (
   $dump_file              = '/var/named/data/cache_dump.db',
   $statistics_file        = '/var/named/data/named_stats.txt',
   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
+  $statistics_channels    = {},
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
   $recursion              = 'yes',
