@@ -16,9 +16,10 @@
 #  }
 #
 class bind (
-  $chroot            = false,
-  $service_reload    = true,
-  $packagenameprefix = $::bind::params::packagenameprefix,
+  $chroot                  = false,
+  $service_reload          = true,
+  $packagenameprefix       = $::bind::params::packagenameprefix,
+  $service_restart_command = $::bind::params::service_restart_command,
 ) inherits ::bind::params {
 
   # Main package and service
@@ -33,6 +34,7 @@ class bind (
   class { 'bind::service':
     servicename    => $servicename,
     service_reload => $service_reload,
+    service_restart_command => $service_restart_command,
   }
 
   # We want a nice log file which the package doesn't provide a location for
