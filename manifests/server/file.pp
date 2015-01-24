@@ -31,7 +31,7 @@
 define bind::server::file (
   $zonedir     = $::bind::params::directory,
   $owner       = 'root',
-  $group       = undef,
+  $group       = $::bind::params::bindgroup,
   $mode        = '0640',
   $dirmode     = '0750',
   $source      = undef,
