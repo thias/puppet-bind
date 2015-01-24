@@ -159,8 +159,8 @@ zone "." IN {
     type hint;
     file "<%= @hintsfile %>";
 };
-
 <% end -%>
+
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
 zone "<%= key %>" IN {
