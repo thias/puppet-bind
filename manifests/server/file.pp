@@ -5,7 +5,7 @@
 #
 # Parameters:
 #  $zonedir:
-#    Directory where to store the zone file. Default: '/var/named'
+#    Directory where to store the zone file. Defaults to os-specific path set in bind::params.
 #  $owner:
 #    Zone file user owner. Default: 'root'
 #  $group:
@@ -30,6 +30,7 @@
 #
 define bind::server::file (
   $zonedir     = $::bind::params::directory,
+  $zonedir     = $::bind::params::zonedir,
   $owner       = 'root',
   $group       = $::bind::params::bindgroup,
   $mode        = '0640',

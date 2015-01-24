@@ -18,7 +18,11 @@
 #  $forwarders:
 #   Array of forwarders IP addresses. Default: empty
 #  $directory:
-#   Base directory for the BIND server. Default: '/var/named'
+#   Base directory for the BIND server. Defaults to os-specific path set in bind::params.
+#  $rfc1912zones:
+#   BIND server zone configuration file for zones recommended by RFC 1912. Defaults to os-specific path set in bind::params.
+#  $bindkeysfile:
+#   Path to ISC DLV key. Defaults to os-specific path set in bind::params.
 #  $hostname:
 #   Hostname returned for hostname.bind TXT in CHAOS. Set to 'none' to disable.
 #   Default: undef, bind internal default
@@ -26,13 +30,17 @@
 #   ID returned for id.server TXT in CHAOS. Default: undef, empty
 #  $version:
 #   Version string override text. Default: none
+#  $logging:
+#   Enable logging. Default: 'yes'
+#  $logfile:
+#   Logfile path. Default: '/var/log/named/named.log'
 #  $dump_file:
-#   Dump file for the server. Default: '/var/named/data/cache_dump.db'
+#   Dump file for the server. Default: "${bind::params::directory}/data/cache_dump.db"
 #  $statistics_file:
-#   Statistics file for the server. Default: '/var/named/data/named_stats.txt'
+#   Statistics file for the server. Default: "${bind::params::directory}/data/named_stats.txt"
 #  $memstatistics_file:
 #   Memory statistics file for the server.
-#   Default: '/var/named/data/named_mem_stats.txt'
+#   Default: "${bind::params::directory}/data/named_mem_stats.txt"
 #  $allow_query:
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
@@ -51,7 +59,7 @@
 #   Enable DNSSEC validation. Default: 'auto'
 #  $dnssec_lookaside:
 #   DNSSEC lookaside type. Default: empty
-#  $bindkeys_file:
+#  $bindkeysfile:
 #   The pathname of a file to override the built-in trusted keys provided by named
 #  $hostname
 #   The host-name (a quotes string) the server should report via a query of the
@@ -112,10 +120,14 @@ define bind::server::conf (
   $listen_on_v6_addr      = [ '::1' ],
   $forwarders             = [],
   $directory              = $::bind::params::directory,
+  $rfc1912zones          = $::bind::params::rfc1912zones,
+  $bindkeysfile          = $::bind::params::bindkeysfile,
   $managed_keys_directory = undef,
   $hostname               = undef,
   $server_id              = undef,
   $version                = undef,
+  $logging                = 'yes',
+  $logfile                = '/var/log/named/named.log',
   $dump_file              = $::bind::params::dump_file,
   $statistics_file        = $::bind::params::statistics_file,
   $memstatistics_file     = $::bind::params::memstatistics_file,
@@ -129,7 +141,7 @@ define bind::server::conf (
   $dnssec_enable          = 'yes',
   $dnssec_validation      = 'auto',
   $dnssec_lookaside       = undef,
-  $bindkeys_file          = undef,
+  $bindkeysfile          = undef,
   $hostname               = 'none',
   $server_id              = undef,
   $zones                  = {},
@@ -148,6 +160,7 @@ define bind::server::conf (
       ensure => directory,
   }
   file { $title:
+    require => Class['bind::package'],
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
     require => Class['bind::package'],
