@@ -85,7 +85,7 @@ options {
     dnssec-lookaside <%= @dnssec_lookaside %>;
 
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file "<%= @bindkeysfile %>";
 };
 
 logging {
@@ -154,10 +154,10 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' && @osfamily != 'Debian' -%>
+<% if @recursion == 'yes' and @hintsfile -%>
 zone "." IN {
     type hint;
-    file "named.ca";
+    file "<%= @hintsfile %>";
 };
 
 <% end -%>
@@ -171,8 +171,8 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-<% if @recursion == 'yes'  && @osfamily == 'RedHat' -%>
-include "/etc/named.rfc1912.zones";
+<% if @recursion == 'yes' -%>
+include "<%= @rfc1912zones %>";
 <% end -%>
 <% if @recursion == 'yes'  && @osfamily == 'Debian' -%>
 include "/etc/bind/named.conf.default-zones";
