@@ -18,11 +18,24 @@ acl <%= key %> {
 masters <%= key %> {
 <% value.each do |line| -%>
     <%= line %>;
-<% end -%>
+<% end -%><%# value.each -%>
 };
 
-<% end -%>
-<% end -%>
+<% end -%><%# @masters.sort_by.each -%>
+<% end -%><%# !@masters.empty? -%>
+
+<% if !@statistics_channels.empty? -%>
+statistics-channels {
+<% @statistics_channels.each do |stat_channel,stat_channel_settings|-%>
+  <%- if stat_channel_settings.is_a?(Hash) -%>
+  <%- if stat_channel_settings['listen_address'] and !stat_channel_settings['listen_address'].empty? and stat_channel_settings['listen_port'] and !stat_channel_settings['listen_port'].empty? -%>
+  inet <%=stat_channel_settings['listen_address']%> port <%= stat_channel_settings['listen_port'] %> allow { <%=stat_channel_settings['allow'].join("; ")%>; };
+  <%- end -%>
+<%- end -%>
+<%- end -%>
+};
+<%- end -%>
+
 options {
 <% if @listen_on_port -%>
     listen-on port <%= @listen_on_port %> { <%= @listen_on_addr.join("; ") %>; };
@@ -61,7 +74,9 @@ options {
 <% if !@allow_query_cache.empty? -%>
     allow-query-cache { <%= @allow_query_cache.join("; ") %>; };
 <% end -%>
+<% if @recursion -%>
     recursion <%= @recursion %>;
+<% end -%>
 <% if !@allow_recursion.empty? -%>
     allow-recursion { <%= @allow_recursion.join("; ") %>; };
 <% end -%>
@@ -71,26 +86,34 @@ options {
 <% if !@check_names.empty? -%>
 <% @check_names.each do |line| -%>
     check-names <%= line %>;
-<% end -%>
-<% end -%>
+<% end -%><%# @check_names.each -%>
+<% end -%><%# !@check_names.empty? -%>
 
 <% if !@extra_options.empty? -%>
 <% @extra_options.sort_by {|key, value| key}.each do |key,value| -%>
     <%= key %> <%= value %>;
 <% end -%>
-
 <% end -%>
-    dnssec-enable <%= @dnssec_enable %>;
-    dnssec-validation <%= @dnssec_validation %>;
-    dnssec-lookaside <%= @dnssec_lookaside %>;
 
+<% if @dnssec_enable -%>
+    dnssec-enable <%= @dnssec_enable %>;
+<% end -%>
+<% if @dnssec_validation -%>
+    dnssec-validation <%= @dnssec_validation %>;
+<% end -%>
+<% if @dnssec_lookaside -%>
+    dnssec-lookaside <%= @dnssec_lookaside %>;
+<% end -%>
+<% if @bindkeysfile -%>
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file "<%= @bindkeysfile %>";
+<% end -%>
 };
 
+<% if @logging == 'yes' and @logfile -%>
 logging {
     channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
+        file "<%= @logfile %>" versions 3 size 5m;
         severity info;
         print-time yes;
         print-severity yes;
@@ -103,6 +126,17 @@ logging {
         null;
     };
 };
+<% end -%>
+<% if !@keys.empty? -%>
+<% @keys.sort_by {|key, value| key}.each do |key,value| -%>
+key "<%= key %>" {
+<% value.each do |line| -%>
+    <%= line %>;
+<% end -%>
+};
+
+<% end -%>
+<% end -%>
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
@@ -144,13 +178,13 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes' and @hintsfile -%>
 zone "." IN {
     type hint;
-    file "named.ca";
+    file "<%= @hintsfile %>";
 };
-
 <% end -%>
+
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
 zone "<%= key %>" IN {
@@ -162,7 +196,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "/etc/named.rfc1912.zones";
+include "<%= @rfc1912zones %>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>

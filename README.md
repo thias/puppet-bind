@@ -122,3 +122,27 @@ bind::server::conf {
 }
 ```
 
+You can use the `statistics_channels` parameter to set up one or more statistics channels.
+
+`statistics_channels` is a hash of hashes. Each nested hash sets up a statistics channel 
+and contains the listening IP address and port for the channel and the IP addresses/address 
+blocks or ACLs that are allowed to access the channel:
+
+```puppet
+bind::server::conf { '/etc/named.conf':
+...
+  statistics_channels    => {
+    'channel-1' => {
+      listen_address => '*',
+      listen_port    => '8053',
+      allow          => ['127.0.0.1', '10.0.0.0/8'],
+    },
+    'channel-2' => {
+      listen_address => '*',
+      listen_port    => '8054',
+      allow          => ['127.0.0.1', '10.0.0.0/8'],
+    },
+  },
+...
+}
+```
