@@ -114,6 +114,7 @@ define bind::server::conf (
   file { $title:
     notify  => Class['bind::service'],
     content => template($config_template),
+    require => Class['bind::package'],
   }
 
 }
