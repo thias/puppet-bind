@@ -87,10 +87,10 @@ define bind::server::conf (
   $listen_on_v6_addr      = hiera_array('bind::server::conf::listen_on_v6_addr', ['::1']),
   $forwarders             = hiera_array('bind::server::conf::forwarders', []),
   $directory              = hiera('bind::server::conf::directory', '/var/named'),
-  $managed_keys_directory = hiera('bind::server::conf::managed_keys_directory', undef),
-  $hostname               = hiera('bind::server::conf::hostname', undef),
-  $server_id              = hiera('bind::server::conf::server_id', undef),
-  $version                = hiera('bind::server::conf::version', undef),
+  $managed_keys_directory = hiera('bind::server::conf::managed_keys_directory', false),
+  $hostname               = hiera('bind::server::conf::hostname', false),
+  $server_id              = hiera('bind::server::conf::server_id', false),
+  $version                = hiera('bind::server::conf::version', false),
   $dump_file              = hiera('bind::server::conf::dump_file', '/var/named/data/cache_dump.db'),
   $statistics_file        = hiera('bind::server::conf::statistics_file', '/var/named/data/named_stats.txt'),
   $memstatistics_file     = hiera('bind::server::conf::memstatistics_file', '/var/named/data/named_mem_stats.txt'),
@@ -107,6 +107,7 @@ define bind::server::conf (
   $zones                  = hiera_hash('bind::server::conf::zones', {}),
   $includes               = hiera_array('bind::server::conf::includes', []),
   $views                  = hiera_hash('bind::server::conf::views', {}),
+  $main_log               = hiera('bind::server::conf::main_log', '/var/log/named/named.log')
 ) {
 
   # Everything is inside a single template
