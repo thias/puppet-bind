@@ -19,6 +19,10 @@
 #   Array of forwarders IP addresses. Default: empty
 #  $directory:
 #   Base directory for the BIND server. Default: '/var/named'
+#  $binduser:
+#   The user that will be set as the owner of the config file created
+#  $bindgroup:
+#   The group that will be set as the group of the config file created
 #  $hostname:
 #   Hostname returned for hostname.bind TXT in CHAOS. Set to 'none' to disable.
 #   Default: undef, bind internal default
@@ -87,6 +91,8 @@ define bind::server::conf (
   $listen_on_v6_addr      = [ '::1' ],
   $forwarders             = [],
   $directory              = '/var/named',
+  $binduser               = $::bind::params::binduser,
+  $bindgroup              = $::bind::params::bindgroup,
   $managed_keys_directory = undef,
   $hostname               = undef,
   $server_id              = undef,
@@ -111,6 +117,8 @@ define bind::server::conf (
 
   # Everything is inside a single template
   file { $title:
+    owner   => $binduser,
+    group   => $bindgroup,
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
