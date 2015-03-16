@@ -13,6 +13,16 @@ acl <%= key %> {
 
 <% end -%>
 <% end -%>
+<% if !@keys.empty? -%>
+<% @keys.sort_by {|key, value| key}.each do |key,value| -%>
+key "<%= key %>" {
+<% value.each do |line| -%>
+    <%= line %>;
+<% end -%>
+};
+
+<% end -%>
+<% end -%>
 <% if !@masters.empty? -%>
 <% @masters.sort_by {|key, value| key}.each do |key,value| -%>
 masters <%= key %> {
