@@ -107,7 +107,9 @@ define bind::server::conf (
   $zones                  = hiera_hash('bind::server::conf::zones', {}),
   $includes               = hiera_array('bind::server::conf::includes', []),
   $views                  = hiera_hash('bind::server::conf::views', {}),
-  $main_log               = hiera('bind::server::conf::main_log', '/var/log/named/named.log')
+  $main_log               = hiera('bind::server::conf::main_log', '/var/log/named/named.log'),
+  $rndc_keys              = hiera_hash('bind::server::conf::rndc_keys', {}),
+  $controls               = hiera_array('bind::server::conf::controls', []),
 ) {
 
   # Everything is inside a single template
