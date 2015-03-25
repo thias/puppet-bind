@@ -88,9 +88,10 @@ options {
     bindkeys-file "/etc/named.iscdlv.key";
 };
 
+<% if @main_log -%>
 logging {
     channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
+        file "<%= @main_log %>" versions 3 size 5m;
         severity info;
         print-time yes;
         print-severity yes;
@@ -103,8 +104,26 @@ logging {
         null;
     };
 };
-<% if !@views.empty? -%>
+<% end -%>
 
+<% if !@rndc_keys.empty? -%>
+<% @rndc_keys.sort_by {|key,value| key}.each do |key,value| -%>
+key "<%= key -%>" {
+  algorithm <%= value['algorithm'] -%>;
+  secret "<%= value['secret'] -%>";
+};
+<% end -%>
+<% end -%>
+
+<% if !@controls.empty? -%>
+controls {
+<% @controls.each do |line| -%>
+  <%= line %>;
+<% end -%>
+};
+<% end -%>
+
+<% if !@views.empty? -%>
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
 <% valid_keys = %w(allow-notify allow-query allow-recursion allow-transfer allow-update-forwarding forwarders match-clients match-destinations match-recursive-only) -%>
 view "<%= key %>" {
@@ -144,12 +163,11 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes' and @osfamily == 'RedHat' -%>
 zone "." IN {
     type hint;
     file "named.ca";
 };
-
 <% end -%>
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
@@ -162,7 +180,11 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
+<% if @osfamily == 'Debian' -%>
+include "/etc/bind/named.conf.default-zones";
+<% elsif @osfamily == 'RedHat' -%>
 include "/etc/named.rfc1912.zones";
+<% end -%>
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
@@ -170,4 +192,3 @@ include "/etc/named.rfc1912.zones";
 include "<%= filename %>";
 <% end -%>
 <% end -%>
-
