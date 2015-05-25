@@ -26,6 +26,9 @@ class bind (
     true  => '-chroot',
     false => '',
   }
+  if ($::osfamily == 'RedHat' and $operatingsystemmajrelease >= 7) {
+    $servicename = 'named-chroot'
+  }
   class { 'bind::package':
     packagenameprefix => $packagenameprefix,
     packagenamesuffix => $packagenamesuffix,
