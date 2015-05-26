@@ -88,21 +88,55 @@ options {
     bindkeys-file "/etc/named.iscdlv.key";
 };
 
+<% if !@logging.empty? -%>
+//This page has more info on BIND logging options: http://www.zytrax.com/books/dns/ch7/logging.html
 logging {
-    channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
-        severity info;
-        print-time yes;
-        print-severity yes;
-        print-category yes;
-    };
-    category default{
-        main_log;
-    };
-    category lame-servers {
-        null;
-    };
+<%- if @logging['categories'] and !@logging['categories'].empty? and @logging['categories'].is_a?(Hash)  -%>
+//These categories refer to built-in categories of log messages that BIND generates (what's
+//next to 'category') and the user-defined channels they get sent to, which is inside of the {};
+<% @logging['categories'].each do |builtin_bind_category, channel_name|-%>
+  category <%=builtin_bind_category%> {
+    <%=channel_name%>;
+  };
+<% end -%>
+<% end -%>
+//Channels are user-defined log outputs (file or syslog) that receive log events from any
+//categories specified above that reference the channel.
+<%- if @logging['channels'] and !logging['channels'].empty? and @logging['channels'].is_a?(Hash) -%>
+<%- @logging['channels'].each do |channel_name, channel_parameters|-%>
+  channel <%=channel_name-%> {
+    <%- if !channel_parameters['channel_type'].empty? -%>
+    <%- if channel_parameters['channel_type'] == 'file'-%>
+    //'versions' is the number of older logs we'll keep; size is how large the current log
+    //file will be allowed to grow before it gets rotated. File size units are defined as follows:
+    // k or K - Kilobytes
+    // m or M - Megabytes
+    // g or G - Gigabytes
+    //If the size is given as just a number, BIND will assume it specifies bytes.
+    //For example, 25000000 = 25m
+    <%=channel_parameters['channel_type']-%> "<%=channel_parameters['file_location']-%>" versions <%=channel_parameters['versions']-%> size <%=channel_parameters['size']-%>;
+    <%- elsif channel_parameters['channel_type'] == 'syslog'-%>
+    <%=channel_parameters['channel_type']-%> <%=channel_parameters['facility']-%>;
+    <%- end -%>
+    <%- if !channel_parameters['severity'].empty? -%>
+    severity <%=channel_parameters['severity']-%>;
+    <%- end -%>
+    <%- if !channel_parameters['print-time'].empty? -%>
+    print-time <%=channel_parameters['print-time']-%>;
+    <%- end -%>
+    <%- if !channel_parameters['print-severity'].empty? -%>
+    print-severity <%=channel_parameters['print-severity']-%>;
+    <%- end -%>
+    <%- if !channel_parameters['print-category'].empty? -%>
+    print-category <%=channel_parameters['print-category']-%>;
+    <%- end -%>
+    <%- end -%>
+  };
+<%-end -%>
+<%- end -%>
 };
+<% end -%>
+
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
