@@ -109,11 +109,33 @@ define bind::server::conf (
   $views                  = {},
 ) {
 
-  # Everything is inside a single template
+  file { '/var/named': 
+    ensure => directory, 
+  }
+
+  file { '/var/named/named.ca': 
+    ensure  => file, 
+    content => template('bind/named.ca.erb'), 
+    owner   => 'root', 
+    group   => 'bind', 
+    mode    => 'u=rw,go=r', 
+  }
+
+  file { '/etc/bind/named.rfc1912.zones': 
+    ensure  => file, 
+    content => template('bind/named.rfc1912.zones.erb'), 
+    owner   => 'root', 
+    group   => 'bind', 
+    mode    => 'ug=rw,o=r', 
+  }
+
+  file { '/etc/apparmor.d/usr.sbin.named': 
+    content => template('bind/usr.sbin.named.erb'), 
+  }
+
   file { $title:
     notify  => Class['bind::service'],
     content => template('bind/named.conf.erb'),
   }
-
 }
 
