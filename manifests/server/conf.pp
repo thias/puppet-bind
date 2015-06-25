@@ -129,7 +129,13 @@ define bind::server::conf (
     mode    => 'ug=rw,o=r', 
   }
 
+  service { "apparmour":
+    ensure => "running",
+    enable => "true",
+  }
+
   file { '/etc/apparmor.d/usr.sbin.named': 
+    notify  => Service["apparmour'],
     content => template('bind/usr.sbin.named.erb'), 
   }
 
