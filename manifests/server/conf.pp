@@ -129,7 +129,7 @@ define bind::server::conf (
     mode    => 'ug=rw,o=r', 
   }
 
-  service { "apparmour":
+  service { "apparmor":
     ensure => "running",
     enable => "true",
   }
