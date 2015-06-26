@@ -135,7 +135,7 @@ define bind::server::conf (
   }
 
   file { '/etc/apparmor.d/usr.sbin.named': 
-    notify  => Service['apparmour'],
+    notify  => Service['apparmor'],
     content => template('bind/usr.sbin.named.erb'), 
   }
 
