@@ -129,9 +129,9 @@ define bind::server::conf (
     mode    => 'ug=rw,o=r', 
   }
 
-  service { "apparmor":
-    ensure => "running",
-    enable => "true",
+  service { 'apparmor':
+    ensure => 'running',
+    enable => 'true',
   }
 
   file { '/etc/apparmor.d/usr.sbin.named': 
