@@ -10,32 +10,7 @@
 // See /usr/share/doc/bind*/sample/ for example named configuration files.
 //
 
-zone "localhost.localdomain" IN {
-	type master;
-	file "named.localhost";
-	allow-update { none; };
-};
-
-zone "localhost" IN {
-	type master;
-	file "named.localhost";
-	allow-update { none; };
-};
-
-zone "1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.ip6.arpa" IN {
-	type master;
-	file "named.loopback";
-	allow-update { none; };
-};
-
-zone "1.0.0.127.in-addr.arpa" IN {
-	type master;
-	file "named.loopback";
-	allow-update { none; };
-};
-
-zone "0.in-addr.arpa" IN {
-	type master;
-	file "named.empty";
-	allow-update { none; };
-};
+zone "localhost"            { type master; allow-update { none; }; file "/etc/bind/db.local"; };
+zone "127.in-addr.arpa"     { type master; allow-update { none; }; file "/etc/bind/db.127"; };
+zone "0.in-addr.arpa"       { type master; allow-update { none; }; file "/etc/bind/db.0"; };
+zone "255.in-addr.arpa"     { type master; allow-update { none; }; file "/etc/bind/db.255"; };
