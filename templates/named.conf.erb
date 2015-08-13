@@ -23,6 +23,13 @@ masters <%= key %> {
 
 <% end -%>
 <% end -%>
+server ::/0 {
+    edns no;
+};
+server 0.0.0.0/0 {
+    edns no;
+};
+
 options {
 <% if @listen_on_port -%>
     listen-on port <%= @listen_on_port %> { <%= @listen_on_addr.join("; ") %>; };
