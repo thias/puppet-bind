@@ -47,7 +47,7 @@ class bind (
     packagenamesuffix => $packagenamesuffix,
   }
   class { '::bind::service':
-    servicename    => "${servicename}${servicenamesuffix}"
+    servicename    => "${servicename}${servicenamesuffix}",
     service_reload => $service_reload,
   }
 
