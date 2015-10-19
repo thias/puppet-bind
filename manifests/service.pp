@@ -1,8 +1,8 @@
 # Class: bind::service
 #
 class bind::service (
-  $servicename    = $::bind::params::servicename,
-  $service_reload = true,
+  $servicename,
+  $service_reload,
 ) inherits ::bind::params {
 
   if $service_reload {
@@ -11,11 +11,11 @@ class bind::service (
     }
   }
 
-  service { $servicename :
-    require   => Class['bind::package'],
-    hasstatus => true,
+  service { $servicename:
+    ensure    => 'running',
     enable    => true,
-    ensure    => running,
+    hasstatus => true,
+    require   => Class['bind::package'],
   }
   
 }

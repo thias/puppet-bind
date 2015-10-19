@@ -44,7 +44,8 @@
 #  $check_names:
 #   Array of check-names strings. Example: [ 'master ignore' ]. Default: empty
 #  $extra_options:
-#   Hash for any additional options that must go in the 'options' declaration. Default: empty
+#   Hash for any additional options that must go in the 'options' declaration.
+#   Default: empty
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
@@ -111,9 +112,8 @@ define bind::server::conf (
 
   # Everything is inside a single template
   file { $title:
-    notify  => Class['bind::service'],
+    notify  => Class['::bind::service'],
     content => template('bind/named.conf.erb'),
   }
 
 }
-

@@ -5,7 +5,6 @@ class bind::package (
   $packagenamesuffix = '',
 ) inherits ::bind::params {
 
-  package { "${packagenameprefix}${packagenamesuffix}": ensure => installed }
+  package { "${packagenameprefix}${packagenamesuffix}": ensure => 'installed' }
 
 }
-

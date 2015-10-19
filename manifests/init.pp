@@ -18,37 +18,48 @@
 class bind (
   $chroot            = false,
   $service_reload    = true,
+  $servicename       = $::bind::params::servicename,
   $packagenameprefix = $::bind::params::packagenameprefix,
+  $binduser          = $::bind::params::binduser,
+  $bindgroup         = $::bind::params::bindgroup,
 ) inherits ::bind::params {
 
-  # Main package and service
-  $packagenamesuffix = $chroot ? {
-    true  => '-chroot',
-    false => '',
+  # Chroot differences
+  if $chroot == true {
+    $packagenamesuffix = '-chroot'
+    # Different service name with chroot on RHEL7+)
+    if $::osfamily == 'RedHat' and
+        versioncmp($::operatingsystemrelease, '7') >= 0 {
+      $servicenamesuffix = '-chroot'
+    } else {
+      $servicenamesuffix = ''
+    }
+    $bindlogdir = '/var/named/chroot/var/log/named'
+  } else {
+    $packagenamesuffix = ''
+    $servicenamesuffix = ''
+    $bindlogdir = '/var/log/named'
   }
-  class { 'bind::package':
+
+  # Main package and service
+  class { '::bind::package':
     packagenameprefix => $packagenameprefix,
     packagenamesuffix => $packagenamesuffix,
   }
-  class { 'bind::service':
-    servicename    => $servicename,
+  class { '::bind::service':
+    servicename    => "${servicename}${servicenamesuffix}"
     service_reload => $service_reload,
   }
 
   # We want a nice log file which the package doesn't provide a location for
-  $bindlogdir = $chroot ? {
-    true  => '/var/named/chroot/var/log/named',
-    false => '/var/log/named',
-  }
   file { $bindlogdir:
-    require => Class['bind::package'],
-    ensure  => directory,
-    owner   => $::bind::params::binduser,
-    group   => $::bind::params::bindgroup,
+    ensure  => 'directory',
+    owner   => $binduser,
+    group   => $bindgroup,
     mode    => '0770',
     seltype => 'var_log_t',
-    before  => Class['bind::service'],
+    require => Class['::bind::package'],
+    before  => Class['::bind::service'],
   }
 
 }
-

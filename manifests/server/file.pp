@@ -76,4 +76,3 @@ define bind::server::file (
   }
 
 }
-
