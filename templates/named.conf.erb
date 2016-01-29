@@ -95,6 +95,10 @@ options {
     bindkeys-file "/etc/named.iscdlv.key";
 };
 
+statistics-channels {
+        inet 127.0.0.1 port 8053 allow { 127.0.0.1; };
+};
+
 logging {
     channel default_file {
         file "/var/log/named/default.log" versions 3 size 5m;
