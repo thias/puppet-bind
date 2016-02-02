@@ -1,4 +1,8 @@
+#### 2016-02-02 - 0.5.2
 * Fix service name on RHEL7+ with chroot (#56, @arrjay).
+* Fix named.conf template bug related to views (#59, @imerali).
+* Add TSIG keys support (#54, @b4ldr).
+* Replace Modulefile with metadata.json.
 
 #### 2014-05-12 - 0.5.1
 * Add FreeBSD support (#26, @fessoga5).
