@@ -16,19 +16,19 @@ acl <%= key %> {
 <% unless @controls.empty? -%>
 controls {
 <% @controls.each do |inet, settings|
-    next unless settings.has_key? address_match_list and settings['address_match_list'].is_a? Array
-    control_statement = "inet #{inet}"
+    next unless settings.has_key? 'address_match_list' and settings['address_match_list'].is_a? Array
+    control_settings = ''
     if settings.has_key? 'port'
-        control_statement << " port #{settings['port']}"
+        control_settings << " port #{settings['port']}"
     end
-    control_statement << " allow { #{settings['address_match_list'].join('; ')}; }"
-    if settings.has_key? 'keys' and settings['keys_list'].is_? Array
-        control_statement << " keys { #{settings['keys'].join('; ')}; };"
+    control_settings << " allow { #{settings['address_match_list'].join('; ')}; }"
+    if settings.has_key? 'keys_list' and settings['keys_list'].is_a? Array
+        control_settings << " keys { #{settings['keys_list'].join('; ')}; }"
     end
 -%>
-    <%= control_statement %>
+    inet <%= inet %><%= control_settings %>;
 <% end -%>
-}
+};
 
 <% end -%>
 <% if !@keys.empty? -%>
