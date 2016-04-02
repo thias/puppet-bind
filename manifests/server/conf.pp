@@ -5,6 +5,8 @@
 # Parameters:
 #  $acls:
 #   Hash of client ACLs, name as key and array of config lines. Default: empty
+#  $controls:
+#   Hash of administrative channels, inet as key and array of config lines. Default: empty
 #  $masters:
 #   Hash of master ACLs, name as key and array of config lines. Default: empty
 #  $listen_on_port:
@@ -80,7 +82,7 @@
 #        'masters { mymasters; }',
 #      ],
 #    }
-#    keys                 => { 
+#    keys                 => {
 #      'example.org-tsig' => [
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
@@ -90,6 +92,7 @@
 #
 define bind::server::conf (
   $acls                   = {},
+  $controls               = {},
   $masters                = {},
   $listen_on_port         = '53',
   $listen_on_addr         = [ '127.0.0.1' ],
