@@ -3,6 +3,12 @@
 // WARNING: Puppet managed, do not edit!
 //
 
+controls {
+    inet 127.0.0.1 port 953 allow { any; };
+    inet 192.168.2.87 port 953 allow { any; };
+};
+
+
 <% if !@acls.empty? -%>
 <% @acls.sort_by {|key, value| key}.each do |key,value| -%>
 acl <%= key %> {
