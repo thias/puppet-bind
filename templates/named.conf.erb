@@ -40,6 +40,10 @@ options {
 <% if @listen_on_v6_port -%>
     listen-on-v6 port <%= @listen_on_v6_port %> { <%= @listen_on_v6_addr.join("; ") %>; };
 <% end -%>
+<% if !@listen_on_v6.empty? -%>
+    listen-on-v6 { <%= @listen_on_v6.join("; ") %>; };
+<% end -%>
+
 <% if !@forwarders.empty? -%>
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
@@ -90,12 +94,24 @@ options {
 <% end -%>
 
 <% end -%>
-    dnssec-enable <%= @dnssec_enable %>;
-    dnssec-validation <%= @dnssec_validation %>;
-    dnssec-lookaside <%= @dnssec_lookaside %>;
 
+<% if @dnssec_enable -%>
+    dnssec-enable "<%= @dnssec_enable %>";
+<% end -%>
+
+<% if @dnssec_validation -%>
+    dnssec-validation <%= @dnssec_validation %>;
+<% end -%>
+
+<% if @dnssec_lookaside -%>
+    dnssec-lookaside <%= @dnssec_lookaside %>;
+<% end -%>
+
+<% if @bindkeys_file -%>
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file <%= @bindkeys_file %>;
+<% end -%>
+
 };
 
 logging {
