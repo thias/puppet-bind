@@ -98,7 +98,7 @@ options {
 <% end -%>
 
 <% if @dnssec_enable -%>
-    dnssec-enable "<%= @dnssec_enable %>";
+    dnssec-enable <%= @dnssec_enable %>;
 <% end -%>
 
 <% if @dnssec_validation -%>
