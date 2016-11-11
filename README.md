@@ -1,3 +1,11 @@
+# TODOs
+
+- [ ] Make it more generic, change directories for ubuntu (`/etc/bind/named...` instead of CentOS `/etc/named...`)
+- [ ] Disable hard defaults, they cannot be overwritten by the user (some work done in my fork's first commit)
+- [ ] Augment config template  with more options (and their supporting resources in the related manifests) that are very important (e.g `allow_new_zones`), instead of having to manually write them in the provided `extra_options` resource.
+
+
+
 # puppet-bind
 
 ## Overview
