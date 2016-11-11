@@ -46,10 +46,6 @@ options {
 <% if @listen_on_v6_port -%>
     listen-on-v6 port <%= @listen_on_v6_port %> { <%= @listen_on_v6_addr.join("; ") %>; };
 <% end -%>
-<% if !@listen_on_v6.empty? -%>
-    listen-on-v6 { <%= @listen_on_v6.join("; ") %>; };
-<% end -%>
-
 <% if !@forwarders.empty? -%>
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
