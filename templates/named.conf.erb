@@ -94,26 +94,21 @@ options {
 <% @extra_options.sort_by {|key, value| key}.each do |key,value| -%>
     <%= key %> <%= value %>;
 <% end -%>
-
 <% end -%>
 
 <% if @dnssec_enable -%>
     dnssec-enable <%= @dnssec_enable %>;
 <% end -%>
-
 <% if @dnssec_validation -%>
     dnssec-validation <%= @dnssec_validation %>;
 <% end -%>
-
 <% if @dnssec_lookaside -%>
     dnssec-lookaside <%= @dnssec_lookaside %>;
 <% end -%>
-
 <% if @bindkeys_file -%>
     /* Path to ISC DLV key */
     bindkeys-file <%= @bindkeys_file %>;
 <% end -%>
-
 };
 
 logging {
