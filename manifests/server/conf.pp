@@ -60,6 +60,9 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $mgt_ip:
+#   The management network's IP address assigned, to enable command
+#   channel (rndc) listener, aside from the loopback IP address 
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -121,6 +124,7 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $mgt_ip                 = undef,
 ) {
 
   # Everything is inside a single template
