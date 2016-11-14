@@ -5,7 +5,7 @@
 
 controls {
     inet 127.0.0.1 port 953 allow { any; };
-    inet 192.168.2.87 port 953 allow { any; };
+    inet <%= @mgt_ip %> port 953 allow { any; };
 };
 
 
