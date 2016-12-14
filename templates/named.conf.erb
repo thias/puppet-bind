@@ -3,10 +3,6 @@
 // WARNING: Puppet managed, do not edit!
 //
 
-controls {
-    inet 127.0.0.1 port 953 allow { any; };
-    inet <%= @mgt_ip %> port 953 allow { any; };
-};
 <% if !@controls.empty? -%>
 <% @controls.each do |channel| -%>
     <%= channel %>;
