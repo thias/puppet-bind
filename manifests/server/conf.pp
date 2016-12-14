@@ -5,6 +5,9 @@
 # Parameters:
 #  $acls:
 #   Hash of client ACLs, name as key and array of config lines. Default: empty
+#  $controls:
+#   Array of control channels to be used for remote administration
+#   (rndc). Default: empty
 #  $masters:
 #   Hash of master ACLs, name as key and array of config lines. Default: empty
 #  $listen_on_port:
@@ -60,9 +63,6 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
-#  $mgt_ip:
-#   The IP address on the 'management network' assigned to the host, to enable
-#   command channel (rndc) listener upon, aside from the loopback IP address
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -93,6 +93,7 @@
 #
 define bind::server::conf (
   $acls                   = {},
+  $controls               = {},
   $masters                = {},
   $listen_on_port         = '53',
   $listen_on_addr         = [ '127.0.0.1' ],
@@ -121,7 +122,6 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
-  $mgt_ip                 = undef,
 ) {
 
   # Everything is inside a single template
