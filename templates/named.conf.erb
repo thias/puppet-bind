@@ -97,6 +97,9 @@ options {
 <% end -%>
 <% end -%>
 
+<% if @allow_new_zones -%>
+    allow-new-zones <%= @allow_new_zones %>;
+<% end -%>
 <% if @dnssec_enable -%>
     dnssec-enable <%= @dnssec_enable %>;
 <% end -%>

@@ -49,6 +49,8 @@
 #  $extra_options:
 #   Hash for any additional options that must go in the 'options' declaration.
 #   Default: empty
+#  $allow_new_zones:
+#   Enable creation of new zones. Default: undef
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
@@ -110,6 +112,7 @@ define bind::server::conf (
   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
+  $allow_new_zones        = undef,
   $recursion              = 'yes',
   $allow_recursion        = [],
   $allow_transfer         = [],
