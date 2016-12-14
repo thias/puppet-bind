@@ -75,12 +75,24 @@ options {
 <% if !@allow_query.empty? -%>
     allow-query { <%= @allow_query.join("; ") %>; };
 <% end -%>
+<% if !@allow_notify.empty? -%>
+    allow-notify { <%= @allow_notify.join("; ") %>; };
+<% end -%>
 <% if !@allow_query_cache.empty? -%>
     allow-query-cache { <%= @allow_query_cache.join("; ") %>; };
 <% end -%>
     recursion <%= @recursion %>;
 <% if !@allow_recursion.empty? -%>
     allow-recursion { <%= @allow_recursion.join("; ") %>; };
+<% end -%>
+<% if @notify -%>
+    notify <%= @notify %>;
+<% end -%>
+<% if @auth_nxdomain -%>
+    auth-nxdomain <%= @auth_nxdomain %>;
+<% end -%>
+<% if @request_ixfr -%>
+    request-ixfr <%= @request_ixfr %>;
 <% end -%>
 <% if !@allow_transfer.empty? -%>
     allow-transfer { <%= @allow_transfer.join("; ") %>; };
