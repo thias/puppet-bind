@@ -61,8 +61,8 @@
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
 #  $mgt_ip:
-#   The management network's IP address assigned, to enable command
-#   channel (rndc) listener, aside from the loopback IP address 
+#   The IP address on the 'management network' assigned to the host, to enable
+#   command channel (rndc) listener upon, aside from the loopback IP address
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -104,12 +104,9 @@ define bind::server::conf (
   $hostname               = undef,
   $server_id              = undef,
   $version                = undef,
-  #   $dump_file              = '/var/named/data/cache_dump.db',
-  $dump_file              = undef,
-  #   $statistics_file        = '/var/named/data/named_stats.txt',
-  $statistics_file        = undef,
-  #   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
-  $memstatistics_file     = undef,
+  $dump_file              = '/var/named/data/cache_dump.db',
+  $statistics_file        = '/var/named/data/named_stats.txt',
+  $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
   $recursion              = 'yes',
