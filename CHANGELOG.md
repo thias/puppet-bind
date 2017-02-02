@@ -1,3 +1,6 @@
+#### 2017-02-02 - 0.5.3
+* Fix undefined variable warning.
+
 #### 2016-02-02 - 0.5.2
 * Fix service name on RHEL7+ with chroot (#56, @arrjay).
 * Fix named.conf template bug related to views (#59, @imerali).
