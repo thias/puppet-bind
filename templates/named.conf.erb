@@ -113,6 +113,16 @@ logging {
         null;
     };
 };
+<% if !@keys.empty? -%>
+<% @keys.sort_by {|key, value| key}.each do |key,value| -%>
+key "<%= key %>" {
+<% value.each do |line| -%>
+    <%= line %>;
+<% end -%>
+};
+
+<% end -%>
+<% end -%>
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
@@ -154,7 +164,7 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes' && @osfamily != 'Debian' -%>
 zone "." IN {
     type hint;
     file "named.ca";
@@ -171,8 +181,11 @@ zone "<%= key %>" IN {
 
 <% end -%>
 <% end -%>
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes'  && @osfamily == 'RedHat' -%>
 include "/etc/named.rfc1912.zones";
+<% end -%>
+<% if @recursion == 'yes'  && @osfamily == 'Debian' -%>
+include "/etc/bind/named.conf.default-zones";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
