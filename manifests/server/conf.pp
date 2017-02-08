@@ -120,6 +120,25 @@ define bind::server::conf (
   $views                  = {},
 ) {
 
+  # If recursion is enabled
+  if $recursion == 'yes' {
+    # If debian, add /etc/bind/named.conf.default-zones to includes
+    case $::osfamily {
+      'Debian': {
+        $recursion_includes = ['/etc/bind/named.conf.default-zones']
+      }
+      default: {
+        $recursion_includes = ['/etc/named.rfc1912.zones']
+        $recursion_zones = {
+          '.' => [
+            'type hint',
+            'file "named.ca"',
+          ],
+        }
+      }
+    }
+  }
+
   # Everything is inside a single template
   file { $title:
     notify  => Class['::bind::service'],
