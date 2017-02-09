@@ -118,12 +118,17 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $binduser               = $::bind::params::binduser,
+  $bindgroup              = $::bind::params::bindgroup,
 ) {
 
   # Everything is inside a single template
   file { $title:
     notify  => Class['::bind::service'],
     content => template('bind/named.conf.erb'),
+    owner   => $binduser,
+    group   => $bindgroup,
+    mode    => '0644',
   }
 
 }
