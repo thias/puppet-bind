@@ -155,10 +155,13 @@ view "<%= key %>" {
 <% else -%><%# end views, start no views -%>
 
 <% if @recursion == 'yes' -%>
+<% if @osfamily != 'Debian' -%>
+
 zone "." IN {
     type hint;
     file "named.ca";
 };
+<% end -%>
 
 <% end -%>
 <% if !@zones.empty? -%>
@@ -172,7 +175,9 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
+<% if @osfamily != 'Debian' -%>
 include "/etc/named.rfc1912.zones";
+<% end -%>
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
