@@ -58,10 +58,13 @@ define bind::server::file (
 
   if ! defined(File[$zonedir]) {
     file { $zonedir:
-      ensure => directory,
-      owner  => $owner,
-      group  => $bindgroup,
-      mode   => $dirmode,
+      ensure  => directory,
+      owner   => $owner,
+      group   => $bindgroup,
+      mode    => $dirmode,
+      require => [
+        Class['::bind::package'],
+      ],
     }
   }
 
@@ -75,9 +78,7 @@ define bind::server::file (
     notify  => Class['::bind::service'],
     # For the parent directory
     require => [
-      Class['::bind::package'],
       File[$zonedir],
     ],
   }
-
 }
