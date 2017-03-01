@@ -95,12 +95,12 @@ options {
     dnssec-lookaside <%= @dnssec_lookaside %>;
 
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file "<%= @isc_dlv_key_file %>";
 };
 
 logging {
     channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
+        file "<%= @log_file %>" versions 3 size 5m;
         severity info;
         print-time yes;
         print-severity yes;
@@ -157,7 +157,7 @@ view "<%= key %>" {
 <% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;
-    file "named.ca";
+    file "<%= @root_hints_file %>";
 };
 
 <% end -%>
@@ -172,7 +172,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "/etc/named.rfc1912.zones";
+include "<%= @rfc1912_zone_file %>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
