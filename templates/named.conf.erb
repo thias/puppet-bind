@@ -44,7 +44,7 @@ options {
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
 <% if @forward -%>
-    forward "<%= @forward %>";
+    forward <%= @forward %>;
 <% end -%>
     directory "<%= @directory %>";
 <% if @managed_keys_directory -%>
