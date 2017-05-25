@@ -172,7 +172,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "/etc/named.rfc1912.zones";
+include "<%= @named_rfc1912_file %>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
