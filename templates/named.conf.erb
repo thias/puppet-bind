@@ -33,6 +33,22 @@ masters <%= key %> {
 
 <% end -%>
 <% end -%>
+<% if !@servers.empty? -%>
+<% @servers.each do |key,value| -%>
+<% valid_keys = %w(bogus edns provide-ixfr request-ixfr transfers transfer-format) -%>
+server <%= key %> {
+<% valid_keys.each do |valid_key| -%>
+<% if value[valid_key] and !value[valid_key].empty? -%>
+    <%= valid_key %> <%= value[valid_key] %>;
+<% end -%>
+<% end -%>
+<% if value['keys'] and !value['keys'].empty? -%>
+    keys { <%= value['keys'].join('; ') %>; };
+<% end -%>
+};
+
+<% end -%>
+<% end -%>
 options {
 <% if @listen_on_port -%>
     listen-on port <%= @listen_on_port %> { <%= @listen_on_addr.join("; ") %>; };
@@ -180,4 +196,3 @@ include "/etc/named.rfc1912.zones";
 include "<%= filename %>";
 <% end -%>
 <% end -%>
-
