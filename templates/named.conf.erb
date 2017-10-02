@@ -100,11 +100,16 @@ options {
 
 logging {
     channel main_log {
+    <% if @syslog -%>
+        syslog daemon;
+        severity info;
+    <% else -%>
         file "/var/log/named/named.log" versions 3 size 5m;
         severity info;
         print-time yes;
         print-severity yes;
         print-category yes;
+    <% end -%>
     };
     category default{
         main_log;
