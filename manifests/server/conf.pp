@@ -60,6 +60,8 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $syslog:
+#   Log to syslog instead of `/var/log/named/named.log`.  Default: false
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -118,6 +120,7 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $syslog                 = false,
 ) {
 
   # Everything is inside a single template
