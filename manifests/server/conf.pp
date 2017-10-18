@@ -118,7 +118,9 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
-) {
+  $rfc1912_file           = $::bind::params::rfc1912_file,
+  $root_file              = $::bind::params::root_file,
+) inherits bind::params {
 
   # Everything is inside a single template
   file { $title:

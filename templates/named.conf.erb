@@ -157,7 +157,7 @@ view "<%= key %>" {
 <% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;
-    file "named.ca";
+    file "<%= @root_file -%>";
 };
 
 <% end -%>
@@ -172,7 +172,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "/etc/named.rfc1912.zones";
+include "<%= @rfc1912_file -%>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>

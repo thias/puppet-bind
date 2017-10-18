@@ -2,7 +2,7 @@
 #
 class bind::params {
 
-  case $::osfamily {
+  case $::os['family'] {
     'RedHat': {
       $packagenameprefix = 'bind'
       $servicename       = 'named'
@@ -14,6 +14,8 @@ class bind::params {
       $servicename       = 'bind9'
       $binduser          = 'bind'
       $bindgroup         = 'bind'
+      $rfc1912_file      = '/etc/bind/zones.rfc1918',
+      $root_file         = '/etc/bind/db.root',
     }
     'Freebsd': {
       $packagenameprefix = 'bind910'
@@ -26,6 +28,8 @@ class bind::params {
       $servicename       = 'named'
       $binduser          = 'root'
       $bindgroup         = 'named'
+      $rfc1912_file      = '/etc/named.rfc1912.zones',
+      $root_file         = 'named.ca',
     }
   }
 
