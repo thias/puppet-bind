@@ -1,9 +1,10 @@
-# A sample Gemfile
-source "https://rubygems.org"
+source ENV['GEM_SOURCE'] || 'https://rubygems.org/'
 
-# gem "rails"
+puppet_ver = ENV['PUPPET_GEM_VERSION'] || '~> 2'
+
+gem 'rspec', '~> 3.1.0'
 gem 'rspec-puppet'
 gem 'rake'
-gem 'puppet', ENV['PUPPET_GEM_VERSION'] || '~> 2'
+gem 'puppet', puppet_ver
 gem 'puppetlabs_spec_helper'
 gem 'puppet-lint'

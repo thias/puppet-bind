@@ -15,7 +15,7 @@ matrix:
   - rvm: '1.9'
   # On Puppet 3.x
   - rvm: '1.8'
-    env: PUPPET_GEM_VERSION='~> 3'
+    env: PUPPET_GEM_VERSION='~> 3.2.0'
   - rvm: '1.9'
     env: PUPPET_GEM_VERSION='~> 3'
   - rvm: '2.0'

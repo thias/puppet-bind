@@ -13,4 +13,4 @@ rescue Bundler::BundlerError => e
 end
 
 desc 'Run all tests'
-task :test => [ :spec ]
+task :test => [ :syntax, :lint, :spec ]
