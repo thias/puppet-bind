@@ -80,7 +80,7 @@
 #        'masters { mymasters; }',
 #      ],
 #    }
-#    keys                 => { 
+#    keys                 => {
 #      'example.org-tsig' => [
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
@@ -119,6 +119,8 @@ define bind::server::conf (
   $includes               = [],
   $views                  = {},
 ) {
+
+  include ::bind
 
   # Everything is inside a single template
   file { $title:

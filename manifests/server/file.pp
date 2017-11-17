@@ -41,6 +41,7 @@ define bind::server::file (
 ) {
 
   include '::bind::params'
+  include ::bind
 
   if $group {
     $bindgroup = $group
