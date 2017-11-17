@@ -1,0 +1,29 @@
+---
+language: ruby
+sudo: false
+bundler_args: --jobs=3 --retry=3
+cache: bundler
+script:
+  - bundle exec rake test
+notifications:
+  email: false
+matrix:
+  fast_finish: true
+  include:
+  # On default Puppet 2.x
+  - rvm: '1.8'
+  - rvm: '1.9'
+  # On Puppet 3.x
+  - rvm: '1.8'
+    env: PUPPET_GEM_VERSION='~> 3'
+  - rvm: '1.9'
+    env: PUPPET_GEM_VERSION='~> 3'
+  - rvm: '2.0'
+    env: PUPPET_GEM_VERSION='~> 3'
+  # On Puppet 4.x
+  - rvm: '1.9'
+    env: PUPPET_GEM_VERSION='~> 4'
+  - rvm: '2.0'
+    env: PUPPET_GEM_VERSION='~> 4'
+  - rvm: '2.1'
+    env: PUPPET_GEM_VERSION='~> 4'

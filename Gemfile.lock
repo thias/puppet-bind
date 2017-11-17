@@ -34,4 +34,4 @@ DEPENDENCIES
   puppet-lint
   puppetlabs_spec_helper
   rake
-  rspec-puppet
+  rspec-puppet (~> 0)
