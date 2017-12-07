@@ -1,0 +1,5 @@
+zone "<%= @name %>" {
+  type <%= @zone_type %>;
+  file "<%= @zone_file %>";
+  <% if @allow_update %>allow-update { <%= @allow_update %>; };<% end %>
+};
