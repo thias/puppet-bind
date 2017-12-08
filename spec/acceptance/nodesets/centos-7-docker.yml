@@ -19,5 +19,3 @@ CONFIG:
   trace_limit: 200
   type: foss
   log_level: debug
-  default_module_install_opts:
-    module_repository: http://forge.prs.internal/
