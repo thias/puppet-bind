@@ -22,7 +22,7 @@ matrix:
     sudo: required
     services: docker
     env: PUPPET_GEM_VERSION='~> 3' RS_SET="centos-6-docker"
-    script: bundle exec rake acceptance
+    script: bundle exec rake beaker
   # On Puppet 4.x
   - rvm: '1.9'
     env: PUPPET_GEM_VERSION='~> 4.8.0'
