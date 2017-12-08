@@ -13,6 +13,8 @@ describe 'bind::zone::definition'  do
       :serial          => '20160501'
     }
   end
+  let(:pre_condition) { "concat { '/etc/bind/named.conf.unit':
+  ensure => present}" }
   it { should compile }
   it { is_expected.to contain_file('/etc/bind/named.conf.unit') }
   it { is_expected.to contain_file('/etc/bind/coi/db.myzone') }

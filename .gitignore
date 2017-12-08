@@ -1,3 +1,5 @@
 .bundle
 spec/fixtures/manifests
 spec/fixtures/modules
+.vagrant/
+log/

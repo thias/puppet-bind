@@ -20,11 +20,8 @@ define bind::zone::definition (
     'master', 'hint': { info("Supported zone type: ${zone_type}") }
     default: { fail("Unsupported zone type: ${zone_type}") }
   }
-  concat { $definition_file:
-    ensure  => present,
-    replace => false,
-  }
-  # Add zone definition in $definition_file
+
+  # Add zone definition in $definition_file from bind::server::conf::concat
   concat::fragment { "${definition_file}_${name}":
     target  => $definition_file,
     content => template('bind/zone_definition.erb'),

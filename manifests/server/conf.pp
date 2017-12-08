@@ -122,10 +122,13 @@ define bind::server::conf (
 
   include ::bind
 
-  # Everything is inside a single template
-  file { $title:
-    notify  => Class['::bind::service'],
+  concat { $title:
+    ensure => 'present',
+  }
+  concat::fragment { "${title}_01_preamble":
+    target  => $title,
     content => template('bind/named.conf.erb'),
+    notify  => Class['::bind::service'],
   }
 
 }

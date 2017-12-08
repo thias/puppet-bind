@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe 'bind::server::conf' do
+	let(:facts) do {
+    :concat_basedir => '/root'
+    }
+  end
 	let (:title)  { '/etc/named.conf' }
 	let (:params) { {
 		:acls => {
@@ -25,15 +29,8 @@ describe 'bind::server::conf' do
 		],
 	} }
 
-	it 'should generate the bind configuration' do
-		is_expected.to contain_file ('/etc/named.conf')
-		content = catalogue.resource('file', '/etc/named.conf').send(:parameters)[:content]
-    expect(content).not_to be_empty
-    expect(content).to match('acl rfc1918')
-    expect(content).to match('masters mymasters')
-    expect(content).to match('zone "example.com"')
-    expect(content).to match('zone "example.org"')
-    expect(content).to match('include "/etc/myzones.conf"')
+	context 'should generate the bind configuration with concat' do
+		it { is_expected.to contain_file ('/etc/named.conf') }
+		it { is_expected.to contain_concat('/etc/named.conf') }
+		end
 	end
-
-end
