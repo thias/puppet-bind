@@ -21,23 +21,84 @@ matrix:
   - rvm: '2.0'
     sudo: required
     services: docker
+    env: PUPPET_GEM_VERSION='~> 3' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.0'
+    sudo: required
+    services: docker
     env: PUPPET_GEM_VERSION='~> 3' RS_SET="centos-7-docker"
     script: bundle exec rake beaker
   # On Puppet 4.x
   - rvm: '1.9'
     env: PUPPET_GEM_VERSION='~> 4.8.0'
   - rvm: '2.0'
-    env: PUPPET_GEM_VERSION='~> 4.8.0'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4.8.0' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.0'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4.8.0' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
   - rvm: '2.1'
-    env: PUPPET_GEM_VERSION='~> 4'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.1'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
   - rvm: '2.3'
-    env: PUPPET_GEM_VERSION='~> 4'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.3'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
   - rvm: '2.4'
-    env: PUPPET_GEM_VERSION='~> 4'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.4'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 4' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
   # On Puppet 5.x
   - rvm: '2.1'
-    env: PUPPET_GEM_VERSION='~> 5'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 5' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.1'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 5' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
   - rvm: '2.3'
-    env: PUPPET_GEM_VERSION='~> 5'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 5' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.3'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 5' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
   - rvm: '2.4'
-    env: PUPPET_GEM_VERSION='~> 5'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 5' RS_SET="centos-6-docker"
+    script: bundle exec rake beaker
+  - rvm: '2.4'
+    sudo: required
+    services: docker
+    env: PUPPET_GEM_VERSION='~> 5' RS_SET="centos-7-docker"
+    script: bundle exec rake beaker
