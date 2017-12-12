@@ -23,6 +23,8 @@ define bind::zone::record (
   $rclass = 'IN',
   $order  = '99',
 ){
+  include ::bind
+
   $record_data = $rtype ? {
       /(NS|CNAME|PTR)/ => "${rdata}.",
       default          => $rdata,
@@ -32,5 +34,13 @@ define bind::zone::record (
     target  => $target_file,
     content => "${rname}\t${rclass}\t${rtype}\t${record_data}\n",
     order   => $order,
+  }
+  assert { "should be success-${name}":
+    command => "/usr/bin/named-checkzone ${target_file}",
+    require => [
+      File[$target_file],
+      Concat::Fragment["${target_file}_${name}"]
+      ],
+    before  => Class['::bind::service']
   }
 }

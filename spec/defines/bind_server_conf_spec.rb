@@ -30,7 +30,7 @@ describe 'bind::server::conf' do
 	} }
 
 	context 'should generate the bind configuration with concat' do
-		it { is_expected.to contain_file ('/etc/named.conf') }
+		it { is_expected.to contain_file('/etc/named.conf') }
 		it { is_expected.to contain_concat('/etc/named.conf') }
 		end
 	end

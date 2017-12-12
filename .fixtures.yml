@@ -6,5 +6,8 @@ fixtures:
     stdlib:
       repo: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
       ref: "4.12.0"
+    assert:
+      repo: "https://github.com/binford2k/puppet-assert.git"
+      ref: "v0.2.1"
   symlinks:
     bind: "#{source_dir}"

@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe 'bind::zone::record' do
   let(:facts) do {
-    :concat_basedir => '/root'
+    :concat_basedir => '/root',
+    :osfamily       => 'RedHat'
     }
   end
   let(:title) { 'example.com' }
