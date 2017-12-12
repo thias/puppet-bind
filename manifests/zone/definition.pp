@@ -25,6 +25,8 @@
 #   time after which data is outdated, default: 2419200,
 #  $zone_type:
 #   wheather zone is master or hint, default: master,
+#  $path:
+#   path to assert command, default: /sbin,
 #  $allow_update:
 #   hostnames allowed to submit dynamic updates, default: undef,
 #  $origin:
@@ -42,9 +44,12 @@ define bind::zone::definition (
   $retry          = '86400',
   $expire         = '2419200',
   $zone_type      = 'master',
+  $path           = '/sbin/',
   $allow_update   = undef,
   $origin         = undef,
 ){
+
+  include ::bind
 
   case $zone_type {
     'master', 'hint': { info("Supported zone type: ${zone_type}") }
@@ -55,7 +60,15 @@ define bind::zone::definition (
   concat::fragment { "${definition_file}_${name}":
     target  => $definition_file,
     content => template('bind/zone_definition.erb'),
-    order   => '99'
+    order   => '99',
+  }
+  assert { "Check nameserver file-${definition_file}":
+    command => "${path}named-checkconf ${definition_file}",
+    require => [
+      File[$definition_file],
+      Concat::Fragment["${definition_file}_${name}"]
+      ],
+    before  => Class['::bind::service'],
   }
   if $zone_type == 'master' {
     # Create zone configuration file

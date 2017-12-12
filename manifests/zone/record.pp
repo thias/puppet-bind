@@ -14,6 +14,8 @@
 #   zone class, default: IN,
 #  $order:
 #   oreder of concat fragment, default: 99,
+#  $path:
+#   path to assert command, default: /sbin,
 
 define bind::zone::record (
   $target_file,
@@ -22,6 +24,7 @@ define bind::zone::record (
   $rtype  = 'A',
   $rclass = 'IN',
   $order  = '99',
+  $path   = '/sbin/'
 ){
   include ::bind
 
@@ -35,8 +38,8 @@ define bind::zone::record (
     content => "${rname}\t${rclass}\t${rtype}\t${record_data}\n",
     order   => $order,
   }
-  assert { "should be success-${name}":
-    command => "/usr/bin/named-checkzone ${target_file}",
+  assert { "Check zone file-${target_file}":
+    command => "${path}named-checkzone ${name} ${target_file}",
     require => [
       File[$target_file],
       Concat::Fragment["${target_file}_${name}"]
