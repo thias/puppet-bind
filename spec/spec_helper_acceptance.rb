@@ -13,6 +13,5 @@ install_module_dependencies
 RSpec.configure do |c|
   c.include PuppetExamplesHelpers
 
-  c.formatter = :documentation
   c.order     = :defined
 end

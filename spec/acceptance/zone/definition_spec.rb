@@ -21,3 +21,4 @@ describe 'bind::zone::definition', unless: UNSUPPORTED_PLATFORMS.include?(fact('
   it { should contain '/var/named/test_file.com' }
   end
 end
+apply_manifest(pp, expect_failures: true)
