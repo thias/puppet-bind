@@ -18,4 +18,5 @@ describe 'bind::zone::definition'  do
   it { should compile }
   it { is_expected.to contain_file('/etc/bind/named.conf.unit') }
   it { is_expected.to contain_file('/etc/bind/coi/db.myzone') }
+  it { is_expected.to contain_assert('Check nameserver file-/etc/bind/named.conf.unit')}
 end
