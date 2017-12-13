@@ -1,9 +1,7 @@
 require 'spec_helper_acceptance'
 # Tests for define flyway::migrate
 describe 'bind::zone::definition', unless: UNSUPPORTED_PLATFORMS.include?(fact('osfamily')) do
-  let(:conf_pp) { example('bind::server::conf') }
-  let(:definition_pp) { example('bind::zone::definition') }
-  let(:pp) { conf_pp + "\n\n" + definition_pp }
+  let(:pp) { example('bind::zone::definition') }
 
   it 'should work with no errors' do
     result = apply_manifest(pp, catch_failures: true)
@@ -21,4 +19,3 @@ describe 'bind::zone::definition', unless: UNSUPPORTED_PLATFORMS.include?(fact('
   it { should contain '/var/named/test_file.com' }
   end
 end
-apply_manifest(pp, expect_failures: true)

@@ -19,3 +19,13 @@ bind::server::conf { '/etc/named.conf':
     ],
   },
 }
+bind::server::file { 'example.com':
+  source => 'puppet:///modules/bind/named.empty',
+}
+Bind::Zone::Record { target_file => '/var/named/example.com' }
+
+bind::zone::record {
+  'NS_server_world1.example.com': rname => '@', rtype => 'NS', rdata => 'world1.example.com', zone_name => 'example.com';
+  'world1.example.com': rname => 'world1', rtype => 'A', rdata => '192.168.56.110', zone_name => 'example.com';
+  'world2.example.com': rname => 'world2', rdata => '192.168.56.112', zone_name => 'example.com';
+}

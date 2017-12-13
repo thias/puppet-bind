@@ -121,7 +121,7 @@ bind::server::conf {
   },
 }
 ```
-The zone definition in /etc/named.conf and zone file (i.e /var/named/test_file.com) can be add with directive:
+The zone definition in /etc/named.conf and zone file (i.e /var/named/test_file.com) can be add with directives:
 
 ```puppet
 bind::zone::definition { 'world.dev.internal':

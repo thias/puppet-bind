@@ -21,6 +21,8 @@
 #    Zone file content (usually template-based). Default: none
 #  $ensure:
 #    Whether the zone file should be 'present' or 'absent'. Default: present.
+#  $order:
+#    Order the fragments. Default: '15'
 #
 # Sample Usage :
 #  bind::server::file { 'example.com':
@@ -31,16 +33,18 @@
 define bind::server::file (
   $zonedir     = '/var/named',
   $owner       = 'root',
-  $group       = undef,
   $mode        = '0640',
   $dirmode     = '0750',
+  $order       = '15',
+  $ensure      = undef,
+  $group       = undef,
   $source      = undef,
   $source_base = undef,
   $content     = undef,
-  $ensure      = undef,
+
 ) {
 
-  include '::bind::params'
+  include ::bind::params
   include ::bind
 
   if $group {
@@ -65,20 +69,31 @@ define bind::server::file (
       mode   => $dirmode,
     }
   }
+  $file_zone = "${zonedir}/${title}"
 
-  file { "${zonedir}/${title}":
-    ensure  => $ensure,
-    owner   => $owner,
-    group   => $bindgroup,
-    mode    => $mode,
-    source  => $zone_source,
-    content => $content,
+  concat { $file_zone:
+    ensure => $ensure,
+    owner  => $owner,
+    group  => $bindgroup,
+    mode   => $mode,
+  }
+  if $zone_source {
+    $content_file = $zone_source
+  }
+  elsif $content {
+    $content_file = $zone_source
+  }
+  else {
+    fail('One of $source, $source_base and $content parametres must be given')
+  }
+  concat::fragment { "${file_zone}_01_preamble":
+    target  => $file_zone,
+    source  => $content_file,
+    order   => $order,
     notify  => Class['::bind::service'],
-    # For the parent directory
     require => [
-      Class['::bind::package'],
-      File[$zonedir],
+    Class['::bind::package'],
+    File[$zonedir],
     ],
   }
-
 }

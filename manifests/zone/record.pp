@@ -8,6 +8,8 @@
 #   name of person or role account dealing with this zone, can be alias,
 #  $rdata:
 #   ip or name of server-record,
+#  $zone_name:
+#   Name of zone to check validyty of zone file,
 #  $rtype:
 #   type of dns record, default: A,
 #  $rclass
@@ -21,6 +23,7 @@ define bind::zone::record (
   $target_file,
   $rname,
   $rdata,
+  $zone_name,
   $rtype  = 'A',
   $rclass = 'IN',
   $order  = '99',
@@ -38,8 +41,8 @@ define bind::zone::record (
     content => "${rname}\t${rclass}\t${rtype}\t${record_data}\n",
     order   => $order,
   }
-  assert { "Check zone file-${target_file}":
-    command => "${path}named-checkzone ${name} ${target_file}",
+  assert { "Check zone file-${target_file}-${rname}":
+    command => "${path}named-checkzone ${zone_name} ${target_file}",
     require => [
       File[$target_file],
       Concat::Fragment["${target_file}_${name}"]
