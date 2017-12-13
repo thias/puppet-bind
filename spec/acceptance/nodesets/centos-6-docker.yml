@@ -1,0 +1,20 @@
+HOSTS:
+  centos-6-docker:
+    platform: el-6-x86_64
+    hypervisor: docker
+    image: centos:6
+    docker_preserve_image: true
+    docker_image_commands:
+      - "sed -i 's/keepcache=0/keepcache=1/g' /etc/yum.conf"
+      - 'yum install -y crontabs wget'
+    mount_folders:
+      wget_cache:
+        host_path: /tmp/docker-cache/wget
+        container_path: /var/cache/wget
+      yum_cache:
+        host_path: /tmp/docker-cache/yum/centos-6-docker
+        container_path: /var/cache/yum
+CONFIG:
+  trace_limit: 200
+  type: foss
+  log_level: debug
