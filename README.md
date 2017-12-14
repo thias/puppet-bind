@@ -23,8 +23,44 @@ them both. In order to add zone definition to already existed named.conf file an
 
 ## Examples
 
-Here is a typical LAN recursive caching DNS server configuration :
+Here is a typical DNS server configuration :
+```puppet
+include bind
+bind::server::conf { '/etc/named.conf':
+  listen_on_addr    => [ 'any' ],
+  listen_on_v6_addr => [ 'any' ],
+  forwarders        => [ '8.8.8.8', '8.8.4.4' ],
+  allow_query       => [ 'localnets' ],
+}
+bind::zone::definition { 'dev.internal':
+  definition_file => '/etc/named.conf',
+  zone_file       => '/var/named/test_file.com',
+  zone_type       => 'master',
+  allow_update    => 'none',
+  soa_nameserver  => 'dev.internal',
+  soa_contact     => 'root.localhost',
+  ttl             => '1800',
+  minimum_ttl     => '3H',
+  refresh         => '1D',
+  retry           => '1H',
+  expire          => '1W',
+  serial          => '20171208', # for example current date
+}
 
+Bind::Zone::Record { target_file => '/var/named/test_file.com' }
+
+bind::zone::record {
+  'NS_server_node1.dev.internal': rname => '@', rtype => 'NS', rdata => 'node1.dev.internal', zone_name => 'dev.internal';
+  'node1.dev.internal': rname => 'node1', rtype => 'A', rdata => '192.168.33.10', zone_name => 'dev.internal';
+}
+
+```
+Zone definition in /etc/named.conf and zone file (i.e /var/named/test_file.com) can be add with directive `bind::zone::definition`.
+If named.conf file oraz zone file is not correct, then resource `assert` raise error and reload of bind service won't be done. Zone record can be add with directive `bind::zone::record`.
+
+
+
+Here is anther way to set a typical LAN recursive caching DNS server configuration :
 ```puppet
 include bind
 bind::server::conf { '/etc/named.conf':
@@ -51,6 +87,7 @@ The zone files for the above could then be managed like this :
 bind::server::file { 'myzone.lan':
   source => 'puppet:///modules/mymodule/dns/myzone.lan',
 }
+# Here you can add new records to myzone.lan file, without changing source file
 Bind::Zone::Record { target_file => '/var/named/myzone.lan' }
 
 bind::zone::record {
@@ -130,29 +167,3 @@ bind::server::conf {
   },
 }
 ```
-The zone definition in /etc/named.conf and zone file (i.e /var/named/test_file.com) can be add with directives:
-
-```puppet
-bind::zone::definition { 'dev.internal':
-  definition_file => '/etc/named.conf',
-  zone_file       => '/var/named/test_file.com',
-  zone_type       => 'master',
-  allow_update    => 'none',
-  soa_nameserver  => 'dev.internal',
-  soa_contact     => 'root.localhost',
-  ttl             => '1800',
-  minimum_ttl     => '3H',
-  refresh         => '1D',
-  retry           => '1H',
-  expire          => '1W',
-  serial          => '20171208', # for example current date
-}
-
-Bind::Zone::Record { target_file => '/var/named/test_file.com' }
-
-bind::zone::record {
-  'NS_server_node1.dev.internal': rname => '@', rtype => 'NS', rdata => 'node1.dev.internal', zone_name => 'dev.internal';
-  'node1.dev.internal': rname => 'node1', rtype => 'A', rdata => '192.168.33.10', zone_name => 'dev.internal';
-}
-```
-If named.conf file oraz zone file is not correct, then resource `assert` raise error and reload of bind service won't be done.
