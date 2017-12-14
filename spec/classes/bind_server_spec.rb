@@ -8,7 +8,7 @@ describe 'bind::server' do
         with('hasstatus' => true,
               'enable' => true,
               'ensure' => 'running',
-              'restart' => '/sbin/service named reload')
+              'restart' => 'service named reload')
   }
   it { should contain_file('/var/log/named').
     with(

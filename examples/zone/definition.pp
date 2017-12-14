@@ -1,13 +1,14 @@
 # Taken from the "Sample Usage :"
 include bind::server
 bind::server::conf { '/etc/named.conf':
-  acls    => {
+  recursion => 'no',
+  acls      => {
     'rfc1918' => [ '10/8', '172.16/12', '192.168/16' ],
   },
-  masters => {
+  masters   => {
     'mymasters' => [ '192.0.2.1', '198.51.100.1' ],
   },
-  zones   => {
+  zones     => {
     'example.com' => [
       'type master',
       'file "example.com"',

@@ -44,13 +44,13 @@ define bind::zone::definition (
   $retry          = '86400',
   $expire         = '2419200',
   $zone_type      = 'master',
-  $path           = '/sbin/',
+  $path           = $::bind::params::checkpath,
   $allow_update   = undef,
   $origin         = undef,
 ){
 
   include ::bind
-
+  include ::bind::params
   case $zone_type {
     'master', 'hint': { info("Supported zone type: ${zone_type}") }
     default: { fail("Unsupported zone type: ${zone_type}") }

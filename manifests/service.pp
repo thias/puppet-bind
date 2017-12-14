@@ -7,7 +7,7 @@ class bind::service (
 
   if $service_reload {
     Service[$servicename] {
-      restart => "/sbin/service ${servicename} reload",
+      restart => "service ${servicename} reload",
     }
   }
 

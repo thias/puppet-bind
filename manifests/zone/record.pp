@@ -27,9 +27,10 @@ define bind::zone::record (
   $rtype  = 'A',
   $rclass = 'IN',
   $order  = '99',
-  $path   = '/sbin/'
+  $path   = $::bind::params::checkpath,
 ){
   include ::bind
+  include ::bind::params
 
   $record_data = $rtype ? {
       /(NS|CNAME|PTR)/ => "${rdata}.",
