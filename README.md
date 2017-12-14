@@ -7,11 +7,12 @@ and manage its DNS zone files.
 
 * `bind` : Main class to install and enable the server.
 * `bind::server::conf` : Main definition to configure the server.
+* `bind::zone::definition` : Definition to add zone to main server configuration file and create zone file.
+* `bind::zone::record` : Definition to add records into zone file.
 * `bind::server::file` : Definition to manage zone files.
 * `bind::package` : Class to install the server package (included from `bind`)
 * `bind::service` : Class to manage the server service (included from `bind`)
-* `bind::zone::definition` : Definition to add zone to main server configuration file and create zone file.
-* `bind::zone::record` : Definition to add records into zone file.
+
 
 The split between `bind` and `bind::server::conf` allows to use a static file
 or a different template-based file for the main `named.conf` file if needed,
@@ -34,7 +35,7 @@ bind::server::conf { '/etc/named.conf':
 }
 bind::zone::definition { 'dev.internal':
   definition_file => '/etc/named.conf',
-  zone_file       => '/var/named/test_file.com',
+  zone_file       => '/var/named/dev.internal.zone',
   zone_type       => 'master',
   allow_update    => 'none',
   soa_nameserver  => 'dev.internal',
@@ -47,7 +48,7 @@ bind::zone::definition { 'dev.internal':
   serial          => '20171208', # for example current date
 }
 
-Bind::Zone::Record { target_file => '/var/named/test_file.com' }
+Bind::Zone::Record { target_file => '/var/named/dev.internal.zone' }
 
 bind::zone::record {
   'NS_server_node1.dev.internal': rname => '@', rtype => 'NS', rdata => 'node1.dev.internal', zone_name => 'dev.internal';
@@ -55,7 +56,7 @@ bind::zone::record {
 }
 
 ```
-Zone definition in /etc/named.conf and zone file (i.e /var/named/test_file.com) can be add with directive `bind::zone::definition`.
+Zone definition in /etc/named.conf and zone file (i.e /var/named/dev.internal.zone) can be add with directive `bind::zone::definition`.
 If named.conf file oraz zone file is not correct, then resource `assert` raise error and reload of bind service won't be done. Zone record can be add with directive `bind::zone::record`.
 
 

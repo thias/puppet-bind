@@ -1,5 +1,5 @@
 # Taken from the "Sample Usage :"
-# Bug in bind::zone::record. Ther is no A for dns server. Changes won't take effect, because bind service won't be reload
+# Bug in bind::zone::record. Ther is no A for dns server. Changes don't take effect, because bind service won't be reload
 include bind::server
 bind::server::conf { '/etc/named.conf':
   acls    => {
