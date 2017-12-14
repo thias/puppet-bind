@@ -1,17 +1,22 @@
 require 'puppet'
 require 'beaker-rspec'
-require 'beaker/puppet_install_helper'
 require 'beaker/module_install_helper'
 require 'puppet-examples-helpers'
+require 'spec_helper'
 
 UNSUPPORTED_PLATFORMS = %w[Suse windows AIX Solaris].freeze
 
-install_puppet({
-  :version              => ENV['PUPPET_INSTALL_VERSION'] || '4',
-  :puppet_agent_version => ENV['PUPPET_AGENT_INSTALL_VERSION'] || '1.10.7',
-  :puppet_collection    => ENV['PUPPET_COLLECTION'] || 'pc1',
-  :default_action       => 'gem_install'
-})
+puppet_version = ENV['PUPPET_INSTALL_VERSION'] || '4'
+puppet_agent_version = ENV['PUPPET_AGENT_INSTALL_VERSION'] || '1.10.7'
+opts = {
+  :version              => puppet_version,
+  :puppet_agent_version => puppet_agent_version
+}
+opts.merge!({
+  :puppet_collection => ENV['PUPPET_COLLECTION']
+}) unless ENV['PUPPET_COLLECTION'].nil?
+
+install_puppet opts
 shell 'echo "Puppet Version: $(puppet --version)"'
 install_module
 install_module_dependencies

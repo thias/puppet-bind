@@ -11,7 +11,11 @@ gem 'puppet-lint'
 group :acceptance do
   gem 'beaker-rspec', :require => false
   gem 'beaker-pe', :require => false
-  gem 'beaker-puppet_install_helper', '~> 0.7.1', :require => false
   gem 'beaker-module_install_helper', '~> 0.1.0', :require => false
   gem 'puppet-examples-helpers', :require => false
+end if RUBY_VERSION > '2.1.8'
+
+group :development do
+  gem 'pry'
+  gem 'pry-byebug'
 end if RUBY_VERSION > '2.1.8'
