@@ -70,12 +70,12 @@ matrix:
   - rvm: '2.3'
     sudo: required
     services: docker
-    env: PUPPET_INSTALL_VERSION='3.8.7' RS_SET="debian-82-docker"
+    env: PUPPET_INSTALL_VERSION='3.8.7' RS_SET="debian-78-docker"
     script: bundle exec rake beaker
   - rvm: '2.3'
     sudo: required
     services: docker
-    env: PUPPET_INSTALL_VERSION='3.8.7' RS_SET="centos-7-docker"
+    env: PUPPET_INSTALL_VERSION='3.8.7' RS_SET="centos-6-docker"
     script: bundle exec rake beaker
   # On default Puppet 2.x
   - rvm: '1.8'
