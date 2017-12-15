@@ -1,12 +1,12 @@
 {
-  "name": "thias-bind",
+  "name": "thias&COI-bind",
   "version": "0.5.3",
-  "author": "Matthias Saou",
+  "author": "Matthias Saou&COI",
   "license": "Apache-2.0",
   "summary": "BIND DNS server module",
-  "source": "git://github.com/thias/puppet-bind",
-  "project_page": "https://github.com/thias/puppet-bind",
-  "issues_url": "https://github.com/thias/puppet-bind/issues",
+  "source": "https://github.com/coi-gov-pl/puppet-bind.git",
+  "project_page": "https://github.com/coi-gov-pl/puppet-bind.git",
+  "issues_url": "https://github.com/coi-gov-pl/puppet-bind/issues",
   "tags": [ "bind", "named", "dns" ],
   "operatingsystem_support": [
     {

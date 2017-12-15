@@ -1,15 +1,15 @@
 HOSTS:
-  centos-6-vagrant:
-    platform: el-6-x86_64
+  ol-7-vagrant:
+    platform: el-7-x86_64
     hypervisor: vagrant
-    box: boxcutter-centos68
-    box_url: https://artifactory.coi.gov.pl/api/vagrant/vagrant-local/boxcutter-centos68
+    box: boxcutter-ol73
+    box_url: https://artifactory.coi.gov.pl/api/vagrant/vagrant-local/boxcutter-ol73
     mount_folders:
       wget_cache:
         from: /tmp/vagrant-cache/wget
         to: /var/cache/wget
       yum_cache:
-        from: /tmp/vagrant-cache/yum/centos-6-vagrant
+        from: /tmp/vagrant-cache/yum/ol-7-vagrant
         to: /var/cache/yum
 CONFIG:
   type: foss

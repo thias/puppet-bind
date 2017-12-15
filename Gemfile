@@ -13,9 +13,11 @@ group :acceptance do
   gem 'beaker-pe', :require => false
   gem 'beaker-module_install_helper', '~> 0.1.0', :require => false
   gem 'puppet-examples-helpers', :require => false
-end if RUBY_VERSION > '2.1.8'
+  gem 'vagrant-wrapper', :require => false
+  gem 'vagrant-wrapper', :require => false
+end if RUBY_VERSION > '2.1'
 
 group :development do
   gem 'pry'
   gem 'pry-byebug'
-end if RUBY_VERSION > '2.1.8'
+end if RUBY_VERSION > '2.1'
