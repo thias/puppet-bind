@@ -65,7 +65,6 @@ define bind::zone::definition (
   assert { "Check nameserver file-${definition_file}":
     command => "${path}named-checkconf ${definition_file}",
     require => [
-      File[$definition_file],
       Concat::Fragment["${definition_file}_${name}"]
       ],
     before  => Class['::bind::service'],

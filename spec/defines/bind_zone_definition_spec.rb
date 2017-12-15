@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'bind::zone::definition'  do
+  let(:pre_condition) { 'include bind::params'}
   let(:facts) do {
     :concat_basedir => '/root'
     }

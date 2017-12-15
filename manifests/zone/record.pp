@@ -45,7 +45,6 @@ define bind::zone::record (
   assert { "Check zone file-${target_file}-${rname}":
     command => "${path}named-checkzone ${zone_name} ${target_file}",
     require => [
-      File[$target_file],
       Concat::Fragment["${target_file}_${name}"]
       ],
     before  => Class['::bind::service']

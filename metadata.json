@@ -1,7 +1,7 @@
 {
-  "name": "thias&COI-bind",
-  "version": "0.5.3",
-  "author": "Matthias Saou&COI",
+  "name": "thiasandCOI-bind",
+  "version": "1.0.0",
+  "author": "Matthias Saou and COI",
   "license": "Apache-2.0",
   "summary": "BIND DNS server module",
   "source": "https://github.com/coi-gov-pl/puppet-bind.git",
@@ -35,7 +35,7 @@
   "dependencies": [
     {
       "name": "puppetlabs-concat",
-      "version_requirement": ">=1.2.1 <2.0.0"
+      "version_requirement": ">=4.0.0 <5.0.0"
     },
     {
       "name":"puppetlabs/stdlib",
