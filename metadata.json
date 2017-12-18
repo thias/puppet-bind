@@ -1,7 +1,7 @@
 {
-  "name": "thiasandCOI-bind",
-  "version": "1.0.1",
-  "author": "Matthias Saou and COI",
+  "name": "thiasand-bind",
+  "version": "0.5.3",
+  "author": "Matthias Saou",
   "license": "Apache-2.0",
   "summary": "BIND DNS server module",
   "source": "https://github.com/coi-gov-pl/puppet-bind.git",
