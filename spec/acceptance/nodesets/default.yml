@@ -1,0 +1,18 @@
+HOSTS:
+  default-ol-6-vagrant:
+    platform: el-6-x86_64
+    hypervisor: vagrant
+    box: boxcutter-ol68
+    box_url: https://artifactory.coi.gov.pl/api/vagrant/vagrant-local/boxcutter-ol68
+    mount_folders:
+      wget_cache:
+        from: /tmp/vagrant-cache/wget
+        to: /var/cache/wget
+      yum_cache:
+        from: /tmp/vagrant-cache/wget/ol-6-vagrant
+        to: /var/cache/yum
+CONFIG:
+  type: foss
+  log_level: info
+  default_module_install_opts:
+    module_repository: http://forge.prs.internal/

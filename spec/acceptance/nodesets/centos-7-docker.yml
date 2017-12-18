@@ -1,0 +1,21 @@
+HOSTS:
+  centos-7-docker:
+    platform: el-7-x86_64
+    hypervisor: docker
+    image: centos:7
+    docker_preserve_image: true
+    docker_cmd: '["/usr/sbin/init"]'
+    # install various tools required to get the image up to usable levels
+    docker_image_commands:
+      - 'yum install -y crontabs tar wget openssl sysvinit-tools iproute which initscripts'
+    mount_folders:
+      wget_cache:
+        host_path: /tmp/docker-cache/wget
+        container_path: /var/cache/wget
+      yum_cache:
+        host_path: /tmp/docker-cache/yum/centos-7-docker
+        container_path: /var/cache/yum
+CONFIG:
+  trace_limit: 200
+  type: foss
+  log_level: debug

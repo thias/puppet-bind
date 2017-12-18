@@ -1,0 +1,22 @@
+HOSTS:
+  ubuntu-1404-docker:
+    platform: ubuntu-14.04-amd64
+    hypervisor: docker
+    image: ubuntu:14.04
+    docker_preserve_image: true
+    docker_cmd: '["/sbin/init"]'
+    docker_image_commands:
+      - 'rm /usr/sbin/policy-rc.d'
+      - 'rm /sbin/initctl; dpkg-divert --rename --remove /sbin/initctl'
+      - 'apt-get install -y net-tools wget'
+      - 'locale-gen en_US.UTF-8'
+    mount_folders:
+      wget_cache:
+        host_path: /tmp/docker-cache/wget
+        container_path: /var/cache/wget
+      apt_cache:
+        host_path: /tmp/docker-cache/apt/ubuntu-1404-docker
+        container_path: /var/cache/apt/archives
+CONFIG:
+  type: foss
+  log_level: debug

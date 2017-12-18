@@ -80,7 +80,7 @@
 #        'masters { mymasters; }',
 #      ],
 #    }
-#    keys                 => { 
+#    keys                 => {
 #      'example.org-tsig' => [
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
@@ -120,10 +120,15 @@ define bind::server::conf (
   $views                  = {},
 ) {
 
-  # Everything is inside a single template
-  file { $title:
-    notify  => Class['::bind::service'],
+  include ::bind
+
+  concat { $title:
+    ensure => 'present',
+  }
+  concat::fragment { "${title}_01_preamble":
+    target  => $title,
     content => template('bind/named.conf.erb'),
+    notify  => Class['::bind::service'],
   }
 
 }

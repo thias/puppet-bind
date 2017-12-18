@@ -7,9 +7,12 @@ and manage its DNS zone files.
 
 * `bind` : Main class to install and enable the server.
 * `bind::server::conf` : Main definition to configure the server.
+* `bind::zone::definition` : Definition to add zone to main server configuration file and create zone file.
+* `bind::zone::record` : Definition to add records into zone file.
 * `bind::server::file` : Definition to manage zone files.
 * `bind::package` : Class to install the server package (included from `bind`)
 * `bind::service` : Class to manage the server service (included from `bind`)
+
 
 The split between `bind` and `bind::server::conf` allows to use a static file
 or a different template-based file for the main `named.conf` file if needed,
@@ -17,12 +20,48 @@ while still using this module for the main package, service and managing zone
 files. This is useful if you have a large and/or complex named.conf file.
 Note that you may also use the `bind::package` and `bind::service` classes on
 their own, though you won't need to if you use the main class, which includes
-them both.
+them both. In order to add zone definition to already existed named.conf file and add zone file you can use `bind::zone::definition`. If you want to just add record to existed file zone use `bind::zone::record`.
 
 ## Examples
 
-Here is a typical LAN recursive caching DNS server configuration :
+Here is a typical DNS server configuration :
+```puppet
+include bind
+bind::server::conf { '/etc/named.conf':
+  listen_on_addr    => [ 'any' ],
+  listen_on_v6_addr => [ 'any' ],
+  forwarders        => [ '8.8.8.8', '8.8.4.4' ],
+  allow_query       => [ 'localnets' ],
+}
+bind::zone::definition { 'dev.internal':
+  definition_file => '/etc/named.conf',
+  zone_file       => '/var/named/dev.internal.zone',
+  zone_type       => 'master',
+  allow_update    => 'none',
+  soa_nameserver  => 'dev.internal',
+  soa_contact     => 'root.localhost',
+  ttl             => '1800',
+  minimum_ttl     => '3H',
+  refresh         => '1D',
+  retry           => '1H',
+  expire          => '1W',
+  serial          => '20171208', # for example current date
+}
 
+Bind::Zone::Record { target_file => '/var/named/dev.internal.zone' }
+
+bind::zone::record {
+  'NS_server_node1.dev.internal': rname => '@', rtype => 'NS', rdata => 'node1.dev.internal', zone_name => 'dev.internal';
+  'node1.dev.internal': rname => 'node1', rtype => 'A', rdata => '192.168.33.10', zone_name => 'dev.internal';
+}
+
+```
+Zone definition in /etc/named.conf and zone file (i.e /var/named/dev.internal.zone) can be add with directive `bind::zone::definition`.
+If named.conf file oraz zone file is not correct, then resource `assert` raise error and reload of bind service won't be done. Zone record can be add with directive `bind::zone::record`.
+
+
+
+Here is anther way to set a typical LAN recursive caching DNS server configuration :
 ```puppet
 include bind
 bind::server::conf { '/etc/named.conf':
@@ -48,6 +87,14 @@ The zone files for the above could then be managed like this :
 ```puppet
 bind::server::file { 'myzone.lan':
   source => 'puppet:///modules/mymodule/dns/myzone.lan',
+}
+# Here you can add new records to myzone.lan file, without changing source file
+Bind::Zone::Record { target_file => '/var/named/myzone.lan' }
+
+bind::zone::record {
+  'NS_server_node1.myzone.lan': rname => '@', rtype => 'NS', rdata => 'node1.myzone.lan', zone_name => 'myzone.lan';
+  'node1.myzone.lan': rname => 'node1', rtype => 'A', rdata => '192.168.33.10', zone_name => 'myzone.lan';
+  'node2.myzone.lan': rname => 'node2', rdata => '192.168.33.12', zone_name => 'myzone.lan';
 }
 bind::server::file { '1.168.192.in-addr.arpa':
   source => 'puppet:///modules/mymodule/dns/1.168.192.in-addr.arpa',
@@ -121,4 +168,3 @@ bind::server::conf {
   },
 }
 ```
-

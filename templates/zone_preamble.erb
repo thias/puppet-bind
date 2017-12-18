@@ -1,0 +1,12 @@
+;
+; This file is managed by Puppet. All changes will be overwritten.
+;
+<% if @origin %>$ORIGIN <%= @origin %><% end %>
+$TTL  <%= @ttl %>
+@     IN      SOA     <%= @soa_nameserver %>.    <%= @soa_contact %>. (
+                      <%= @serial %>
+                      <%= @refresh %>
+                      <%= @retry %>
+                      <%= @expire %>
+                      <%= @minimum_ttl %>)
+;

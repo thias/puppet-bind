@@ -11,3 +11,6 @@ rescue Bundler::BundlerError => e
   $stderr.puts "Run `bundle install` to install missing gems"
   exit e.status_code
 end
+
+desc 'Run all tests'
+task :test => [ :syntax, :lint, :spec ]
