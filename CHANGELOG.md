@@ -1,3 +1,6 @@
+#### 2018-02-13 - 0.5.4
+* Add support for `pid-file`, `allow-update`, `logging`, `interface-interval`, `controls` and `statistics-channels`
+
 #### 2017-02-02 - 0.5.3
 * Fix undefined variable warning.
 

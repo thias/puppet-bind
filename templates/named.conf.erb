@@ -33,6 +33,27 @@ masters <%= key %> {
 
 <% end -%>
 <% end -%>
+
+<% if !@controls.empty? %>
+controls {
+<% @controls.sort_by {|ip, ports| ip}.each do |ip, ports| -%>
+<% ports.each do |port, allow| -%>
+  inet <%= ip %> port <%= port %> allow { <%= allow.join('; ') %>; };
+<% end -%>
+<% end -%>
+};
+<% end -%>
+
+<% if !@statistics_channels.empty? %>
+statistics-channels {
+<% @statistics_channels.sort_by {|ip, ports| ip}.each do |ip, ports| -%>
+<% ports.each do |port, allow| -%>
+  inet <%= ip %> port <%= port %> allow { <%= allow.join('; ') %>; };
+<% end -%>
+<% end -%>
+};
+<% end -%>
+
 options {
 <% if @listen_on_port -%>
     listen-on port <%= @listen_on_port %> { <%= @listen_on_addr.join("; ") %>; };
@@ -65,6 +86,9 @@ options {
 <% if @memstatistics_file -%>
     memstatistics-file "<%= @memstatistics_file %>";
 <% end -%>
+<% if @pid_file -%>
+    pid-file "<%= @pid_file %>";
+<% end -%>
 <% if !@allow_query.empty? -%>
     allow-query { <%= @allow_query.join("; ") %>; };
 <% end -%>
@@ -78,10 +102,16 @@ options {
 <% if !@allow_transfer.empty? -%>
     allow-transfer { <%= @allow_transfer.join("; ") %>; };
 <% end -%>
+<% if !@allow_update.empty? -%>
+    allow-update { <%= @allow_update.join("; ") %>; };
+<% end -%>
 <% if !@check_names.empty? -%>
 <% @check_names.each do |line| -%>
     check-names <%= line %>;
 <% end -%>
+<% end -%>
+<% if @interface_interval -%>
+    interface-interval <%= @interface_interval %>;
 <% end -%>
 
 <% if !@extra_options.empty? -%>
@@ -98,6 +128,24 @@ options {
     bindkeys-file "/etc/named.iscdlv.key";
 };
 
+<% if !@logging.empty? -%>
+logging {
+<% if !@logging['channels'].empty? -%>
+<% @logging['channels'].each do |channel_name, channel_hash| -%>
+    channel <%= channel_name %> {
+<% channel_hash.each do |key, value| -%>
+        <%= key %> <%= value %>;
+<% end -%>
+    };
+<% end -%>
+<% end -%>
+<% if !@logging['categories'].empty? -%>
+<% @logging['categories'].each do |key, value| -%>
+    category <%= key %> { <%= value %>; };
+<% end -%>
+<% end -%>
+};
+<% else -%>
 logging {
     channel main_log {
         file "/var/log/named/named.log" versions 3 size 5m;
@@ -113,6 +161,7 @@ logging {
         null;
     };
 };
+<% end -%>
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
@@ -180,4 +229,3 @@ include "/etc/named.rfc1912.zones";
 include "<%= filename %>";
 <% end -%>
 <% end -%>
-

@@ -104,6 +104,7 @@ define bind::server::conf (
   $dump_file              = '/var/named/data/cache_dump.db',
   $statistics_file        = '/var/named/data/named_stats.txt',
   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
+  $pid_file               = '/var/run/named/named.pid',
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
   $recursion              = 'yes',
@@ -118,6 +119,11 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $allow_update           = [],
+  $logging                = {},
+  $interface_interval     = undef,
+  $controls               = {},
+  $statistics_channels    = {},
 ) {
 
   # Everything is inside a single template
