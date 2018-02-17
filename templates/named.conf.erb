@@ -63,8 +63,8 @@ options {
 <% end -%>
 <% if !@forwarders.empty? -%>
     forwarders { <%= @forwarders.join("; ") %>; };
-<% if @forward_only -%>
-    forward <%= @forward_only %>;
+<% if @forward -%>
+    forward <%= @forward %>;
 <% end -%>
 <% end -%>
     directory "<%= @directory %>";

@@ -96,6 +96,7 @@ define bind::server::conf (
   $listen_on_v6_port      = '53',
   $listen_on_v6_addr      = [ '::1' ],
   $forwarders             = [],
+  $forward                = undef,
   $directory              = '/var/named',
   $managed_keys_directory = undef,
   $hostname               = undef,
@@ -125,7 +126,6 @@ define bind::server::conf (
   $controls               = {},
   $statistics_channels    = {},
   $rndc_key               = {},
-  $forward_only           = undef,
 ) {
 
   # Everything is inside a single template
