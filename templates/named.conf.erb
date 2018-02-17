@@ -63,6 +63,9 @@ options {
 <% end -%>
 <% if !@forwarders.empty? -%>
     forwarders { <%= @forwarders.join("; ") %>; };
+<% if @forward_only -%>
+    forward <%= @forward_only %>;
+<% end -%>
 <% end -%>
     directory "<%= @directory %>";
 <% if @managed_keys_directory -%>
@@ -227,5 +230,14 @@ include "/etc/named.rfc1912.zones";
 <% if !@includes.empty? -%>
 <% @includes.each do |filename| -%>
 include "<%= filename %>";
+<% end -%>
+<% end -%>
+
+<% if !@rndc_key.empty? -%>
+<% @rndc_key.each do |key,value| -%>
+key "<%= key %>" {
+    algorithm <%= value['algorithm'] %>;
+    secret "<%= value['secret'] %>";
+};
 <% end -%>
 <% end -%>

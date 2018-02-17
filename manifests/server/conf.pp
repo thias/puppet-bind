@@ -124,6 +124,8 @@ define bind::server::conf (
   $interface_interval     = undef,
   $controls               = {},
   $statistics_channels    = {},
+  $rndc_key               = {},
+  $forward_only           = undef,
 ) {
 
   # Everything is inside a single template
