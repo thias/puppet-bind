@@ -98,6 +98,7 @@ options {
     bindkeys-file "/etc/named.iscdlv.key";
 };
 
+<% if @logging -%>
 logging {
     channel main_log {
         file "/var/log/named/named.log" versions 3 size 5m;
@@ -112,7 +113,20 @@ logging {
     category lame-servers {
         null;
     };
+<% if @custom_logging and !@custom_logging.empty? -%>
+<% @custom_logging.each do |log_type,log_hashes| -%>
+<% log_hashes.each do |name,log_hash| -%>
+    <%= log_type %> <%= name %> {
+<% log_hash.each do |key,val| -%>
+        <%= key %> <%= val %>;
+<% end -%>
+    };
+<% end -%>
+<% end -%>
+<% end -%>
 };
+<% end -%>
+
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
