@@ -60,6 +60,12 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $logging:
+#   Boolean to include default logging options
+#   Default: true
+#  $custom_logging:
+#   Hash of logging options (currently limited to ['category','channel'] per named.conf
+#   Example: {channel => {security => {key => val, }}, category => {security => {}}
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
