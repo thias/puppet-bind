@@ -120,6 +120,11 @@ define bind::server::conf (
   $views                  = {},
 ) {
 
+  # OS Defaults
+  include '::bind::params'
+  $file_hint = $::bind::params::file_hint
+  $file_rfc1912 = $::bind::params::file_rfc1912
+
   # Everything is inside a single template
   file { $title:
     notify  => Class['::bind::service'],
