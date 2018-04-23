@@ -132,6 +132,7 @@ define bind::server::conf (
   file { $title:
     notify  => Class['::bind::service'],
     content => template('bind/named.conf.erb'),
+    require => Class['::bind::package'],
   }
 
 }
