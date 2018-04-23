@@ -22,6 +22,8 @@
 #  $hostname:
 #   Hostname returned for hostname.bind TXT in CHAOS. Set to 'none' to disable.
 #   Default: undef, bind internal default
+#  $forward:
+#   Specific forwarding mode forward ( first | only );. Default: undef, empty
 #  $server_id:
 #   ID returned for id.server TXT in CHAOS. Default: undef, empty
 #  $version:
@@ -99,6 +101,7 @@ define bind::server::conf (
   $directory              = '/var/named',
   $managed_keys_directory = undef,
   $hostname               = undef,
+  $forward                = undef,
   $server_id              = undef,
   $version                = undef,
   $dump_file              = '/var/named/data/cache_dump.db',
