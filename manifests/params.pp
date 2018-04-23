@@ -6,7 +6,7 @@ class bind::params {
     'RedHat': {
       $packagenameprefix = 'bind'
       $servicename       = 'named'
-      $binduser          = 'root'
+      $binduser          = 'named'
       $bindgroup         = 'named'
       $file_hint         = 'named.ca'
       $file_rfc1912      = '/etc/named.rfc1912.zones'
