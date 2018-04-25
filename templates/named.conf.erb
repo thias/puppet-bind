@@ -175,7 +175,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "<%= @file_hint %>";
+include "<%= @file_rfc1912 %>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>
