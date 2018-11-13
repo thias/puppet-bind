@@ -62,6 +62,9 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $logging:
+#   Hash containing two subhashes: 'channels' and 'categories'. Each key is 
+#   the name for the channel/category and has an Array of config lines. Def: Empty
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -121,6 +124,7 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $logging                = {},
 ) {
 
   # OS Defaults
