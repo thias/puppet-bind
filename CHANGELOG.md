@@ -1,3 +1,4 @@
+#### 2019-01-21 - 0.5.4
 * Add zone file validation (#91, @forgodssake).
 * Fix hint and rfc1912 zones on Debian (#61, #83).
 * Add support for configuring forward mode (#73, @warrenpnz).
