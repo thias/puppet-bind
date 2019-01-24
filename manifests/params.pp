@@ -16,7 +16,16 @@ class bind::params {
       $servicename       = 'bind9'
       $binduser          = 'bind'
       $bindgroup         = 'bind'
-      $file_hint         = '/etc/bind/db.root'
+      case $facts['lsbdistcodename'] {
+        # newer Debian releases include the hint in the named.conf.default-zones
+        # bind fails to start with duplicate declarations
+        /^(stretch|bionic|cosmic)$/: {
+          $file_hint = undef
+        }
+        default: {
+          $file_hint = '/etc/bind/db.root'
+        }
+      }
       $file_rfc1912      = '/etc/bind/named.conf.default-zones'
     }
     'Freebsd': {
