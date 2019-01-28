@@ -99,6 +99,12 @@ options {
 
     /* Path to ISC DLV key */
     bindkeys-file "/etc/named.iscdlv.key";
+
+<% if !@disable_empty_zone.empty? -%>
+<% @disable_empty_zone.each do |emptyzone| -%>
+    disable-empty-zone "<%= emptyzone %>";
+<% end -%>
+<% end -%>
 };
 
 logging {
