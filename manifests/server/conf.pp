@@ -5,6 +5,9 @@
 # Parameters:
 #  $acls:
 #   Hash of client ACLs, name as key and array of config lines. Default: empty
+#  $controls:
+#   Array of control channels to be used for remote administration
+#   (rndc). Default: empty
 #  $masters:
 #   Hash of master ACLs, name as key and array of config lines. Default: empty
 #  $listen_on_port:
@@ -39,15 +42,28 @@
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
 #   Allow recursive queries. Default: 'yes'
+#  $notify:
+#   Whether to send NOTIFYs when zones change. Default: undef
+#  $request_ixfr:
+#   Whether the server will request an incremental zone transfer or a
+#   full one. Default: undef
+#  $auth_nxdomain:
+#   Whether to respond authoritatively (AA flag) in NXDOMAIN answers.
+#   Default: undef
 #  $allow_recursion:
 #   Array of IP addrs or ACLs to allow recursion from. Default: empty
 #  $allow_transfer:
 #   Array of IP addrs or ACLs to allow transfer to. Default: empty
+#  $allow_notify:
+#   Array of IP addresses allowed to NOTIFY this server besides the ones
+#   defined in 'masters'. Default: empty
 #  $check_names:
 #   Array of check-names strings. Example: [ 'master ignore' ]. Default: empty
 #  $extra_options:
 #   Hash for any additional options that must go in the 'options' declaration.
 #   Default: empty
+#  $allow_new_zones:
+#   Enable creation of new zones. Default: undef
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
@@ -92,6 +108,7 @@
 #
 define bind::server::conf (
   $acls                   = {},
+  $controls               = {},
   $masters                = {},
   $listen_on_port         = '53',
   $listen_on_addr         = [ '127.0.0.1' ],
@@ -108,8 +125,13 @@ define bind::server::conf (
   $statistics_file        = '/var/named/data/named_stats.txt',
   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
   $allow_query            = [ 'localhost' ],
+  $allow_notify           = [],
   $allow_query_cache      = [],
+  $allow_new_zones        = undef,
+  $auth_nxdomain          = undef,
+  $request_ixfr           = undef,
   $recursion              = 'yes',
+  $notify                 = undef,
   $allow_recursion        = [],
   $allow_transfer         = [],
   $check_names            = [],

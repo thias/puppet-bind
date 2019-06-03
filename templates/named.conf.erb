@@ -3,6 +3,13 @@
 // WARNING: Puppet managed, do not edit!
 //
 
+<% if !@controls.empty? -%>
+<% @controls.each do |channel| -%>
+    <%= channel %>;
+<% end -%>
+<% end -%>
+
+
 <% if !@acls.empty? -%>
 <% @acls.sort_by {|key, value| key}.each do |key,value| -%>
 acl <%= key %> {
@@ -71,12 +78,24 @@ options {
 <% if !@allow_query.empty? -%>
     allow-query { <%= @allow_query.join("; ") %>; };
 <% end -%>
+<% if !@allow_notify.empty? -%>
+    allow-notify { <%= @allow_notify.join("; ") %>; };
+<% end -%>
 <% if !@allow_query_cache.empty? -%>
     allow-query-cache { <%= @allow_query_cache.join("; ") %>; };
 <% end -%>
     recursion <%= @recursion %>;
 <% if !@allow_recursion.empty? -%>
     allow-recursion { <%= @allow_recursion.join("; ") %>; };
+<% end -%>
+<% if @notify -%>
+    notify <%= @notify %>;
+<% end -%>
+<% if @auth_nxdomain -%>
+    auth-nxdomain <%= @auth_nxdomain %>;
+<% end -%>
+<% if @request_ixfr -%>
+    request-ixfr <%= @request_ixfr %>;
 <% end -%>
 <% if !@allow_transfer.empty? -%>
     allow-transfer { <%= @allow_transfer.join("; ") %>; };
@@ -91,14 +110,24 @@ options {
 <% @extra_options.sort_by {|key, value| key}.each do |key,value| -%>
     <%= key %> <%= value %>;
 <% end -%>
-
 <% end -%>
-    dnssec-enable <%= @dnssec_enable %>;
-    dnssec-validation <%= @dnssec_validation %>;
-    dnssec-lookaside <%= @dnssec_lookaside %>;
 
+<% if @allow_new_zones -%>
+    allow-new-zones <%= @allow_new_zones %>;
+<% end -%>
+<% if @dnssec_enable -%>
+    dnssec-enable <%= @dnssec_enable %>;
+<% end -%>
+<% if @dnssec_validation -%>
+    dnssec-validation <%= @dnssec_validation %>;
+<% end -%>
+<% if @dnssec_lookaside -%>
+    dnssec-lookaside <%= @dnssec_lookaside %>;
+<% end -%>
+<% if @bindkeys_file -%>
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file <%= @bindkeys_file %>;
+<% end -%>
 };
 
 logging {
