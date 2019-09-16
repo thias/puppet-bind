@@ -1,1 +1,1 @@
-include bind::server
+include ::bind::server
