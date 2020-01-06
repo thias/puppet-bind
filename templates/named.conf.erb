@@ -38,7 +38,7 @@ options {
     listen-on-v6 port <%= @listen_on_v6_port %> { <%= @listen_on_v6_addr.join("; ") %>; };
 <% end -%>
 <% if !@forwarders.empty? -%>
-  <% if !@forward_only.empty? -%>
+  <% if @forward_only -%>
     forward-only
   <% end -%>
     forwarders { <%= @forwarders.join("; ") %>; };
