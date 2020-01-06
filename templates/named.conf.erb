@@ -39,7 +39,7 @@ options {
 <% end -%>
 <% if !@forwarders.empty? -%>
   <% if @forward_only -%>
-    forward-only
+  forward-only;
   <% end -%>
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
