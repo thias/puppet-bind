@@ -39,7 +39,7 @@ options {
 <% end -%>
 <% if !@forwarders.empty? -%>
   <% if @forward_only -%>
-  forward-only;
+  forward only;
   <% end -%>
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
@@ -205,7 +205,7 @@ logging {
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
-<% valid_keys = %w(allow-notify allow-query allow-recursion allow-transfer allow-update-forwarding forward-only forwarders match-clients match-destinations match-recursive-only) -%>
+<% valid_keys = %w(allow-notify allow-query allow-recursion allow-transfer allow-update-forwarding forward forwarders match-clients match-destinations match-recursive-only) -%>
 view "<%= key %>" {
 <% valid_keys.sort.each do |valid_key| -%>
 <% if value[valid_key] and !value[valid_key].empty? -%>
