@@ -94,11 +94,16 @@ options {
 
 <% end -%>
     dnssec-enable <%= @dnssec_enable %>;
+<%- if @recursion == 'yes' -%>
     dnssec-validation <%= @dnssec_validation %>;
+  <%- if @dnssec_lookaside -%>
     dnssec-lookaside <%= @dnssec_lookaside %>;
+  <% end -%>
 
-    /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+  <%- if @bindkeys_file -%>
+    bindkeys-file "<%= @bindkeys_file %>";
+  <% end -%>
+<% end -%>
 };
 
 logging {
@@ -156,7 +161,6 @@ view "<%= key %>" {
 };
 <% end -%>
 <% else -%><%# end views, start no views -%>
-
 <% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;

@@ -51,9 +51,18 @@
 #  $dnssec_enable:
 #   Enable DNSSEC support. Default: 'yes'
 #  $dnssec_validation:
-#   Enable DNSSEC validation. Default: 'yes'
+#   Enable DNSSEC validation. Default: 'auto'
 #  $dnssec_lookaside:
-#   DNSSEC lookaside type. Default: 'auto'
+#   DNSSEC lookaside type. Default: empty
+#  $bindkeys_file:
+#   The pathname of a file to override the built-in trusted keys provided by named
+#  $hostname
+#   The host-name (a quotes string) the server should report via a query of the
+#   name hostname.bind with type TXT, class CHAOS.  Specifying none disables.
+#   Defaut: None
+#  $server_id
+#   The ID the server will return via a query for ID.SERVER with type TXT,
+#   under class CH (CHAOS). Default: empty
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
@@ -115,8 +124,11 @@ define bind::server::conf (
   $check_names            = [],
   $extra_options          = {},
   $dnssec_enable          = 'yes',
-  $dnssec_validation      = 'yes',
-  $dnssec_lookaside       = 'auto',
+  $dnssec_validation      = 'auto',
+  $dnssec_lookaside       = undef,
+  $bindkeys_file          = undef,
+  $hostname               = 'none',
+  $server_id              = undef,
   $zones                  = {},
   $keys                   = {},
   $includes               = [],
@@ -129,10 +141,12 @@ define bind::server::conf (
   $file_rfc1912 = $::bind::params::file_rfc1912
 
   # Everything is inside a single template
+  file { $directory:
+      ensure => directory,
+  }
   file { $title:
     notify  => Class['::bind::service'],
     content => template('bind/named.conf.erb'),
     require => Class['::bind::package'],
   }
-
 }
