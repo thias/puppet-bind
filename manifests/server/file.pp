@@ -59,6 +59,8 @@ define bind::server::file (
     $zone_source = undef
   }
 
+  $checkzone_path = $::bind::params::checkzone_path
+
   if ! defined(File[$zonedir]) {
     file { $zonedir:
       ensure  => 'directory',
@@ -76,7 +78,7 @@ define bind::server::file (
     mode         => $mode,
     source       => $zone_source,
     content      => $content,
-    validate_cmd => "/usr/sbin/named-checkzone ${zonename} %",
+    validate_cmd => "${checkzone_path} ${zonename} %",
     notify       => Class['::bind::service'],
     # For the parent directory
     require      => [
