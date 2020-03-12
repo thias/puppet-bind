@@ -16,8 +16,13 @@ class bind::params {
       $servicename       = 'bind9'
       $binduser          = 'bind'
       $bindgroup         = 'bind'
-      $file_hint         = '/etc/bind/db.root'
       $file_rfc1912      = '/etc/bind/named.conf.default-zones'
+
+      if $::operatingsystem == 'Ubuntu' {
+        $file_hint = false
+      } else {
+        $file_hint = '/etc/bind/db.root'
+      }
     }
     'Freebsd': {
       $packagenameprefix = 'bind910'
