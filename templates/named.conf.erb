@@ -157,7 +157,7 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes' && @file_hint -%>
 zone "." IN {
     type hint;
     file "<%= @file_hint %>";
