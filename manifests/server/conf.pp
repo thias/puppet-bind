@@ -22,6 +22,8 @@
 #  $hostname:
 #   Hostname returned for hostname.bind TXT in CHAOS. Set to 'none' to disable.
 #   Default: undef, bind internal default
+#  $forward:
+#   Specific forwarding mode forward ( first | only );. Default: undef, empty
 #  $server_id:
 #   ID returned for id.server TXT in CHAOS. Default: undef, empty
 #  $version:
@@ -55,7 +57,7 @@
 #  $zones:
 #   Hash of managed zones and their configuration. The key is the zone name
 #   and the value is an array of config lines. Default: empty
-#  $tsig:
+#  $keys:
 #   Hash of managed tsig keys and their configuration. The key is the tsig keys name
 #   and the value is an array of config lines. Default: empty
 #  $includes:
@@ -100,6 +102,7 @@ define bind::server::conf (
   $directory              = '/var/named',
   $managed_keys_directory = undef,
   $hostname               = undef,
+  $forward                = undef,
   $server_id              = undef,
   $version                = undef,
   $dump_file              = '/var/named/data/cache_dump.db',
@@ -128,10 +131,16 @@ define bind::server::conf (
   $rndc_key               = {},
 ) {
 
+  # OS Defaults
+  include '::bind::params'
+  $file_hint = $::bind::params::file_hint
+  $file_rfc1912 = $::bind::params::file_rfc1912
+
   # Everything is inside a single template
   file { $title:
     notify  => Class['::bind::service'],
     content => template('bind/named.conf.erb'),
+    require => Class['::bind::package'],
   }
 
 }

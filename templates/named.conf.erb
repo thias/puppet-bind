@@ -67,6 +67,9 @@ options {
     forward <%= @forward %>;
 <% end -%>
 <% end -%>
+<% if @forward -%>
+    forward <%= @forward %>;
+<% end -%>
     directory "<%= @directory %>";
 <% if @managed_keys_directory -%>
     managed-keys-directory "<%= @managed_keys_directory %>";
@@ -209,7 +212,7 @@ view "<%= key %>" {
 <% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;
-    file "named.ca";
+    file "<%= @file_hint %>";
 };
 
 <% end -%>
@@ -224,7 +227,7 @@ zone "<%= key %>" IN {
 <% end -%>
 <% end -%>
 <% if @recursion == 'yes' -%>
-include "/etc/named.rfc1912.zones";
+include "<%= @file_rfc1912 %>";
 <% end -%>
 <% end -%><%# end no views -%>
 <% if !@includes.empty? -%>

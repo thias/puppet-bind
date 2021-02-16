@@ -1,5 +1,13 @@
+
 #### 2018-02-13 - 0.5.4
 * Add support for `pid-file`, `allow-update`, `logging`, `interface-interval`, `controls` and `statistics-channels`
+
+#### 2019-01-21 - 0.5.4
+* Add zone file validation (#91, @forgodssake).
+* Fix hint and rfc1912 zones on Debian (#61, #83).
+* Add support for configuring forward mode (#73, @warrenpnz).
+* Fix server::conf and package ordering (#71, @skrivy).
+* Make sure zonedir gets created after bind::package (#55, @jamesbouressa).
 
 #### 2017-02-02 - 0.5.3
 * Fix undefined variable warning.

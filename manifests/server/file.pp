@@ -6,6 +6,8 @@
 # Parameters:
 #  $zonedir:
 #    Directory where to store the zone file. Default: '/var/named'
+#  $zonename:
+#    Zone name to be used when validating the zone. Default: same as title
 #  $owner:
 #    Zone file user owner. Default: 'root'
 #  $group:
@@ -30,6 +32,7 @@
 #
 define bind::server::file (
   $zonedir     = '/var/named',
+  $zonename    = $title,
   $owner       = 'root',
   $group       = undef,
   $mode        = '0640',
@@ -58,23 +61,25 @@ define bind::server::file (
 
   if ! defined(File[$zonedir]) {
     file { $zonedir:
-      ensure => directory,
-      owner  => $owner,
-      group  => $bindgroup,
-      mode   => $dirmode,
+      ensure  => 'directory',
+      owner   => $owner,
+      group   => $bindgroup,
+      mode    => $dirmode,
+      require => Class['::bind::package'],
     }
   }
 
   file { "${zonedir}/${title}":
-    ensure  => $ensure,
-    owner   => $owner,
-    group   => $bindgroup,
-    mode    => $mode,
-    source  => $zone_source,
-    content => $content,
-    notify  => Class['::bind::service'],
+    ensure       => $ensure,
+    owner        => $owner,
+    group        => $bindgroup,
+    mode         => $mode,
+    source       => $zone_source,
+    content      => $content,
+    validate_cmd => "/usr/sbin/named-checkzone ${zonename} %",
+    notify       => Class['::bind::service'],
     # For the parent directory
-    require => [
+    require      => [
       Class['::bind::package'],
       File[$zonedir],
     ],

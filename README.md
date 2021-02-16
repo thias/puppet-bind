@@ -1,5 +1,15 @@
 # puppet-bind
 
+## Disclaimer
+
+This module has been created when Puppet classes did not support parameters.
+It shows. Tests and Debian/Ubuntu support are external contributions and are
+not as actively maintained as they should be.
+
+The primary focus of this module has always been Enterprise Linux (RHEL, CentOS
+and other clones), and it works fine on releases as far back as RHEL5, although
+the latest RHEL release is always recommended.
+
 ## Overview
 
 Install and enable a BIND DNS server, manage its main configuration and install
