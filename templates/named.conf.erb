@@ -98,7 +98,7 @@ options {
     dnssec-lookaside <%= @dnssec_lookaside %>;
 
     /* Path to ISC DLV key */
-    bindkeys-file "/etc/named.iscdlv.key";
+    bindkeys-file "<%= @file_bindkeys %>";
 };
 
 logging {

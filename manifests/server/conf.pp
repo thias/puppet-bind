@@ -127,6 +127,7 @@ define bind::server::conf (
   include '::bind::params'
   $file_hint = $::bind::params::file_hint
   $file_rfc1912 = $::bind::params::file_rfc1912
+  $file_bindkeys = $::bind::params::file_bindkeys
 
   # Everything is inside a single template
   file { $title:
