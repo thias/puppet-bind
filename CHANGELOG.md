@@ -1,3 +1,6 @@
+* Improve zone validation (#110, @osgpcq).
+* Support $replace on bind::server::file, useful for ddns base zones.
+
 #### 2019-01-21 - 0.5.4
 * Add zone file validation (#91, @forgodssake).
 * Fix hint and rfc1912 zones on Debian (#61, #83).
