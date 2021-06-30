@@ -1,3 +1,4 @@
+#### 2021-06-30 - 0.5.5
 * Improve zone validation (#110, @osgpcq).
 * Support $replace on bind::server::file, useful for ddns base zones.
 * Fix bindkeys-file on RHEL8.
