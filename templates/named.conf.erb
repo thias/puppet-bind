@@ -101,6 +101,16 @@ options {
     bindkeys-file "<%= @file_bindkeys %>";
 };
 
+<% if !@statistics_acls.empty? -%>
+statistics-channels {
+    inet <%= @statistics_address %> port <%= @statistics_port %> allow {
+<% @statistics_acls.each do |line| -%>
+        <%= line %>;
+<% end -%>
+    };
+};
+<% end -%>
+
 logging {
     channel main_log {
         file "/var/log/named/named.log" versions 3 size 5m;
