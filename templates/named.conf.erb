@@ -157,12 +157,14 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
+<% unless @file_hint.nil? -%>
 <% if @recursion == 'yes' -%>
 zone "." IN {
     type hint;
     file "<%= @file_hint %>";
 };
 
+<% end -%>
 <% end -%>
 <% if !@zones.empty? -%>
 <% @zones.sort_by {|key, value| key}.each do |key,value| -%>
