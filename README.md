@@ -132,3 +132,29 @@ bind::server::conf {
 }
 ```
 
+You can use the `logging` parameter to configure logging:
+
+```puppet
+::bind::server::conf { '/etc/named.conf':
+  ...
+  #Enable logging to /var/log/named/named.log
+  logging => {
+    'categories' => { 'default' => 'main_log', 'lame-servers' => 'null' },
+    'channels' => { 
+      'main_log' => {
+        channel_type   => 'file',
+        #This parameter only applies if the 'channel_type' is set to 'syslog':
+        facility       => 'daemon',
+        #'file_location', 'versions' and 'size' only get applied if the 'channel_type' is set to 'file':
+        file_location  => '/var/log/named/named.log',
+        versions       => '3',
+        size           => '5m',
+        severity       => 'info',
+        print-time     => 'yes',
+        print-severity => 'yes',
+        print-category => 'yes'
+      },
+    },
+  },
+  ...
+```
