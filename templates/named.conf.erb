@@ -93,6 +93,7 @@ options {
     dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
     dnssec-lookaside <%= @dnssec_lookaside %>;
+    querylog no;
 
     /* Path to ISC DLV key */
     bindkeys-file "/etc/named.iscdlv.key";
@@ -183,6 +184,13 @@ logging {
         severity dynamic;
         print-time yes;
     };
+    channel queries_log {
+        file "/var/log/named/queries" versions 600 size 200m;
+        print-time yes;
+        print-category yes;
+        print-severity yes;
+        severity info;
+     };
 
     category default { default_file; };
     category general { general_file; };
