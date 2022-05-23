@@ -17,7 +17,7 @@
 #   Array of IPv6 addresses to listen on. Default: [ '::1' ]
 #  $transfer_source_addr: undef,
 #   determines which local address is bound to IPv4 TCP connections used to fetch zones transferred inbound by the server. Default: undef
-#  $transfer_source_v6_addr= undef,
+#  $transfer_source_v6_addr: undef,
 #   This option is the same as transfer-source, except zone transfers are performed using IPv6. Default: undef
 #  $forwarders:
 #   Array of forwarders IP addresses. Default: empty
