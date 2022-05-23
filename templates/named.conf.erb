@@ -54,7 +54,7 @@ options {
     hostname "<%= @hostname %>";
 <% end -%>
 <% if @server_id -%>
-    server-id "<% @server_id.each_byte do |byte| -%><%= byte.to_s(base=16) %><% end -%>";
+    server-id "<%= @server_id %>"; 
 <% end -%>
 <% if @version -%>
     version "<%= @version %>";
