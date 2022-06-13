@@ -2,7 +2,10 @@
 // named.conf
 // WARNING: Puppet managed, do not edit!
 //
-
+include "/etc/bind/rndc.key";
+controls  {
+    inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };
+};
 <% if !@acls.empty? -%>
 <% @acls.sort_by {|key, value| key}.each do |key,value| -%>
 acl <%= key %> {
