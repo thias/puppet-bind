@@ -2,7 +2,7 @@
 #
 class bind::params {
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $packagenameprefix = 'bind'
       $servicename       = 'named'
@@ -10,7 +10,7 @@ class bind::params {
       $bindgroup         = 'named'
       $file_hint         = 'named.ca'
       $file_rfc1912      = '/etc/named.rfc1912.zones'
-      if versioncmp($::operatingsystemrelease, '8') >= 0 {
+      if versioncmp($facts['os']['release']['major'], '8') >= 0 {
         $file_bindkeys   = '/etc/named.root.key'
       } else {
         $file_bindkeys   = '/etc/named.iscdlv.key'
