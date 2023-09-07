@@ -1,3 +1,5 @@
+* Change zone dirmode from 750 to 770 because recent bind 9 requires write.
+
 #### 2021-06-30 - 0.5.5
 * Improve zone validation (#110, @osgpcq).
 * Support $replace on bind::server::file, useful for ddns base zones.

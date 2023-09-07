@@ -36,7 +36,7 @@ define bind::server::file (
   $owner       = 'root',
   $group       = undef,
   $mode        = '0640',
-  $dirmode     = '0750',
+  $dirmode     = '0770',
   $source      = undef,
   $source_base = undef,
   $content     = undef,
