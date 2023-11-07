@@ -40,6 +40,12 @@ options {
 <% if @listen_on_v6_port -%>
     listen-on-v6 port <%= @listen_on_v6_port %> { <%= @listen_on_v6_addr.join("; ") %>; };
 <% end -%>
+<% if @transfer_source_addr -%>
+    transfer-source <%= @transfer_source_addr %>;
+<% end -%>
+<% if @transfer_source_addr_v6 -%>
+    transfer-source-v6 <%= @transfer_source_v6_addr %>;
+<% end -%>
 <% if !@forwarders.empty? -%>
     forwarders { <%= @forwarders.join("; ") %>; };
 <% end -%>
@@ -54,7 +60,7 @@ options {
     hostname "<%= @hostname %>";
 <% end -%>
 <% if @server_id -%>
-    server-id "<% @server_id.each_byte do |byte| -%><%= byte.to_s(base=16) %><% end -%>";
+    server-id "<%= @server_id %>"; 
 <% end -%>
 <% if @version -%>
     version "<%= @version %>";
