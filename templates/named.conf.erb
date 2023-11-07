@@ -101,6 +101,28 @@ options {
     bindkeys-file "<%= @file_bindkeys %>";
 };
 
+<% if !@logging.empty? -%>
+logging {
+<% if @logging['channel'] and !@logging['channel'].empty? -%>
+<% @logging['channel'].sort_by {|key,value| key}.each do |key,value| -%>
+    channel <%= key %> {
+<% value.each do |line| -%>
+        <%= line %>;
+<% end -%>
+    }
+<% end -%>
+<% end -%>
+<% if @logging['category'] -%>
+<% @logging['category'].sort_by {|key,value| key}.each do |key,value| -%>
+<% if !value.empty? -%>
+    category <%= key %> { <%= value.join('; ') %>; };
+<% else -%>
+    category <%= key %> { };
+<% end -%>
+<% end -%>
+<% end -%>
+};
+<% else -%>
 logging {
     channel main_log {
         file "/var/log/named/named.log" versions 3 size 5m;
@@ -116,6 +138,8 @@ logging {
         null;
     };
 };
+<% end -%>
+
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
