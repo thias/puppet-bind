@@ -5,6 +5,8 @@
 # Parameters:
 #  $acls:
 #   Hash of client ACLs, name as key and array of config lines. Default: empty
+#  $controls:
+#   Hash of administrative channels, inet as key and array of config lines. Default: empty
 #  $masters:
 #   Hash of master ACLs, name as key and array of config lines. Default: empty
 #  $listen_on_port:
@@ -68,6 +70,12 @@
 #    acls => {
 #      'rfc1918' => [ '10/8', '172.16/12', '192.168/16' ],
 #    },
+#    controls => {
+#      '127.0.0.1' => {
+#        address_match_list => ['localhost'],
+#        keys_list          => ['rndc-key'],
+#        port               => 953,
+#    },
 #    masters => {
 #      'mymasters' => [ '192.0.2.1', '198.51.100.1' ],
 #    },
@@ -82,7 +90,7 @@
 #        'masters { mymasters; }',
 #      ],
 #    }
-#    keys                 => { 
+#    keys                 => {
 #      'example.org-tsig' => [
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
@@ -92,6 +100,7 @@
 #
 define bind::server::conf (
   $acls                   = {},
+  $controls               = {},
   $masters                = {},
   $listen_on_port         = '53',
   $listen_on_addr         = [ '127.0.0.1' ],
