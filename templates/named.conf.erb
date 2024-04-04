@@ -2,7 +2,10 @@
 // named.conf
 // WARNING: Puppet managed, do not edit!
 //
-
+include "/etc/bind/rndc.key";
+controls  {
+    inet 127.0.0.1 port 953 allow { 127.0.0.1; } keys { "rndc-key"; };
+};
 <% if !@acls.empty? -%>
 <% @acls.sort_by {|key, value| key}.each do |key,value| -%>
 acl <%= key %> {
@@ -93,29 +96,12 @@ options {
 <% end -%>
 
 <% end -%>
-    dnssec-enable <%= @dnssec_enable %>;
     dnssec-validation <%= @dnssec_validation %>;
-    dnssec-lookaside <%= @dnssec_lookaside %>;
 
     /* Path to ISC DLV key */
     bindkeys-file "<%= @file_bindkeys %>";
 };
 
-logging {
-    channel main_log {
-        file "/var/log/named/named.log" versions 3 size 5m;
-        severity info;
-        print-time yes;
-        print-severity yes;
-        print-category yes;
-    };
-    category default{
-        main_log;
-    };
-    category lame-servers {
-        null;
-    };
-};
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>
@@ -157,7 +143,7 @@ view "<%= key %>" {
 <% end -%>
 <% else -%><%# end views, start no views -%>
 
-<% if @recursion == 'yes' -%>
+<% if @recursion == 'yes' and @file_hint -%>
 zone "." IN {
     type hint;
     file "<%= @file_hint %>";
