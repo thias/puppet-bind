@@ -62,11 +62,15 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $statistics_channels:
+#   Array of hashes, where each represents a statistics channel with the values 'ip',
+#   'port' and 'acl' to apply for a channel.
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
 #    acls => {
 #      'rfc1918' => [ '10/8', '172.16/12', '192.168/16' ],
+#      'stats'   => [ '10/8', 'localhost' ],
 #    },
 #    masters => {
 #      'mymasters' => [ '192.0.2.1', '198.51.100.1' ],
@@ -87,7 +91,16 @@
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
 #      ],
-#    }
+#    },
+#    statistics_channels  => [{
+#        'ip'   => '127.0.0.1',
+#        'port' => '80',
+#        'acl'  => 'stats',
+#    }, {
+#        'ip'   => '10.0.0.1',
+#        'port' => '8081',
+#        'acl'  => 'stats',
+#    }],
 #  }
 #
 define bind::server::conf (
@@ -121,6 +134,7 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $statistics_channels    = [],
 ) {
 
   # OS Defaults
