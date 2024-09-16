@@ -35,6 +35,10 @@
 #  $memstatistics_file:
 #   Memory statistics file for the server.
 #   Default: '/var/named/data/named_mem_stats.txt'
+#  $logging:
+#   A hash of hashes; one hash defines logging categories and the other defines logging 
+#   channels. Defaults to sending BIND's default logs to /var/log/named/named.log, with rotations
+#   every 5MB and keeping 3 rotated logs.
 #  $allow_query:
 #   Array of IP addrs or ACLs to allow queries from. Default: [ 'localhost' ]
 #  $recursion:
@@ -107,6 +111,24 @@ define bind::server::conf (
   $dump_file              = '/var/named/data/cache_dump.db',
   $statistics_file        = '/var/named/data/named_stats.txt',
   $memstatistics_file     = '/var/named/data/named_mem_stats.txt',
+  $logging                = {
+  'categories' => { 'default' => 'main_log', 'lame-servers' => 'null' },
+    'channels' => { 
+      'main_log' => {
+        channel_type   => 'file',
+        #This parameter only applies if the 'channel_type' is set to 'syslog':
+        facility       => 'daemon',
+        #'file_location', 'versions' and 'size' only get applied if the 'channel_type' is set to 'file':
+        file_location  => '/var/log/named/named.log',
+        versions       => '3',
+        size           => '5m',
+        severity       => 'info',
+        print-time     => 'yes',
+        print-severity => 'yes',
+        print-category => 'yes'
+      },
+    },
+  },  
   $allow_query            = [ 'localhost' ],
   $allow_query_cache      = [],
   $recursion              = 'yes',
