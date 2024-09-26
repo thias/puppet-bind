@@ -33,6 +33,19 @@ masters <%= key %> {
 
 <% end -%>
 <% end -%>
+
+<% if !@statistics_channels.empty? -%>
+statistics-channels {
+<% @statistics_channels.each do |stat_channel,stat_channel_settings|-%>
+  <%- if stat_channel_settings.is_a?(Hash) -%>
+  <%- if stat_channel_settings['listen_address'] and !stat_channel_settings['listen_address'].empty? and stat_channel_settings['listen_port'] and !stat_channel_settings['listen_port'].empty? -%>
+  inet <%=stat_channel_settings['listen_address']%> port <%= stat_channel_settings['listen_port'] %> allow { <%=stat_channel_settings['allow'].join("; ")%>; };
+  <%- end -%>
+<%- end -%>
+<%- end -%>
+};
+<%- end -%>
+
 options {
 <% if @listen_on_port -%>
     listen-on port <%= @listen_on_port %> { <%= @listen_on_addr.join("; ") %>; };
