@@ -10,7 +10,7 @@ describe 'bind::server' do
   	'hasstatus' => true,
   	'enable' => true,
   	'ensure' => 'running',
-  	'restart' => '/sbin/service named reload'
+  	'restart' => 'service named reload'
   	})}
   it 'should create the logging directory' do
   	expect { should contain_file('/var/log/named').with({
