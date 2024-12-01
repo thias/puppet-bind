@@ -44,6 +44,8 @@ define bind::server::file (
   $replace     = undef,
 ) {
 
+  include '::bind::package'
+  include '::bind::service'
   include '::bind::params'
 
   if $group {
