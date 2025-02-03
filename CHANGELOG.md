@@ -1,3 +1,5 @@
+* Remove legacy facts usage.
+
 #### 2023-09-07 - 0.5.6
 * Change zone dirmode from 750 to 770 because recent bind 9 requires write.
 
