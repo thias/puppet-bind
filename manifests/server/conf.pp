@@ -58,6 +58,8 @@
 #   and the value is an array of config lines. Default: empty
 #  $includes:
 #   Array of absolute paths to named.conf include files. Default: empty
+#  $logging:
+#   Hash containing channel: hash of channels, and category: hash of categroies
 #
 # Sample Usage :
 #  bind::server::conf { '/etc/named.conf':
@@ -83,6 +85,19 @@
 #        'algorithm hmac-md5',
 #        'secret "aaabbbcccddd"',
 #      ],
+#    }
+#    logging => {
+#      channel => {
+#        foo => [
+#          ' file "/var/named/foo"',
+#          'severity info'
+#        ]
+#      },
+#      category => {
+#        default => [
+#          'foo'
+#        ]
+#      }
 #    }
 #  }
 #
@@ -115,6 +130,7 @@ define bind::server::conf (
   $keys                   = {},
   $includes               = [],
   $views                  = {},
+  $logging                = {},
 ) {
 
   # OS Defaults
