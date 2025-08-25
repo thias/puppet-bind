@@ -78,7 +78,7 @@ define bind::server::file (
     source       => $zone_source,
     content      => $content,
     replace      => $replace,
-    validate_cmd => "/usr/sbin/named-checkzone -k fail -m fail -M fail -n fail -r fail -S fail -T warn -W warn ${zonename} %",
+    validate_cmd => "${bind::named_checkzone_path} -k fail -m fail -M fail -n fail -r fail -S fail -T warn -W warn ${zonename} %",
     notify       => Class['::bind::service'],
     # For the parent directory
     require      => [
