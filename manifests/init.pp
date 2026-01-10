@@ -63,7 +63,7 @@ class bind (
   }
 
   # disable obsolete includes from Debian package
-  if $::osfamily == 'debian' {
+  if $facts['os']['family'] == 'Debian' {
 
     $content = "//\n// This include file is obsolete.\n// named.conf is Puppet managed as a single file\n//\n"
 
