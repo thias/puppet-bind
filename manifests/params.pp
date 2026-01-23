@@ -24,7 +24,15 @@ class bind::params {
       $binduser          = 'bind'
       $bindgroup         = 'bind'
       $file_hint         = undef # hints are loaded in named.conf.default-zones
-      $file_rfc1912      = '/etc/bind/named.conf.default-zones'
+      $file_rfc1912      = versioncmp($facts['os']['release']['major'], '12') ? {
+        # named.conf.default-zones is no longer part of the bind package in Debian Trixie
+        # there is still a file in the bind package pointing to the root-hints
+        # We prefer to use this file in stead of loading the hints via $file_hint
+        # This is no longer in line with the name of the parameter but is in line with
+        # previous behavior of this module
+        1       => '/etc/bind/named.conf.root-hints',
+        default => '/etc/bind/named.conf.default-zones',
+      }
       $file_bindkeys     = '/etc/bind/bind.keys'
       $directory         = '/var/cache/bind'
       $dump_dir          = '/var/tmp'
