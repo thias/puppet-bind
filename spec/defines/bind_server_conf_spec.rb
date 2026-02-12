@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe 'bind::server::conf' do
+        let (:pre_condition) { 'class { "bind": }' } 
 	let (:title)  { '/etc/named.conf' }
 	let (:params) { {
 		:acls => { 
@@ -36,4 +37,35 @@ describe 'bind::server::conf' do
         content.should match('include "/etc/myzones.conf"')
 	end
 
+  describe 'os-dependent-items' do
+    let (:params) { { :recursion => 'yes' } }
+    context 'on RedHat based systems' do
+      let (:title)  { '/etc/named.conf' }
+      let (:facts)  { { :osfamily => 'RedHat' } }
+      it 'bind configuration should be in line with package defaults' do
+        expect { should contain_file ('/etc/named.conf')}
+        content = catalogue.resource('file', '/etc/named.conf').send(:parameters)[:content]
+        content.should match('file "named.ca"')
+        content.should match('include "/etc/named.rfc1912.zones"')
+        content.should match('bindkeys-file "/etc/named.iscdlv.key"')
+        content.should match('directory "/var/named"')
+      end
+    end
+
+    context 'on Debian based systems' do
+      let (:title)  { '/etc/bind/named.conf' }
+      let (:facts)  { { :osfamily => 'debian' } }
+      it 'bind configuration should be in line with package defaults' do
+        expect { should contain_file ('/etc/named.conf')}
+        content = catalogue.resource('file', '/etc/bind/named.conf').send(:parameters)[:content]
+        content.should_not match('type hint')
+        content.should match('include "/etc/bind/named.conf.default-zones"')
+        content.should match('bindkeys-file "/etc/bind/bind.keys"')
+        content.should match('directory "/var/cache/bind"')
+      end
+    end
+
+  end
+
 end
+
