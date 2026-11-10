@@ -1,3 +1,5 @@
+* Add dnssec_policies.
+
 #### 2025-06-18 - 0.5.8
 * Remove obsolete dnssec-enable and dnssec-lookaside options.
 * Change dnssec-validation to its current upstream default of 'auto', which

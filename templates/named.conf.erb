@@ -114,6 +114,24 @@ logging {
         null;
     };
 };
+<% if !@dnssec_policies.empty? -%>
+
+<% @dnssec_policies.sort.each do |name, opts| -%>
+dnssec-policy "<%= name %>" {
+<% opts.each do |opt, val| -%>
+<% if val.is_a?(Hash) -%>
+    <%= opt %> {
+<% val.each do |k, v| -%>
+        <%= k %> <%= v %>;
+<% end -%>
+    };
+<% else -%>
+    <%= opt %> <%= val %>;
+<% end -%>
+<% end -%>
+};
+<% end -%>
+<% end -%>
 <% if !@views.empty? -%>
 
 <% @views.sort_by {|key,value| key}.each do |key,value| -%>

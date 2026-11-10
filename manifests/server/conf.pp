@@ -111,6 +111,7 @@ define bind::server::conf (
   $check_names            = [],
   $extra_options          = {},
   $dnssec_validation      = 'auto',
+  $dnssec_policies        = {},
   $zones                  = {},
   $keys                   = {},
   $includes               = [],
