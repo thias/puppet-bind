@@ -3,13 +3,11 @@
 # For backwards compatibility. Use the main bind class instead.
 #
 class bind::server (
-  $chroot            = false,
-  $packagenameprefix = $::bind::params::packagenameprefix,
+  $chroot               = false,
+  $packagenameprefix    = $::bind::params::packagenameprefix,
 ) inherits ::bind::params {
-
-  class { '::bind':
+  class { 'bind':
     chroot            => $chroot,
     packagenameprefix => $packagenameprefix,
   }
-
 }

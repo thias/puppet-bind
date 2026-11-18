@@ -16,12 +16,13 @@
 #  }
 #
 class bind (
-  $chroot            = false,
-  $service_reload    = true,
-  $servicename       = $::bind::params::servicename,
-  $packagenameprefix = $::bind::params::packagenameprefix,
-  $binduser          = $::bind::params::binduser,
-  $bindgroup         = $::bind::params::bindgroup,
+  $chroot               = false,
+  $service_reload       = true,
+  $servicename          = $::bind::params::servicename,
+  $packagenameprefix    = $::bind::params::packagenameprefix,
+  $binduser             = $::bind::params::binduser,
+  $bindgroup            = $::bind::params::bindgroup,
+  $named_checkzone_path = '/usr/sbin/named-checkzone',
 ) inherits ::bind::params {
 
   # Chroot differences
